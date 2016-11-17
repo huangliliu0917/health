@@ -1,8 +1,8 @@
 package com.huotu.health.service;
 
 /**
- * 通用配置项
- * Created by lgh on 2015/12/30.
+ * 通用配置项服务
+ * Created by slt on 2016/11/17
  */
 public interface CommonConfigsService {
 

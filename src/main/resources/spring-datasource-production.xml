@@ -15,9 +15,7 @@
         <property name="packagesToScan">
             <array>
                 <value>com.huotu.health.entity</value>
-                <value>com.huotu.huobanplus.model.entity</value>
                 <value>com.huotu.huobanplus.common.entity</value>
-                <value>com.huotu.huobanplus.smartui.entity</value>
                 <value>com.huotu.huobanplus.model.jpa</value>
             </array>
         </property>
