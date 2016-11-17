@@ -9,7 +9,7 @@
 
 package com.huotu.health.repository;
 
-import com.huotu.huobanplus.common.entity.User;
+import com.huotu.health.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

@@ -25,5 +25,12 @@ public interface CommonService {
      */
     LoginType getLoginType(HttpServletRequest request);
 
+    /**
+     * 获取商户ID
+     * @param request
+     * @return
+     */
+    Long currentCustomerId(HttpServletRequest request);
+
 
 }

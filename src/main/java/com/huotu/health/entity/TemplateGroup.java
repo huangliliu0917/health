@@ -31,6 +31,7 @@ public class TemplateGroup {
     /**
      * 模板列表
      */
+    @OneToMany
     private List<Template> templates;
 
 }

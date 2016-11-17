@@ -265,27 +265,12 @@
     };
 
     templateList.checkBoxClick=function(obj){
-        //获取是否单选还是多选
-        var parameter=templateList.getUrlParam("extend");
-        if(parameter=="radio"){//单选
-            if($(obj).prop("checked")){
-                $("input[type='checkbox'][name='chkGood']","#templateList").removeAttr('checked');
-                $(obj).prop('checked',true);
-            }
-        }else {//多选
-            var name=$(obj).attr("name");
-            if(name=="chkAll"){
-                var isCheck=$(obj).prop("checked");
-                $("input[type='checkbox'][name='chkGood']","#templateList").prop("checked", isCheck);
-            }
+        var name=$(obj).attr("name");
+        if(name=="chkAll"){
+            var isCheck=$(obj).prop("checked");
+            $("input[type='checkbox'][name='chkGood']","#templateList").prop("checked", isCheck);
         }
-    };
 
-
-    templateList.getUrlParam=function(name){
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        if (r != null) return unescape(r[2]); return null; //返回参数值
     };
 
     //外部调用的js,用来获取圈子的id和名称

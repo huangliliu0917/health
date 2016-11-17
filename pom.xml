@@ -63,11 +63,11 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.huotu.huobanplus</groupId>
-            <artifactId>common-client</artifactId>
-            <version>1.6.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.huotu.huobanplus</groupId>-->
+            <!--<artifactId>common-client</artifactId>-->
+            <!--<version>1.6.0</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.huotu.common</groupId>

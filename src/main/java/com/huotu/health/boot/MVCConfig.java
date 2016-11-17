@@ -1,10 +1,13 @@
 package com.huotu.health.boot;
 
+import com.huotu.common.api.OutputHandler;
 import com.huotu.health.common.WebHandlerExceptionResolver;
+import com.huotu.health.service.CustomerIdArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -28,6 +31,23 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private Environment environment;
+
+
+    @Autowired
+    private CustomerIdArgumentResolver customerIdArgumentResolver;
+
+
+
+    /**
+     * 设置控制器方法参数化输出
+     *
+     * @param argumentResolvers
+     */
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new OutputHandler());
+        argumentResolvers.add(customerIdArgumentResolver);
+    }
+
 
 
     /**

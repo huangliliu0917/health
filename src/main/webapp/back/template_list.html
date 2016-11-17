@@ -35,7 +35,7 @@
 
 </head>
 
-<body onload="templateList.load()" class="gray-bg">
+<body class="gray-bg">
 <div class="wrapper wrapper-content animated fadeInRight tooltip-demo">
     <!--list-->
     <div class="row">
@@ -65,17 +65,17 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr style="display: none">
+                            <tr th:each="l:${list}">
                                 <td>
                                     <div class="checkbox checkbox-primary m-b-none m-t-none">
-                                        <input onclick="templateList.checkBoxClick(this)"  type="checkbox" id="chk1" name="chkGood"/>
-                                        <label for="chk1"></label>
+                                        <input onclick="templateList.checkBoxClick(this)"  type="checkbox" th:id="${lStat.count}" name="chk"/>
+                                        <label th:for="${lStat.count}"></label>
                                     </div>
                                 </td>
-                                <td>1</td>
-                                <td>母婴营养</td>
+                                <td th:text="${l.id}">1</td>
+                                <td th:text="${l.name}">母婴营养</td>
                                 <td>
-                                    <a href="#" class="cursor-point">
+                                    <a href="#" th:href="@{/back/modifyTemplate(id=${l.id})}" class="cursor-point">
                                         <i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip"
                                            data-original-title="编辑">
                                         </i>
@@ -100,6 +100,36 @@
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+
+
+
+    templateList.checkBoxClick=function(obj){
+        var name=$(obj).attr("name");
+        if(name=="chkAll"){
+            var isCheck=$(obj).prop("checked");
+            $("input[type='checkbox'][name='chk']","#templateList").prop("checked", isCheck);
+        }
+    };
+
+
+    templateList.getUrlParam=function(name){
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    };
+
+    //外部调用的js,用来获取圈子的id和名称
+    templateList.externalCall=function(){
+        var data=[];
+        $("#templateList tbody tr").each(function(index,val){
+            if($("input[type='checkbox']",val).is(':checked')){
+                var id=parseInt($(this).children("td").eq(1).text());
+                var name=$(this).children("td").eq(2).text();
+                data.push({id:id,name:name});
+            }
+        });
+        return data;
+    };
 
 
     /*]]>*/
