@@ -27,6 +27,11 @@ public class TemplateGroup {
      */
     private Long customerId;
 
+    /**
+     * 模板组名称
+     */
+    private String name;
+
 
     /**
      * 模板列表

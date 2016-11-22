@@ -29,7 +29,7 @@ public class User {
     /**
      * 商家
      */
-    @JoinColumn(name = "UB_CustomerID")
+    @Column(name = "UB_CustomerID")
     @Description("所在商户")
     private Long merchantId;
 

@@ -36,6 +36,16 @@ public class Treatment {
      */
     private Long userId;
 
+    /**
+     * 用户昵称
+     */
+    private String wxNickName;
+
+    /**
+     *  模板组
+     */
+    private Long templateGroupId;
+
 //    /**
 //     * 当前记录的步骤
 //     */

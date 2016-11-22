@@ -5,10 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 模板组
  * Created by slt on 2016/11/17.
  */
 @Repository
 public interface TemplateGroupRepository extends JpaRepository<TemplateGroup,Long>,JpaSpecificationExecutor<TemplateGroup> {
+    List<TemplateGroup> findByCustomerId(Long customerId);
 }

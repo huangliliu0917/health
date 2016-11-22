@@ -7,8 +7,11 @@ import com.huotu.health.repository.TemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +56,11 @@ public class TemplateController {
      * @throws Exception
      */
     @RequestMapping(value = "/modifyTemplate")
-    public String modifyTemplate(@RequestParam(required = true) Long id, Model model) throws Exception{
-        Template template=templateRepository.findOne(id);
+    public String modifyTemplate(Long id, Model model) throws Exception{
+        Template template=new Template();
+        if(id!=null){
+            template=templateRepository.findOne(id);
+        }
         model.addAttribute("template",template);
         return "/back/template_modify";
     }
@@ -65,9 +71,14 @@ public class TemplateController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/saveTemplate")
-    public String saveTemplate(Template template) throws Exception{
-        return "";
+    @RequestMapping(value = "/saveTemplate",method = RequestMethod.POST)
+    @ResponseBody
+    public ModelMap saveTemplate(@CustomerId Long customerId,@RequestBody Template template) throws Exception{
+        if(template.getCustomerId()==null){
+            template.setCustomerId(customerId);
+        }
+        templateRepository.save(template);
+        return new ModelMap();
     }
 
 

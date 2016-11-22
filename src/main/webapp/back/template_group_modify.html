@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--
+  ~ 版权所有:杭州火图科技有限公司
+  ~ 地址:浙江省杭州市滨江区西兴街道阡陌路智慧E谷B幢4楼
+  ~
+  ~ (c) Copyright Hangzhou Hot Technology Co., Ltd.
+  ~ Floor 4,Block B,Wisdom E Valley,Qianmo Road,Binjiang District
+  ~ 2013-2016. All rights reserved.
+  -->
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+
+    <title>模板组</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <link href="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://resali.huobanplus.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
+
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/animate.min.css" rel="stylesheet"/>
+    <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"/><base target="_blank"/>
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>模板组</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form role="form" class="form-horizontal m-t">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">模板名称：</label>
+                                <div class="col-sm-9">
+                                    <input th:value="${group.name}" type="text" name="groupName" class="form-control" placeholder="请输入文本"/>
+                                    <input name="groupId" type="hidden" th:value="${group.id}" />
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed draggable"></div>
+
+                            <div class=" text-center">
+                                <button class="btn btn-primary" type="button" onclick="templateGroupEdit.save()">保存模板组</button>
+                            </div>
+                        </form>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h3>模板列表</h3>
+                        <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
+
+                        <ul class="sortable-list connectList agile-list">
+                            <li class="warning-element" th:each="t:${templates}">
+                                <span  th:text="${t.name}"> 加强过程管理，及时统计教育经费使用情况，做到底码清楚，</span>
+                                <div class="agile-detail" style="display: none">
+                                    <i class="fa" th:text="${t.id}"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="ibox">
+                    <div class="ibox-content">
+                        <h3>已选择</h3>
+                        <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
+                        <ul id="choose" class="sortable-list connectList agile-list">
+                            <li class="success-element" th:each="g:${group.templates}">
+                                <span th:text="${g.name}"> 加强过程管理，及时统计教育经费使用情况，做到底码清楚，</span>
+                                <div class="agile-detail" style="display: none">
+                                    <i class="fa" th:text="${g.id}"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/bootstrap.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/hotui/js/jquery-ui-1.10.4.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
+    <script>
+        $(document).ready(function(){$(".sortable-list").sortable({connectWith:".connectList"}).disableSelection()});
+    </script>
+    <script type="text/javascript" th:inline="javascript">
+
+        var templateGroupEdit={};
+        templateGroupEdit.save=function(){
+
+            var groupName=$("input[name='groupName']").val();
+            var groupId=$("input[name='groupId']").val();
+            var customerId=/*[[${group.customerId}]]*/ '';
+
+            var templates=[];
+
+
+            $("#choose li").each(function(index,val){
+//                var name=$(this).children("span").text();
+                var id=$("i",val).text();
+                templates[index]={id:id};
+            });
+
+
+
+//            var contentHtml=$(".col-sm-8").html();
+//            var name=$("input[name='templateName']").val();
+
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "saveTemplateGroup",
+                contentType:"application/json",
+                data: JSON.stringify({id:groupId,name:groupName,customerId:customerId,templates:templates}),
+                success: function (result) {
+                    layer.msg("保存成功", {icon: 1});
+                }
+
+            });
+
+
+
+//        contentHtml=templateEdit.handleSaveContent(contentHtml);
+
+
+        };
+    </script>
+
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+</body>
+
+</html>

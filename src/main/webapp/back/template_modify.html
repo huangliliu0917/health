@@ -34,7 +34,7 @@
 </head>
 
 <body onload="templateEdit.load()" class="gray-bg">
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="wrapper wrapper-content">
     <div class="col-sm-4">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -43,34 +43,33 @@
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
                     </a>
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="form_editors.html#">
-                        <i class="fa fa-wrench"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="form_editors.html#">选项1</a>
-                        </li>
-                        <li><a href="form_editors.html#">选项2</a>
-                        </li>
-                    </ul>
-                    <a class="close-link">
-                        <i class="fa fa-times"></i>
-                    </a>
+
                 </div>
             </div>
             <div class="ibox-content">
+
                 <div class="alert alert-info">
                     拖拽左侧的表单元素到右侧区域，即可生成相应的HTML代码，表单代码，轻松搞定！
                 </div>
                 <form role="form" class="form-horizontal m-t">
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">模板名称：</label>
+                        <div class="col-sm-9">
+                            <input th:value="${template.name}" type="text" name="templateName" class="form-control" placeholder="请输入文本"/>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed draggable"></div>
                     <div class="form-group draggable">
                         <label class="col-sm-3 control-label">文本框：</label>
                         <div class="col-sm-9">
-                            <input type="text" name="" class="form-control" placeholder="请输入文本">
+                            <input type="text" name="" class="form-control"/>
                         </div>
 
 
                     </div>
-                    <div class="hr-line-dashed draggable"></div>
+
 
                     <div class="form-group draggable">
                         <label class="col-sm-3 control-label">表格：</label>
@@ -107,14 +106,17 @@
 
                         <div class="col-sm-9">
                             <label class="radio-inline i-checks">
-                                <input type="checkbox" value="option1" id="inlineCheckbox1">选项1</label>
+                                <input type="checkbox" value="option1" id="inlineCheckbox1"/>选项1</label>
                             <label class="radio-inline i-checks">
-                                <input type="checkbox" value="option2" id="inlineCheckbox2">选项2</label>
+                                <input type="checkbox" value="option2" id="inlineCheckbox2"/>选项2</label>
                             <label class="radio-inline i-checks">
-                                <input type="checkbox" value="option3" id="inlineCheckbox3">选项3</label>
+                                <input type="checkbox" value="option3" id="inlineCheckbox3"/>选项3</label>
                         </div>
                     </div>
-
+                    <div class=" text-center">
+                        <button class="btn btn-primary" type="button" onclick="templateEdit.newArea()">新建区域</button>
+                        <button class="btn btn-primary" type="button" onclick="templateEdit.save()">保存模板</button>
+                    </div>
                 </form>
                 <div class="clearfix"></div>
             </div>
@@ -122,86 +124,84 @@
 
 
     </div>
-    <div class="col-sm-8">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5><span>一般信息</span></h5>
-                        <div class="ibox-tools">
-                            <a class="collapse-link">
-                                <i class="fa fa-chevron-up"></i>
-                            </a>
-                        </div>
+    <div class="col-sm-8" th:utext="${template.content}">
+        <!--<div class="row">-->
+            <!--<div class="col-sm-12">-->
+                <!--<div class="ibox float-e-margins">-->
+                    <!--<div class="ibox-title">-->
+                        <!--<h5><span>一般信息</span></h5>-->
+                        <!--<div class="ibox-tools">-->
+                            <!--<a class="collapse-link">-->
+                                <!--<i class="fa fa-chevron-up"></i>-->
+                            <!--</a>-->
+                            <!--<a class="close-link">-->
+                                <!--<i class="fa fa-times"></i>-->
+                            <!--</a>-->
+                        <!--</div>-->
 
-                    </div>
-                    <div class="ibox-content">
-                        <form class="form-horizontal m-t">
-                            <div class="form-group">
-                                <span>
-                                填表说明：所有题目均共用答案，请在A、B、C、D下划“√”，每题限选一个答案。
-                                选项：A没有或很少B小部分时间  C相当多时间D绝大部分或全部时间。
-                                </span>
-                            </div>
-                            <div class="hr-line-dashed"></div>
+                    <!--</div>-->
+                    <!--<div class="ibox-content">-->
+                        <!--<form class="form-horizontal m-t">-->
+                            <!--<div class="form-group">-->
+                                <!--<span>-->
+                                <!--填表说明：所有题目均共用答案，请在A、B、C、D下划“√”，每题限选一个答案。-->
+                                <!--选项：A没有或很少B小部分时间  C相当多时间D绝大部分或全部时间。-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="hr-line-dashed"></div>-->
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"><span>姓名</span></label>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label"><span>姓名</span></label>-->
 
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
+                                <!--<div class="col-sm-10">-->
+                                    <!--<input type="text" class="form-control"/>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="hr-line-dashed"></div>-->
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"><span>性别</span></label>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label"><span>性别</span></label>-->
 
-                                <div class="col-sm-10">
-                                    <label class="radio-inline i-checks">
-                                        <input name="sex" type="radio" value="option1"/><span>男</span></label>
-                                    <label class="radio-inline i-checks">
-                                        <input name="sex" type="radio" value="option2"/><span>女</span></label>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"><span>是否了解自己的血压情况</span></label>
+                                <!--<div class="col-sm-10">-->
+                                    <!--<label class="radio-inline i-checks">-->
+                                        <!--<input name="sex" type="radio" value="option1"/><span>男</span></label>-->
+                                    <!--<label class="radio-inline i-checks">-->
+                                        <!--<input name="sex" type="radio" value="option2"/><span>女</span></label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="hr-line-dashed"></div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label"><span>是否了解自己的血压情况</span></label>-->
 
-                                <div class="col-sm-10">
-                                    <label class="checkbox-inline i-checks">
-                                        <input name="sex" type="checkbox" value="option2"/><span>&nbsp;有高血压</span></label>
-                                    <label class="checkbox-inline i-checks">
-                                        <input name="sex" type="checkbox" value="option2"/>&nbsp;血压正常</label>
-                                    <label class="checkbox-inline i-checks">
-                                        <input name="sex" type="checkbox" value="option2"/>&nbsp;测过但不清楚</label>
-                                    <label class="checkbox-inline i-checks">
-                                        <input name="sex" type="checkbox" value="option2"/>&nbsp;从未测过</label>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
+                                <!--<div class="col-sm-10">-->
+                                    <!--<label class="checkbox-inline i-checks">-->
+                                        <!--<input name="sex" type="checkbox" value="option2"/><span>&nbsp;有高血压</span></label>-->
+                                    <!--<label class="checkbox-inline i-checks">-->
+                                        <!--<input name="sex" type="checkbox" value="option2"/>&nbsp;血压正常</label>-->
+                                    <!--<label class="checkbox-inline i-checks">-->
+                                        <!--<input name="sex" type="checkbox" value="option2"/>&nbsp;测过但不清楚</label>-->
+                                    <!--<label class="checkbox-inline i-checks">-->
+                                        <!--<input name="sex" type="checkbox" value="option2"/>&nbsp;从未测过</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="hr-line-dashed"></div>-->
 
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">家庭地址</label>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label">家庭地址</label>-->
 
-                                <div class="col-sm-10">
-                                    <input readonly="readonly" type="text" class="form-control"/>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
+                                <!--<div class="col-sm-10">-->
+                                    <!--<input readonly="readonly" type="text" class="form-control"/>-->
+                                <!--</div>-->
+                            <!--</div>-->
 
-                            <div class="form-group">
-                                <div class="col-sm-4 col-sm-offset-2 text-center">
-                                    <button class="btn btn-primary" type="button" onclick="templateEdit.save()">返回</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
+
 
 </div>
 
@@ -214,16 +214,28 @@
 <script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
 
 <script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+
+
+
     $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
     var templateEdit={};
 
     templateEdit.load=function(){
         templateEdit.bindTitle();
         templateEdit.bindTitleSave();
-
         templateEdit.setup_draggable();
 
     };
+
+    templateEdit.areaTemplate='<div class="row"> <div class="col-sm-12"> <div class="ibox float-e-margins"> <div class="ibox-title"> <h5><span>一般信息</span></h5> <div class="ibox-tools">' +
+            ' <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>' +
+            '<a class="close-link"> <i class="fa fa-times"></i> </a> </div> </div> <div class="ibox-content"> <form class="form-horizontal m-t"> </form> </div> </div> </div> </div>';
+
+    templateEdit.newArea=function(){
+        $(".col-sm-8").append(templateEdit.areaTemplate);
+    };
+
     templateEdit.bindTitle=function(){
         $(".col-sm-8").on("dblclick","span", function() {
             var title=$(this).text();
@@ -293,10 +305,40 @@
             layer.msg("请保存修改内容！");
             return;
         }
+
         var contentHtml=$(".col-sm-8").html();
-    }
+        var templateId=/*[[${template.id}]]*/ '';
+        var customerId=/*[[${template.customerId}]]*/ '';
+        var name=$("input[name='templateName']").val();
+
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "saveTemplate",
+            contentType:"application/json",
+            data: JSON.stringify({id:templateId,name:name,customerId:customerId,content:contentHtml}),
+            success: function (result) {
+                layer.msg("保存成功", {icon: 1});
+            }
+
+        });
 
 
+
+//        contentHtml=templateEdit.handleSaveContent(contentHtml);
+
+
+    };
+
+//    templateEdit.handleSaveContent=function(content){
+//        var reg=new RegExp("");
+//        var replaceTxt='<a class="close-link"><i class="fa fa-times"></i> </a>';
+//        var newContent=content.replace(replaceTxt,"g");
+//
+//
+//    };
+
+    /*]]>*/
 </script>
 </body>
 

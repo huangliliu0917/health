@@ -1,5 +1,6 @@
 package com.huotu.health.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Table(name = "Health_Template")
+@EqualsAndHashCode(exclude = "content")
 public class Template {
     /**
      * ID
