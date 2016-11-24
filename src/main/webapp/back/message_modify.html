@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!--
+  ~ 版权所有:杭州火图科技有限公司
+  ~ 地址:浙江省杭州市滨江区西兴街道阡陌路智慧E谷B幢4楼
+  ~
+  ~ (c) Copyright Hangzhou Hot Technology Co., Ltd.
+  ~ Floor 4,Block B,Wisdom E Valley,Qianmo Road,Binjiang District
+  ~ 2013-2016. All rights reserved.
+  -->
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+
+    <title>编辑资讯</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://resali.huobanplus.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/iCheck/custom.css" rel="stylesheet"/>
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/animate.min.css" rel="stylesheet"/>
+    <link href="../css/summernote/summernote.css" rel="stylesheet"/>
+    <link href="../css/summernote/summernote-bs3.css" rel="stylesheet"/>
+    <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"/>
+    <!--<link href="../../css/layer.css" rel="stylesheet"/>-->
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>编辑资讯</h5>
+                    </div>
+                    <div class="ibox-title">
+                        <button onclick="history.go(-1)" class="btn btn-primary" type="button">返回</button>
+                    </div>
+                    <div class="ibox-content">
+                        <!--/*@thymesVar id="circle" type="com.huotu.huobanplus.sns.entity.Circle"*/-->
+                        <form method="post" class="form-horizontal" th:action="@{/back/saveMessage}" th:object="${message}">
+                            <input type="hidden" name="messageId" th:value="*{id}"/>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">资讯标题</label>
+
+                                <div class="col-sm-2">
+                                    <input name="title" th:value="*{title}" type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">资讯简介</label>
+                                <div class="col-sm-10">
+                                    <input name="summary" th:value="*{summary}" type="text" class="form-control"/> <span class="help-block m-b-none">对于资讯的简单介绍</span>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容</label>
+                                <div class="col-sm-10">
+                                        <div class="summernote" th:utext="*{content}">
+                                            <h2>H+ 后台主题</h2>
+                                            <p>H+是一个完全响应式，基于Bootstrap3.3.5最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术，她提供了诸多的强大的可以重新组合的UI组件，并集成了最新的jQuery版本(v2.1.1)，当然，也集成了很多功能强大，用途广泛的就jQuery插件，她可以用于所有的Web应用程序，如<b>网站管理后台</b>，<b>网站会员中心</b>，<b>CMS</b>，<b>CRM</b>，<b>OA</b>等等，当然，您也可以对她进行深度定制，以做出更强系统。</p>
+                                            <p>
+                                                <b>当前版本：</b>v4.0.0
+                                            </p>
+                                            <p>
+                                                <b>定价：</b><span class="label label-warning">&yen;988（不开发票）</span>
+                                            </p>
+
+                                        </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">封面图片</label>
+
+                                <div class="col-sm-10">
+                                    <div class="col-md-3">
+                                        <div class="image-crop">
+                                            <img id="pictureUrl" style="width: 300px;height: 200px"  th:src="*{pictureUrl}==null?'/img/300x200.png':*{pictureUrl}"
+                                                 src="/img/300x200.png"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label title="上传图片" for="fileImage" class="btn btn-primary">
+                                            <input onchange=" messageConfig.uploadImage()" type="file" accept="image/*"  id="fileImage" name="fileImage" class="hide"/> 上传新图片
+                                        </label>
+                                        <span class="help-block m-b-none">推荐图片大小:300x200</span>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否禁用
+                                </label>
+                                <div class="col-sm-10">
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input th:checked="*{enabled}" type="radio" value="true" name="enabled"/> <i></i>启用</label>
+                                    </div>
+                                    <div class="radio i-checks">
+                                        <label>
+                                            <input th:checked="!*{enabled}" type="radio" value="false" name="enabled"/> <i></i>禁用</label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" type="button" onclick="messageConfig.submitForm(this)">保存咨询</button>
+                                    <a class="btn-white" href="/back/showMessageList"><button class="btn btn-white" type="button">取消</button></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/bootstrap.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/hotui/js/content.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
+    <script src="../js/summernote/summernote.min.js"></script>
+    <script src="../js/summernote/summernote-zh-CN.js"></script>
+    <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/ajaxfileupload/ajaxfileupload.js"></script>
+    <script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+        $(document).ready(function(){$(".summernote").summernote({lang:"zh-CN"})});var edit=function(){$("#eg").addClass("no-padding");$(".click2edit").summernote({lang:"zh-CN",focus:true})};var save=function(){$("#eg").removeClass("no-padding");var aHTML=$(".click2edit").code();$(".click2edit").destroy()};
+    </script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var messageConfig={};
+        messageConfig.searchModel={};
+        messageConfig.currentSearchType=0;
+//        messageConfig.sharePicPath=/*[[${sharePicPath}]]*/ '';
+        //图片上传
+
+
+        messageConfig.uploadImage=function(){
+            var loadPic=layer.load(0, {shade: false});
+            $.ajaxFileUpload({
+                url: '/resource/uploadMessageImage',
+                secureuri: false,
+                fileElementId: 'fileImage',
+                dataType: 'json',
+                data: null,
+                success: function(resultModel) {
+                    if(resultModel.code==1){
+                        layer.close(loadPic);
+                        layer.msg("上传成功");
+                        $(".image-crop img").attr("src",resultModel.url);
+                    }
+                },
+                error: function(data, status, e) {
+                    layer.close(loadPic);
+                    layer.msg("上传失败，请检查网络后重试"+e);
+                }
+            });
+        };
+
+        //提交资讯
+        messageConfig.submitForm=function(obj) {
+            if($(obj).attr("class")=="btn btn-primary disabled"){
+                return;
+            }
+            var messageModel={};
+            messageModel.id=$("input[name='messageId']").val();
+            messageModel.title=$("input[name='title']").val();
+            messageModel.customerId=/*[[${message.customerId}]]*/ '';
+            messageModel.enabled=$("input[name='enabled']:checked").val();
+            messageModel.pictureUrl=$("#pictureUrl").attr("src");
+            messageModel.summary=$("input[name='summary']").val();
+            messageModel.content=$(".summernote").code();
+            messageModel.date=new Date();
+
+
+            var ld=layer.load(5, {shade: false});
+            $(obj).attr("class","btn btn-primary disabled");
+
+            $.ajax({
+                type:'POST',
+                url: '/back/saveMessage',
+                dataType: 'json',
+                contentType:"application/json",
+                data: JSON.stringify(messageModel),
+                success:function(result){
+                    layer.close(ld);
+                    layer.msg("保存成功！");
+                    $(obj).attr("class","btn btn-primary");
+                },
+                error:function(e){
+                    layer.close(ld);
+                    $(obj).attr("class","btn btn-primary");
+                    layer.msg("保存失败！");
+                    $(obj).attr("class","btn btn-primary");
+                }
+            });
+        };
+
+
+        /*]]>*/
+
+    </script>
+</body>
+
+</html>

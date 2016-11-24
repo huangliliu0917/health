@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 表单
@@ -21,10 +22,10 @@ public class Form {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * 用户ID
-     */
-    private Long userId;
+//    /**
+//     * 用户ID
+//     */
+//    private Long userId;
 
     /**
      * 所属疗程
@@ -42,15 +43,23 @@ public class Form {
      */
     @Lob
     private String content;
-//    /**
-//     * 所属步骤
-//     */
-//    private Integer step;
+
+    /**
+     * 所属步骤
+     */
+    private Integer step;
 
     /**
      * 完成情况，0：未完成，1：已完成，2：进行中
      */
     private Integer status;
+
+
+    /**
+     * 创建时间
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
 
 }

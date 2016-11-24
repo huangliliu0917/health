@@ -52,12 +52,14 @@ public class TemplateController {
     /**
      * 根据模板ID获取模板详情
      * @param id    模板id
+     * @param customerId 商户ID
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/modifyTemplate")
-    public String modifyTemplate(Long id, Model model) throws Exception{
+    public String modifyTemplate(@CustomerId Long customerId, Long id, Model model) throws Exception{
         Template template=new Template();
+        template.setCustomerId(customerId);
         if(id!=null){
             template=templateRepository.findOne(id);
         }

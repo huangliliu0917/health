@@ -66,7 +66,7 @@
                         <label class="col-sm-3 control-label">选择用户：</label>
                         <div class="col-sm-9">
                             <input type="hidden" th:value="${treatment.userId}" name="userId"/>
-                            <input readonly="readonly" ondblclick="treatmentEdit.showUserList(this)" th:value="${treatment.wxNickName}" type="text" name="wxNickName" class="form-control" placeholder="双击选择"/>
+                            <input readonly="readonly" ondblclick="treatmentEdit.showVipUserList(this)" th:value="${treatment.wxNickName}" type="text" name="wxNickName" class="form-control" placeholder="双击选择"/>
                         </div>
                     </div>
 
@@ -150,13 +150,13 @@
         });
     };
 
-    treatmentEdit.showUserList=function(obj){
+    treatmentEdit.showVipUserList=function(obj){
         var type=layer.open({
             type: 2,
             title: '选择模板组',
             area: ['60%', '70%'],
             btn:['确定选择'],
-            content:"/back/showUserList",
+            content:"/back/showVipUserList",
             yes: function(index, layero){
                 var iframeWin = window[layero.find('iframe')[0]['name']];
                 var user =iframeWin. userList.externalCall();

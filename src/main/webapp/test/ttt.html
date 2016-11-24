@@ -1,79 +1,41 @@
-<!DOCTYPE html><html><head><title>Apache Tomcat/8.0.23 - Error report</title><style type="text/css">H1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} BODY {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} B {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;} P {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}A {color : black;}A.name {color : black;}.line {height: 1px; background-color: #525D76; border: none;}</style> </head><body><h1>HTTP Status 500 - Request processing failed; nested exception is org.springframework.http.converter.HttpMessageNotReadableException: Could not read document: Can not instantiate value of type [simple type, class com.huotu.health.entity.Template] from String value ('1'); no single-String constructor/factory method</h1><div class="line"></div><p><b>type</b> Exception report</p><p><b>message</b> <u>Request processing failed; nested exception is org.springframework.http.converter.HttpMessageNotReadableException: Could not read document: Can not instantiate value of type [simple type, class com.huotu.health.entity.Template] from String value ('1'); no single-String constructor/factory method</u></p><p><b>description</b> <u>The server encountered an internal error that prevented it from fulfilling this request.</u></p><p><b>exception</b></p><pre>org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.http.converter.HttpMessageNotReadableException: Could not read document: Can not instantiate value of type [simple type, class com.huotu.health.entity.Template] from String value ('1'); no single-String constructor/factory method
- at [Source: java.io.PushbackInputStream@6fb3c4b0; line: 1, column: 56] (through reference chain: com.huotu.health.entity.TemplateGroup[&quot;templates&quot;]-&gt;java.util.ArrayList[0]); nested exception is com.fasterxml.jackson.databind.JsonMappingException: Can not instantiate value of type [simple type, class com.huotu.health.entity.Template] from String value ('1'); no single-String constructor/factory method
- at [Source: java.io.PushbackInputStream@6fb3c4b0; line: 1, column: 56] (through reference chain: com.huotu.health.entity.TemplateGroup[&quot;templates&quot;]-&gt;java.util.ArrayList[0])
-	org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:982)
-	org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:872)
-	javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
-	org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)
-	javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
-	org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)
-	org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
-	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
-</pre><p><b>root cause</b></p><pre>org.springframework.http.converter.HttpMessageNotReadableException: Could not read document: Can not instantiate value of type [simple type, class com.huotu.health.entity.Template] from String value ('1'); no single-String constructor/factory method
- at [Source: java.io.PushbackInputStream@6fb3c4b0; line: 1, column: 56] (through reference chain: com.huotu.health.entity.TemplateGroup[&quot;templates&quot;]-&gt;java.util.ArrayList[0]); nested exception is com.fasterxml.jackson.databind.JsonMappingException: Can not instantiate value of type [simple type, class com.huotu.health.entity.Template] from String value ('1'); no single-String constructor/factory method
- at [Source: java.io.PushbackInputStream@6fb3c4b0; line: 1, column: 56] (through reference chain: com.huotu.health.entity.TemplateGroup[&quot;templates&quot;]-&gt;java.util.ArrayList[0])
-	org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:228)
-	org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.read(AbstractJackson2HttpMessageConverter.java:213)
-	org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodArgumentResolver.readWithMessageConverters(AbstractMessageConverterMethodArgumentResolver.java:197)
-	org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:149)
-	org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:127)
-	org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:121)
-	org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:161)
-	org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:128)
-	org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:114)
-	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:827)
-	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:738)
-	org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85)
-	org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
-	org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:897)
-	org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)
-	org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:872)
-	javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
-	org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)
-	javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
-	org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)
-	org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
-	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
-</pre><p><b>root cause</b></p><pre>com.fasterxml.jackson.databind.JsonMappingException: Can not instantiate value of type [simple type, class com.huotu.health.entity.Template] from String value ('1'); no single-String constructor/factory method
- at [Source: java.io.PushbackInputStream@6fb3c4b0; line: 1, column: 56] (through reference chain: com.huotu.health.entity.TemplateGroup[&quot;templates&quot;]-&gt;java.util.ArrayList[0])
-	com.fasterxml.jackson.databind.JsonMappingException.from(JsonMappingException.java:148)
-	com.fasterxml.jackson.databind.DeserializationContext.mappingException(DeserializationContext.java:843)
-	com.fasterxml.jackson.databind.deser.ValueInstantiator._createFromStringFallbacks(ValueInstantiator.java:277)
-	com.fasterxml.jackson.databind.deser.std.StdValueInstantiator.createFromString(StdValueInstantiator.java:284)
-	com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeFromString(BeanDeserializerBase.java:1150)
-	com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:153)
-	com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:144)
-	com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.deserialize(CollectionDeserializer.java:240)
-	com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.deserialize(CollectionDeserializer.java:212)
-	com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.deserialize(CollectionDeserializer.java:25)
-	com.fasterxml.jackson.databind.deser.SettableBeanProperty.deserialize(SettableBeanProperty.java:523)
-	com.fasterxml.jackson.databind.deser.impl.MethodProperty.deserializeAndSet(MethodProperty.java:95)
-	com.fasterxml.jackson.databind.deser.impl.BeanPropertyMap._findDeserializeAndSet2(BeanPropertyMap.java:313)
-	com.fasterxml.jackson.databind.deser.impl.BeanPropertyMap.findDeserializeAndSet(BeanPropertyMap.java:291)
-	com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:335)
-	com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:142)
-	com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:3562)
-	com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2662)
-	org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:225)
-	org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.read(AbstractJackson2HttpMessageConverter.java:213)
-	org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodArgumentResolver.readWithMessageConverters(AbstractMessageConverterMethodArgumentResolver.java:197)
-	org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:149)
-	org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:127)
-	org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:121)
-	org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:161)
-	org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:128)
-	org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:114)
-	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:827)
-	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:738)
-	org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85)
-	org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963)
-	org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:897)
-	org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:970)
-	org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:872)
-	javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
-	org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:846)
-	javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
-	org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:197)
-	org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
-	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
-</pre><p><b>note</b> <u>The full stack trace of the root cause is available in the Apache Tomcat/8.0.23 logs.</u></p><hr class="line"><h3>Apache Tomcat/8.0.23</h3></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Demo</title>
+	<meta charset="utf-8">
+	<link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/steps/jquery.steps.css" rel="stylesheet"/>
+	<script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+	<script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/steps/jquery.steps.min.js"></script>
+</head>
+<body onload="load()">
+<script>
+	function load(){
+		$("#example-basic").steps({
+			headerTag: "h3",
+			bodyTag: "section",
+			transitionEffect: "slideLeft",
+			autoFocus: true
+		});
+	}
+
+</script>
+
+
+<div id="example-basic">
+	<h3>Keyboard</h3>
+	<section>
+		<p>Try the keyboard navigation by clicking arrow left or right!</p>
+	</section>
+	<h3>Effects</h3>
+	<section>
+		<p>Wonderful transition effects.</p>
+	</section>
+	<h3>Pager</h3>
+	<section>
+		<p>The next and previous buttons help you to navigate through your content.</p>
+	</section>
+</div>
+
+
+</body>
+</html>

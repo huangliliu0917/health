@@ -11,13 +11,18 @@ package com.huotu.health.controller.back;
 
 import com.huotu.health.annotation.CustomerId;
 import com.huotu.health.entity.Message;
+import com.huotu.health.model.MessageListModel;
 import com.huotu.health.repository.MessageRepository;
+import com.huotu.health.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -30,6 +35,9 @@ import java.util.List;
 public class MessageController {
     @Autowired
     MessageRepository messageRepository;
+
+    @Autowired
+    private MessageService messageService;
 
 
     /**
@@ -53,55 +61,33 @@ public class MessageController {
         }else {
             messages=messageRepository.findByCustomerIdAndTitleLike(customerId,"%"+title+"%",new PageRequest(pageNo,20));
         }
-        model.addAttribute("list",messages);
+        List<MessageListModel> models=messageService.getMessagesModel(messages);
+        model.addAttribute("list",models);
         model.addAttribute("pageNo",pageNo);
         model.addAttribute("title",title);
         return "/back/message_list";
 
     }
 
-//    /**
-//     * 根据资讯id,打开编辑页面,如果id为空则是新建
-//     *
-//     * @param id    资讯ID
-//     * @param model 返回的model
-//     * @return 修改资讯的视图模板
-//     * @throws Exception
-//     */
-//    @RequestMapping(value = "/editCircle", method = RequestMethod.GET)
-//    public String editCircle(Long id, Model model) throws Exception {
-//        String view = "/admin/circle/modifyCircle";
-//        Circle circle = null;
-//        if (id != null) {
-//            circle = circleRepository.findOne(id);
-//        }
-//        if (circle == null) {
-//            circle = new Circle();
-//        }
-//        CircleListModel circleListModel = circleService.circleToDetailsCircleModel(circle);
-//        model.addAttribute("circleListModel", circleListModel);
-//        return view;
-//    }
-//
-//    /**
-//     * 保存资讯
-//     *
-//     * @param circleListModel 资讯的model
-//     * @return 只要正常返回就说明保存成功
-//     * @throws Exception
-//     */
-//    @RequestMapping(value = "saveCircle", method = RequestMethod.POST)
-//    @ResponseBody
-//    public ModelMap saveCircle(@CustomerId Long customerId, @RequestBody CircleListModel circleListModel) throws Exception {
-//        ModelMap modelMap = new ModelMap();
-//        circleListModel.setCustomerId(customerId);
-//        if (circleListModel.getCircleId() == null) {
-//            circleService.addCircle(circleListModel);
-//        } else {
-//            circleService.updateCircle(circleListModel);
-//        }
-//        return modelMap;
-//    }
+    @RequestMapping("/modifyMessage")
+    public String modifyMessage(@CustomerId Long customerId,Long id, Model model) throws Exception{
+        Message message=new Message();
+        message.setCustomerId(customerId);
+        if(id!=null){
+            message=messageRepository.findOne(id);
+        }
+        model.addAttribute("message",message);
+        return "/back/message_modify";
+    }
 
+
+    @RequestMapping(value = "/saveMessage")
+    @ResponseBody
+    public ModelMap  saveMessage(@RequestBody Message message) throws Exception{
+
+        messageRepository.save(message);
+        return new ModelMap();
+
+    }
 
 }

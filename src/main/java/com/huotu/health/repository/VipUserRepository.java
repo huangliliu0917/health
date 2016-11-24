@@ -9,7 +9,7 @@
 
 package com.huotu.health.repository;
 
-import com.huotu.health.entity.User;
+import com.huotu.health.entity.VipUser;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -23,14 +23,8 @@ import java.util.List;
  * @author slt
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
-
-    @Query("select u.id,u.wxNickName,v.id from User as u left join VipUser as v on u=v.user where u.merchantId=?1 and u.wxNickName like ?2")
-    List<Object> findUserByName(Long customerId,String name, Pageable pageable);
-
-
-    @Query("select u.id,u.wxNickName,v.id from User as u left join VipUser as v on u=v.user where u.merchantId=?1")
-    List<Object> findUser(Long customerId, Pageable pageable);
-
+public interface VipUserRepository extends JpaRepository<VipUser, Long>, JpaSpecificationExecutor<VipUser> {
+    @Query("select vip from VipUser as vip where vip.merchantId=?1 and vip.user.wxNickName like ?2")
+    List<VipUser> findByMerchantIdAndWxNickNameLike(Long customerId, String name, Pageable pageable);
 
 }

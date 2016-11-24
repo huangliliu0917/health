@@ -1,20 +1,23 @@
 package com.huotu.health.controller.back;
 
 import com.huotu.health.annotation.CustomerId;
+import com.huotu.health.entity.Form;
+import com.huotu.health.entity.Template;
+import com.huotu.health.entity.TemplateGroup;
 import com.huotu.health.entity.Treatment;
+import com.huotu.health.repository.FormRepository;
+import com.huotu.health.repository.TemplateGroupRepository;
 import com.huotu.health.repository.TreatmentRepository;
-import com.huotu.health.service.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +31,10 @@ public class TreatmentController {
     private TreatmentRepository treatmentRepository;
 
     @Autowired
-    private TreatmentService treatmentService;
+    private TemplateGroupRepository templateGroupRepository;
+
+    @Autowired
+    private FormRepository formRepository;
 
     /**
      * 获取疗程列表
@@ -59,19 +65,35 @@ public class TreatmentController {
     }
 
     /**
-     * 根据模板ID获取模板详情
-     * @param id    模板id
+     * 根据疗程ID获取疗程详情
+     * @param id    疗程id
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/modifyTreatment")
-    public String modifyTreatment(Long id, Model model) throws Exception{
+    public String modifyTreatment(@CustomerId Long customerId,Long id, Model model) throws Exception{
         Treatment treatment=new Treatment();
+        treatment.setCustomerId(customerId);
         if(id!=null){
             treatment=treatmentRepository.findOne(id);
         }
         model.addAttribute("treatment",treatment);
         return "/back/treatment_modify";
+    }
+
+
+    /**
+     * 查看某个用户的疗程的具体流程
+     * @param id
+     * @param model
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/showForms")
+    public String showForms(@RequestParam Long id, Model model) throws Exception{
+        List<Form> forms=formRepository.findByTreatment_IdOrderByStep(id);
+        model.addAttribute("list",forms);
+        return "/back/form_list";
     }
 
     /**
@@ -86,7 +108,27 @@ public class TreatmentController {
         if(treatment.getCustomerId()==null){
             treatment.setCustomerId(customerId);
         }
-        treatmentRepository.save(treatment);
+        treatment=treatmentRepository.save(treatment);
+
+
+        //创建用户治疗过程
+        TemplateGroup templateGroup=templateGroupRepository.findOne(treatment.getTemplateGroupId());
+        List<Template> templates=templateGroup.getTemplates();
+
+        List<Form> forms=new ArrayList<>();
+        for(int i=0;i<templates.size();i++){
+            Template t=templates.get(i);
+            Form form=new Form();
+            form.setName(t.getName());
+            form.setContent(t.getContent());
+            form.setStatus(0);
+            form.setStep(i);
+            form.setTreatment(treatment);
+//            form.setUserId(treatment.getUserId());
+            form.setDate(new Date());
+            forms.add(form);
+        }
+        formRepository.save(forms);
         return new ModelMap();
     }
 

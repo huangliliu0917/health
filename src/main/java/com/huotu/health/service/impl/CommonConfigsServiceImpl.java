@@ -6,7 +6,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by lgh on 2015/12/30.
+ * 配置文件
+ * Created by slt on 2015/12/30.
  */
 
 @Service
