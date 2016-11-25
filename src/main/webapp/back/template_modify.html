@@ -28,7 +28,22 @@
     <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"/><base target="_blank"/>
 
     <style>
-        .droppable-active{background-color:#ffe!important}.tools a{cursor:pointer;font-size:80%}.form-body .col-md-6,.form-body .col-md-12{min-height:400px}.draggable{cursor:move}
+        .droppable-active {
+            background-color: #ffe!important
+        }
+
+        .tools a {
+            cursor: pointer;
+            font-size: 80%
+        }
+
+        .form-body .col-md-6,.form-body .col-md-12 {
+            min-height: 400px
+        }
+
+        .draggable {
+            cursor: move
+        }
     </style>
 
 </head>
@@ -66,8 +81,6 @@
                         <div class="col-sm-9">
                             <input type="text" name="" class="form-control"/>
                         </div>
-
-
                     </div>
 
 
@@ -79,7 +92,6 @@
                                     <td>123456</td>
                                 </tr>
                             </table>
-
                         </div>
                     </div>
 
@@ -90,17 +102,20 @@
                             <p class="form-control-static">这里是纯文字信息</p>
                         </div>
                     </div>
-                    <div class="form-group draggable">
-                        <label class="col-sm-3 control-label">单选框：
-                        </label>
 
+
+                    <div class="form-group draggable">
+                        <label class="col-sm-3 control-label">单选框：</label>
                         <div class="col-sm-9">
                             <label class="radio-inline i-checks">
-                                <input name="sex" type="radio" value="option1"/>男</label>
+                                <input name="sex" type="radio" value="option1"/>男
+                            </label>
                             <label class="radio-inline i-checks">
                                 <input name="sex" type="radio" value="option2"/>女</label>
                         </div>
                     </div>
+
+
                     <div class="form-group draggable">
                         <label class="col-sm-3 control-label">复选框：</label>
 
@@ -115,7 +130,7 @@
                     </div>
                     <div class=" text-center">
                         <button class="btn btn-primary" type="button" onclick="templateEdit.newArea()">新建区域</button>
-                        <button class="btn btn-primary" type="button" onclick="templateEdit.save()">保存模板</button>
+                        <!--<button class="btn btn-primary" type="button" onclick="templateEdit.save()">保存模板</button>-->
                     </div>
                 </form>
                 <div class="clearfix"></div>
@@ -124,82 +139,84 @@
 
 
     </div>
-    <div class="col-sm-8" th:utext="${template.content}">
-        <!--<div class="row">-->
-            <!--<div class="col-sm-12">-->
-                <!--<div class="ibox float-e-margins">-->
-                    <!--<div class="ibox-title">-->
-                        <!--<h5><span>一般信息</span></h5>-->
-                        <!--<div class="ibox-tools">-->
-                            <!--<a class="collapse-link">-->
-                                <!--<i class="fa fa-chevron-up"></i>-->
-                            <!--</a>-->
-                            <!--<a class="close-link">-->
-                                <!--<i class="fa fa-times"></i>-->
-                            <!--</a>-->
-                        <!--</div>-->
+    <!--<div class="col-sm-8" th:utext="${template.content}">-->
+    <div class="col-sm-8">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5><span>一般信息</span></h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="close-link">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
 
-                    <!--</div>-->
-                    <!--<div class="ibox-content">-->
-                        <!--<form class="form-horizontal m-t">-->
-                            <!--<div class="form-group">-->
-                                <!--<span>-->
-                                <!--填表说明：所有题目均共用答案，请在A、B、C、D下划“√”，每题限选一个答案。-->
-                                <!--选项：A没有或很少B小部分时间  C相当多时间D绝大部分或全部时间。-->
-                                <!--</span>-->
-                            <!--</div>-->
-                            <!--<div class="hr-line-dashed"></div>-->
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t sortable">
 
-                            <!--<div class="form-group">-->
-                                <!--<label class="col-sm-2 control-label"><span>姓名</span></label>-->
+                                <div class="form-group">
+                                    <span>
+                                    填表说明：所有题目均共用答案，请在A、B、C、D下划“√”，每题限选一个答案。
+                                    选项：A没有或很少B小部分时间  C相当多时间D绝大部分或全部时间。
+                                    </span>
+                                </div>
+                                <!--<div class="hr-line-dashed"></div>-->
 
-                                <!--<div class="col-sm-10">-->
-                                    <!--<input type="text" class="form-control"/>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="hr-line-dashed"></div>-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><span>姓名</span></label>
 
-                            <!--<div class="form-group">-->
-                                <!--<label class="col-sm-2 control-label"><span>性别</span></label>-->
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"/>
+                                    </div>
+                                </div>
+                                <!--<div class="hr-line-dashed"></div>-->
 
-                                <!--<div class="col-sm-10">-->
-                                    <!--<label class="radio-inline i-checks">-->
-                                        <!--<input name="sex" type="radio" value="option1"/><span>男</span></label>-->
-                                    <!--<label class="radio-inline i-checks">-->
-                                        <!--<input name="sex" type="radio" value="option2"/><span>女</span></label>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="hr-line-dashed"></div>-->
-                            <!--<div class="form-group">-->
-                                <!--<label class="col-sm-2 control-label"><span>是否了解自己的血压情况</span></label>-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><span>性别</span></label>
 
-                                <!--<div class="col-sm-10">-->
-                                    <!--<label class="checkbox-inline i-checks">-->
-                                        <!--<input name="sex" type="checkbox" value="option2"/><span>&nbsp;有高血压</span></label>-->
-                                    <!--<label class="checkbox-inline i-checks">-->
-                                        <!--<input name="sex" type="checkbox" value="option2"/>&nbsp;血压正常</label>-->
-                                    <!--<label class="checkbox-inline i-checks">-->
-                                        <!--<input name="sex" type="checkbox" value="option2"/>&nbsp;测过但不清楚</label>-->
-                                    <!--<label class="checkbox-inline i-checks">-->
-                                        <!--<input name="sex" type="checkbox" value="option2"/>&nbsp;从未测过</label>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="hr-line-dashed"></div>-->
+                                    <div class="col-sm-10">
+                                        <label class="radio-inline ">
+                                            <input name="sex" type="radio" value="option1"/><span>男</span></label>
+                                        <label class="radio-inline ">
+                                            <input name="sex" type="radio" value="option2"/><span>女</span></label>
+                                    </div>
+                                </div>
+                                <!--<div class="hr-line-dashed"></div>-->
 
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><span>是否了解自己的血压情况</span></label>
 
-                            <!--<div class="form-group">-->
-                                <!--<label class="col-sm-2 control-label">家庭地址</label>-->
+                                    <div class="col-sm-10">
+                                        <label class="checkbox-inline ">
+                                            <input name="sex" type="checkbox" value="option2"/><span>&nbsp;有高血压</span></label>
+                                        <label class="checkbox-inline ">
+                                            <input name="sex" type="checkbox" value="option2"/><span>&nbsp;血压正常</span></label>
+                                        <label class="checkbox-inline">
+                                            <input name="sex" type="checkbox" value="option2"/><span>&nbsp;测过但不清楚</span></label>
+                                        <label class="checkbox-inline ">
+                                            <input name="sex" type="checkbox" value="option2"/><span>&nbsp;从未测过</span></label>
+                                    </div>
+                                </div>
+                                <!--<div class="hr-line-dashed"></div>-->
 
-                                <!--<div class="col-sm-10">-->
-                                    <!--<input readonly="readonly" type="text" class="form-control"/>-->
-                                <!--</div>-->
-                            <!--</div>-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"><span>姓名</span></label>
 
-                        <!--</form>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control"/>
+                                    </div>
+                                </div>
+                                <!--<div class="hr-line-dashed"></div>-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -215,9 +232,6 @@
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-
-
-
     $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
     var templateEdit={};
 
@@ -260,42 +274,51 @@
 
 
     templateEdit.setup_draggable = function() {
+        $(".sortable").sortable({
+            revert:true
+        });
+
         $(".draggable").draggable({
-            appendTo: "body",
-            helper: "clone"
+//            appendTo: "body",
+            connectToSortable: "#sortable",
+            helper: "clone",
+            revert: "invalid"
         });
 //        $(".droppable").droppable({
 //            accept: ".draggable",
 //            helper: "clone",
 //            hoverClass: "droppable-active",
+//            connectToSortable: "#sortable",
 //            drop: function(event, ui) {
-//                $(".empty-form").remove();
-//                var $orig = $(ui.draggable);
-//                if (!$(ui.draggable).hasClass("dropped")) {
-//                    var $el = $orig.clone().addClass("dropped").css({
-//                        "position": "static",
-//                        "left": null,
-//                        "right": null
-//                    }).appendTo(this);
-//                    var id = $orig.find(":input").attr("id");
-//                    if (id) {
-//                        id = id.split("-").slice(0, -1).join("-") + "-" + (parseInt(id.split("-").slice( - 1)[0]) + 1);
-//                        $orig.find(":input").attr("id", id);
-//                        $orig.find("label").attr("for", id)
-//                    }
-//                    $('<p class="tools col-sm-12 col-sm-offset-3"><a class="remove-link">移除</a></p>').appendTo($el)
-//                } else {
-//                    if ($(this)[0] != $orig.parent()[0]) {
-//                        var $el = $orig.clone().css({
-//                            "position": "static",
-//                            "left": null,
-//                            "right": null
-//                        }).appendTo(this);
-//                        $orig.remove()
-//                    }
-//                }
+//                console.log("start");
+//
+////                var $orig = $(ui.draggable);
+////                if (!$(ui.draggable).hasClass("dropped")) {
+////                    var $el = $orig.clone().addClass("dropped").css({
+////                        "position": "static",
+////                        "left": null,
+////                        "right": null
+////                    }).appendTo(this);
+////                    var id = $orig.find(":input").attr("id");
+////                    if (id) {
+////                        id = id.split("-").slice(0, -1).join("-") + "-" + (parseInt(id.split("-").slice( - 1)[0]) + 1);
+////                        $orig.find(":input").attr("id", id);
+////                        $orig.find("label").attr("for", id)
+////                    }
+////                    $('<p class="tools col-sm-12 col-sm-offset-3"><a class="remove-link">移除</a></p>').appendTo($el)
+////                } else {
+////                    if ($(this)[0] != $orig.parent()[0]) {
+////                        var $el = $orig.clone().css({
+////                            "position": "static",
+////                            "left": null,
+////                            "right": null
+////                        }).appendTo(this);
+////                        $orig.remove()
+////                    }
+////                }
 //            }
-//        }).sortable()
+//        });
+
     };
 
 
