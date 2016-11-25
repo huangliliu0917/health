@@ -75,18 +75,18 @@
                         </div>
                     </div>
 
-                    <div class="hr-line-dashed draggable"></div>
+                    <div class="hr-line-dashed"></div>
                     <div class="form-group draggable">
-                        <label class="col-sm-3 control-label">文本框：</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-2 control-label"><span>文本框：</span></label>
+                        <div class="col-sm-10">
                             <input type="text" name="" class="form-control"/>
                         </div>
                     </div>
-
+                    <div class="hr-line-dashed"></div>
 
                     <div class="form-group draggable">
-                        <label class="col-sm-3 control-label">表格：</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-2 control-label"><span>表格：</span></label>
+                        <div class="col-sm-10">
                             <table>
                                 <tr>
                                     <td>123456</td>
@@ -94,19 +94,18 @@
                             </table>
                         </div>
                     </div>
-
+                    <div class="hr-line-dashed"></div>
                     <div class="form-group draggable">
-                        <label class="col-sm-3 control-label">纯文本：</label>
-
-                        <div class="col-sm-9">
-                            <p class="form-control-static">这里是纯文字信息</p>
+                        <label class="col-sm-2 control-label"><span>纯文本：</span></label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static"><span>这里是纯文字信息</span></p>
                         </div>
                     </div>
 
-
+                    <div class="hr-line-dashed"></div>
                     <div class="form-group draggable">
-                        <label class="col-sm-3 control-label">单选框：</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-2 control-label">单选框：</label>
+                        <div class="col-sm-10">
                             <label class="radio-inline i-checks">
                                 <input name="sex" type="radio" value="option1"/>男
                             </label>
@@ -114,12 +113,12 @@
                                 <input name="sex" type="radio" value="option2"/>女</label>
                         </div>
                     </div>
-
+                    <div class="hr-line-dashed"></div>
 
                     <div class="form-group draggable">
-                        <label class="col-sm-3 control-label">复选框：</label>
+                        <label class="col-sm-2 control-label">复选框：</label>
 
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <label class="radio-inline i-checks">
                                 <input type="checkbox" value="option1" id="inlineCheckbox1"/>选项1</label>
                             <label class="radio-inline i-checks">
@@ -128,6 +127,7 @@
                                 <input type="checkbox" value="option3" id="inlineCheckbox3"/>选项3</label>
                         </div>
                     </div>
+                    <div class="hr-line-dashed"></div>
                     <div class=" text-center">
                         <button class="btn btn-primary" type="button" onclick="templateEdit.newArea()">新建区域</button>
                         <!--<button class="btn btn-primary" type="button" onclick="templateEdit.save()">保存模板</button>-->
@@ -157,7 +157,8 @@
 
                     </div>
                     <div class="ibox-content">
-                        <form class="form-horizontal m-t sortable">
+
+                        <form class="form-horizontal m-t droppable sortable">
 
                                 <div class="form-group">
                                     <span>
@@ -211,6 +212,41 @@
                                         <input type="text" class="form-control"/>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                <label class="col-sm-2 control-label"><span>表格</span></label>
+
+                                <div class="col-sm-10">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>姓名</th>
+                                            <th>性别</th>
+                                            <th>年龄</th>
+                                            <th>年龄</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>张三</td>
+                                            <td>男</td>
+                                            <td>23</td>
+                                            <td>23</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>李四</td>
+                                            <td>男</td>
+                                            <td>27</td>
+                                            <td>23</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                                 <!--<div class="hr-line-dashed"></div>-->
                         </form>
                     </div>
@@ -238,13 +274,18 @@
     templateEdit.load=function(){
         templateEdit.bindTitle();
         templateEdit.bindTitleSave();
+        templateEdit.bindTable();
+        templateEdit.bindTableSave();
         templateEdit.setup_draggable();
 
     };
 
     templateEdit.areaTemplate='<div class="row"> <div class="col-sm-12"> <div class="ibox float-e-margins"> <div class="ibox-title"> <h5><span>一般信息</span></h5> <div class="ibox-tools">' +
             ' <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>' +
-            '<a class="close-link"> <i class="fa fa-times"></i> </a> </div> </div> <div class="ibox-content"> <form class="form-horizontal m-t"> </form> </div> </div> </div> </div>';
+            '<a class="close-link"> <i class="fa fa-times"></i> </a> </div> </div> <div class="ibox-content"> ' +
+            '<form class="form-horizontal m-t droppable sortable">' +
+            '<div class="form-group"> <span> 填表说明：所有题目均共用答案，请在A、B、C、D下划“√”，每题限选一个答案。选项：A没有或很少B小部分时间  C相当多时间D绝大部分或全部时间。</span> </div>' +
+            ' </form> </div> </div> </div> </div>';
 
     templateEdit.newArea=function(){
         $(".col-sm-8").append(templateEdit.areaTemplate);
@@ -272,23 +313,48 @@
         });
     };
 
+    templateEdit.bindTable=function(){
+        $(".col-sm-8").on("dblclick","td", function() {
+            var title=$(this).text();
+            var size=title.length+10;
+            $(this).replaceWith('<input size="'+size+'" name="editTable" type="text" value="'+title+'"/>');
+
+            //do something here
+        });
+    };
+
+    templateEdit.bindTableSave=function(){
+        $(".col-sm-8").on("blur","[name='editTable']", function() {
+            var title=$(this).val();
+            $(this).replaceWith('<td>'+title+'</td>');
+        });
+    };
+
+
+
 
     templateEdit.setup_draggable = function() {
         $(".sortable").sortable({
-            revert:true
+//            revert:true
         });
 
         $(".draggable").draggable({
 //            appendTo: "body",
-            connectToSortable: "#sortable",
-            helper: "clone",
-            revert: "invalid"
+            connectToSortable: ".sortable",
+            helper: "clone"
+//            revert: "invalid"
+        });
+        $(".droppable").droppable({
+            drop:function(event,ui){
+                console.log(ui.helper.context);
+                console.log(ui.draggable);
+            }
+
         });
 //        $(".droppable").droppable({
 //            accept: ".draggable",
 //            helper: "clone",
 //            hoverClass: "droppable-active",
-//            connectToSortable: "#sortable",
 //            drop: function(event, ui) {
 //                console.log("start");
 //
