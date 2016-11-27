@@ -289,9 +289,10 @@
 
     templateEdit.newArea=function(){
         $(".col-sm-8").append(templateEdit.areaTemplate);
+        templateEdit.setup_draggable();
     };
 
-    templateEdit.bindTitle=function(){
+    templateEdit.bindTitle=function(event){
         $(".col-sm-8").on("dblclick","span", function() {
             var title=$(this).text();
             var size=title.length+10;
@@ -304,6 +305,7 @@
 
             //do something here
         });
+        event.stopPropagation();
     };
 
     templateEdit.bindTitleSave=function(){
@@ -313,7 +315,7 @@
         });
     };
 
-    templateEdit.bindTable=function(){
+    templateEdit.bindTable=function(event){
         $(".col-sm-8").on("dblclick","td", function() {
             var title=$(this).text();
             var size=title.length+10;
@@ -321,6 +323,7 @@
 
             //do something here
         });
+        event.stopPropagation();
     };
 
     templateEdit.bindTableSave=function(){
