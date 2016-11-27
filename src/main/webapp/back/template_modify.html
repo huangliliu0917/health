@@ -276,6 +276,7 @@
         templateEdit.bindTitleSave();
         templateEdit.bindTable();
         templateEdit.bindTableSave();
+        templateEdit.delDiv();
         templateEdit.setup_draggable();
 
     };
@@ -292,8 +293,8 @@
         templateEdit.setup_draggable();
     };
 
-    templateEdit.bindTitle=function(event){
-        $(".col-sm-8").on("dblclick","span", function() {
+    templateEdit.bindTitle=function(){
+        $(".col-sm-8").on("dblclick","span", function(event) {
             var title=$(this).text();
             var size=title.length+10;
             if(title.length>30){
@@ -304,8 +305,9 @@
             }
 
             //do something here
+            event.stopPropagation();
         });
-        event.stopPropagation();
+
     };
 
     templateEdit.bindTitleSave=function(){
@@ -315,15 +317,24 @@
         });
     };
 
-    templateEdit.bindTable=function(event){
-        $(".col-sm-8").on("dblclick","td", function() {
+    templateEdit.bindTable=function(){
+        $(".col-sm-8").on("dblclick","td", function(event) {
             var title=$(this).text();
             var size=title.length+10;
             $(this).replaceWith('<input size="'+size+'" name="editTable" type="text" value="'+title+'"/>');
 
             //do something here
+            event.stopPropagation();
         });
-        event.stopPropagation();
+
+    };
+
+    templateEdit.delDiv=function(){
+        $(".col-sm-8").on("dblclick",".form-group", function() {
+            $(this).remove();
+
+            //do something here
+        });
     };
 
     templateEdit.bindTableSave=function(){
