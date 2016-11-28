@@ -35,9 +35,6 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
     private CustomerIdArgumentResolver customerIdArgumentResolver;
 
 
-    @Autowired
-    private CommonUserInterceptor commonUserInterceptor;
-
     @Bean
     CommonUserInterceptor commonUserInterceptor() {
         return new CommonUserInterceptor();
@@ -60,10 +57,14 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 //                .addResourceLocations("/app/", "/");
 //    }
 
+    /**
+     * 拦截器
+     * @param registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
-        registry.addInterceptor(commonUserInterceptor)
+        registry.addInterceptor(commonUserInterceptor())
                 .addPathPatterns("/app/**");
     }
 
