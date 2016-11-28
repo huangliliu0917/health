@@ -23,12 +23,14 @@
     <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/iCheck/custom.css" rel="stylesheet"/>
     <link href="../css/jquery.steps.css" rel="stylesheet"/>
     <link href="http://resali.huobanplus.com/cdn/hotui/css/animate.min.css" rel="stylesheet"/>
+    <link href="../css/summernote/summernote.css" rel="stylesheet"/>
+    <link href="../css/summernote/summernote-bs3.css" rel="stylesheet"/>
     <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"/>
 
 </head>
 
-<body class="gray-bg">
-<div class="wrapper wrapper-content animated fadeInRight">
+<body onload="" class="gray-bg">
+<div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
@@ -42,7 +44,6 @@
                 </div>
                 <div class="ibox-content">
                     <div id="wizard" class="wizard-big">
-
 
                     </div>
 
@@ -62,10 +63,13 @@
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/steps/jquery.steps.min.js"></script>
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/validate/jquery.validate.min.js"></script>
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/validate/messages_zh.min.js"></script>
+<script src="../js/summernote/summernote.min.js"></script>
+<script src="../js/summernote/summernote-zh-CN.js"></script>
 <script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+
     var formList={};
 
     $(document).ready(function(){
@@ -78,8 +82,28 @@
         formList.stepLoad();
         formList.bulidIcheck();
         formList.changeTest();
+        formList.changeRadioAndCheckBox();
 
     };
+
+    $(document).ready(function() {
+        $(".summernote").summernote({
+            lang: "zh-CN"
+        })
+    });
+    var edit = function() {
+        $("#eg").addClass("no-padding");
+        $(".click2edit").summernote({
+            lang: "zh-CN",
+            focus: true
+        })
+    };
+    var save = function() {
+        $("#eg").removeClass("no-padding");
+        var aHTML = $(".click2edit").code();
+        $(".click2edit").destroy()
+    };
+
     formList.bulid=function(){
         var html='';
         var list=/*[[${list}]]*/'';
@@ -131,6 +155,19 @@
         });
     };
 
+    formList.changeRadioAndCheckBox=function(){
+
+        $("input[type='radio']").click(function(){
+            var isCheck=$(this).prop("checked");
+            $(this).prop("checked",isCheck);
+        });
+        $("input[type='checkbox']").click(function(){
+            var isCheck=$(this).prop("checked");
+            $(this).attr("checked",isCheck);
+        });
+
+    };
+
     formList.save=function(id,content){
 
         $.ajax({
@@ -144,6 +181,7 @@
 
 
     };
+
     /*]]>*/
 </script>
 <!--<script src="../js/form.js"></script>-->

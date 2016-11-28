@@ -2,6 +2,7 @@ package com.huotu.health.boot;
 
 import com.huotu.common.api.OutputHandler;
 import com.huotu.health.common.WebHandlerExceptionResolver;
+import com.huotu.health.interceptor.CommonUserInterceptor;
 import com.huotu.health.service.CustomerIdArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,10 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -37,6 +35,13 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
     private CustomerIdArgumentResolver customerIdArgumentResolver;
 
 
+    @Autowired
+    private CommonUserInterceptor commonUserInterceptor;
+
+    @Bean
+    CommonUserInterceptor commonUserInterceptor() {
+        return new CommonUserInterceptor();
+    }
 
     /**
      * 设置控制器方法参数化输出
@@ -46,6 +51,20 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new OutputHandler());
         argumentResolvers.add(customerIdArgumentResolver);
+    }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        super.addResourceHandlers(registry);
+//        registry.addResourceHandler("/app/**/*", "/**/*.html")
+//                .addResourceLocations("/app/", "/");
+//    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        super.addInterceptors(registry);
+        registry.addInterceptor(commonUserInterceptor)
+                .addPathPatterns("/app/**");
     }
 
 

@@ -16,4 +16,8 @@ public interface MessageRepository extends JpaRepository<Message,Long>,JpaSpecif
 
     List<Message> findByCustomerIdAndTitleLike(Long customerId,String title,Pageable pageable);
 
+    List<Message> findTop20ByCustomerIdOrderByIdDesc(Long customerId);
+
+    List<Message> findTop20ByCustomerIdAndIdLessThanOrderByIdDesc(Long customerId,Long id);
+
 }

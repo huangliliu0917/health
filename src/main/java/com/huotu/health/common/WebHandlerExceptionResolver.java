@@ -21,7 +21,7 @@ public class WebHandlerExceptionResolver implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         String requestURI = request.getRequestURI().substring(request.getContextPath().length());
-        if (requestURI.startsWith("/health/")) {
+        if (requestURI.startsWith("/app/")) {
 
             String message ="";
             try {

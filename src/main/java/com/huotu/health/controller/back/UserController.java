@@ -1,9 +1,12 @@
 package com.huotu.health.controller.back;
 
+import com.huotu.common.base.HttpHelper;
 import com.huotu.health.annotation.CustomerId;
 import com.huotu.health.entity.VipUser;
 import com.huotu.health.repository.UserRepository;
 import com.huotu.health.repository.VipUserRepository;
+import com.huotu.health.service.CommonConfigsService;
+import com.huotu.health.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -11,8 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 模板
@@ -26,6 +35,12 @@ public class UserController {
 
     @Autowired
     private VipUserRepository vipUserRepository;
+
+    @Autowired
+    private SecurityService securityService;
+
+    @Autowired
+    private CommonConfigsService commonConfigsService;
 
     /**
      * 根据商户ID获取模板列表
@@ -69,6 +84,55 @@ public class UserController {
         model.addAttribute("pageNo",pageNo);
         model.addAttribute("userName",userName);
         return "/back/user_list";
+    }
+
+
+    /**
+     * 安全授权返回
+     * 授权成功后，进行passport安全校验，成功后设置cookie
+     *
+     * @param token
+     * @param sign
+     * @param code
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @RequestMapping("/auth")
+    public String auth(String token, String sign, Integer code, String redirectUrl, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        //进行校验
+        if (sign == null || !sign.equals(securityService.getSign(request))) {
+            return "redirect:/html/error";
+        }
+
+
+        if (code == 1) {
+            //进行授权校验
+            //生成sign
+            Map<String, String> map = new HashMap<>();
+            map.put("token", token);
+            String toSign = securityService.getMapSign(map);
+            //生成toUrl
+
+            String toUrl = "";
+            for (String key : map.keySet()) {
+                toUrl += "&" + key + "=" + URLEncoder.encode(map.get(key), "utf-8");
+            }
+
+            toUrl = commonConfigsService.getAuthWebUrl() + "/api/check?" + (toUrl.length() > 0 ? toUrl.substring(1) : "");
+            String responseText = HttpHelper.getRequest(toUrl + "&sign=" + toSign);
+
+
+//            if (JsonPath.read(responseText, "$.resultCode").equals(1)) {
+//                Long userId = Long.parseLong(JsonPath.read(responseText, "$.resultData.data").toString());
+//                userService.setUserId(userId, request, response);
+//                log.debug("get userId and save in cookie");
+//                return "redirect:" + redirectUrl;
+//            }
+        }
+
+        return "redirect:/html/error";
     }
 
 
