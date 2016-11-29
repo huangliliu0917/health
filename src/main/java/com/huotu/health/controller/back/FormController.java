@@ -29,8 +29,9 @@ public class FormController {
      */
     @RequestMapping(value = "/saveForm",method = RequestMethod.POST)
     @ResponseBody
-    public ModelMap saveForm(@RequestParam Long id, @RequestParam String content) throws Exception{
-        formRepository.updateFormContent(content,id);
+    public ModelMap saveForm(@RequestParam Long id, @RequestParam String content,@RequestParam String title) throws Exception{
+
+        formRepository.updateFormContent(content,title,id);
         return new ModelMap();
     }
 

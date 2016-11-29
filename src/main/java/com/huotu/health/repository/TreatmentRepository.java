@@ -18,4 +18,6 @@ public interface TreatmentRepository extends JpaRepository<Treatment,Long>,JpaSp
     List<Treatment> findByCustomerIdAndWxNickNameLike(Long customerId, String name,Pageable pageable);
 
     List<Treatment> findByCustomerId(Long customerId,Pageable pageable);
+
+    List<Treatment> findByCustomerIdAndUserIdOrderByIdDesc(Long customerId,Long userId);
 }

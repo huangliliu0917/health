@@ -24,14 +24,14 @@
 <body>
 <div class="bm">
   <header class='demos-header'>
-      <h3 style="margin:15px;" class="demos-title" th:text="${message.title}">我是标题</h3>
+      <h3 style="margin:15px;" class="demos-title" th:text="${form.title}">我是标题</h3>
     </header>
 <span style="color:#686868; font-size:14px;">
     <img class="bmingyd" src="../img/sj@3x.png"
-         th:text="'&nbsp;'+${message.date}!=null?${#calendars.format(message.date,'yyyy-MM-dd HH:mm:ss')}"/></span>
+         th:text="'&nbsp;'+${form.date}!=null?${#calendars.format(message.date,'yyyy-MM-dd HH:mm:ss')}"/></span>
 <!--<span style="color:#686868; font-size:14px;"><img class="bmingyd" src="../img/ydll@3x.png">&nbsp;2256</span>-->
     <article style="margin-top:10px;" class="weui_article">
-        <section th:utext="${message.content}">
+        <section th:utext="${form.content}">
         <img src="../img/hhhh.jpg" width="100%"/>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,

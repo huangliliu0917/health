@@ -93,15 +93,15 @@
     });
     var edit = function() {
         $("#eg").addClass("no-padding");
-        $(".click2edit").summernote({
+        $(".summernote").summernote({
             lang: "zh-CN",
             focus: true
         })
     };
     var save = function() {
         $("#eg").removeClass("no-padding");
-        var aHTML = $(".click2edit").code();
-        $(".click2edit").destroy()
+        var aHTML = $(".summernote").code();
+        $(".summernote").destroy()
     };
 
     formList.bulid=function(){
@@ -131,8 +131,12 @@
             onFinished: function(event, currentIndex) {
                 var form=$(".step-content:eq("+currentIndex+")");
                 var id=$(".formId",form).text();
+                save();
                 var content=$(".formContent",form).html();
-                formList.save(id,content);
+                var title=$("h2",form).text();
+
+
+                formList.save(id,content,title);
 
             }
 
@@ -168,12 +172,11 @@
 
     };
 
-    formList.save=function(id,content){
-
+    formList.save=function(id,content,title){
         $.ajax({
             type: "POST",
             url: "/back/saveForm",
-            data: {id:id,content:content},
+            data: {id:id,content:content,title:title},
             success: function (result) {
                 layer.msg("保存成功", {icon: 1});
             }

@@ -115,6 +115,9 @@
         var userId=$("input[name='userId']").val();
         var userName=$("input[name='wxNickName']").val();
         var templateGroupId=$("input[name='templateGroupId']").val();
+        if(templateGroupId.length<=0||userId.length<=0||name.length<=0){
+            return;
+        }
         $.ajax({
             type: "POST",
             dataType: 'json',
@@ -144,8 +147,6 @@
                 var group =iframeWin.group.externalCall();
                 $(obj).val(group[0].id);
                 layer.close(index);
-            },
-            end:function(){
             }
         });
     };
@@ -153,7 +154,7 @@
     treatmentEdit.showVipUserList=function(obj){
         var type=layer.open({
             type: 2,
-            title: '选择模板组',
+            title: '选择用户',
             area: ['60%', '70%'],
             btn:['确定选择'],
             content:"/back/showVipUserList",
@@ -164,7 +165,8 @@
                 $("input[name='userId']").val(user[0].id);
                 layer.close(index);
             },
-            end:function(){
+            end:function(index){
+                layer.close(index);
             }
         });
     };

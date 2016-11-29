@@ -108,6 +108,7 @@ public class TreatmentController {
         if(treatment.getCustomerId()==null){
             treatment.setCustomerId(customerId);
         }
+        treatment.setDate(new Date());
         treatment=treatmentRepository.save(treatment);
 
 

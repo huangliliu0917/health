@@ -1,5 +1,14 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<!--
+  ~ 版权所有:杭州火图科技有限公司
+  ~ 地址:浙江省杭州市滨江区西兴街道阡陌路智慧E谷B幢4楼
+  ~
+  ~ (c) Copyright Hangzhou Hot Technology Co., Ltd.
+  ~ Floor 4,Block B,Wisdom E Valley,Qianmo Road,Binjiang District
+  ~ 2013-2016. All rights reserved.
+  -->
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta name="viewport" content="width=device-width,minimum-scale=1,user-scalable=no,maximum-scale=1,initial-scale=1" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -7,26 +16,35 @@
 <meta name="format-detection" content="telephone=no" />
 <meta name="description" content="" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css">
-<link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/weui.min.css">
+<link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/jquery-weui.min.css"/>
+<link rel="stylesheet" type="text/css" href="http://resali.huobanplus.com/cdn/jquery-weui/0.8.2/weui.min.css"/>
 <link rel="stylesheet" type="text/css" href="../css/weui.min-bm-diy.css"/>
 <title>健康管理报告</title>
 </head>
-<body>
+<body onload="treatmentApp.loadList()">
 <div>
     <div class="weui_panel weui_panel_access">
       <div class="weui_panel_bd">
-        <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg weui_panel_ft">
-          <div class="weui_media_bd">
-            <h4 class="weui_media_title">健康状况采集报告</h4>
-            <p class="weui_media_desc">2016-4-1</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>12:12:1</span></p>
-          </div>
-          <span class="weui_cell_ft"></span>
-        </a>
+        <!--<a href="javascript:void(0);" class="weui_media_box weui_media_appmsg weui_panel_ft">-->
+          <!--<div class="weui_media_bd">-->
+            <!--<h4 class="weui_media_title">健康状况采集报告</h4>-->
+            <!--<p class="weui_media_desc">2016-4-1</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>12:12:1</span></p>-->
+          <!--</div>-->
+          <!--<span class="weui_cell_ft"></span>-->
+        <!--</a>-->
                  
       </div>
     </div>
 
 </div>
+
+<script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+  /*<![CDATA[*/
+  var customerId=/*[[${customerId}]]*/ '';
+  /*]]>*/
+</script>
+<script src="../js/app_treatment.js"></script>
 </body>
 </html>

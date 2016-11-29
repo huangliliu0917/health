@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 疗程
@@ -45,6 +46,13 @@ public class Treatment {
      *  模板组
      */
     private Long templateGroupId;
+
+
+    /**
+     * 创建时间
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
 //    /**
 //     * 当前记录的步骤

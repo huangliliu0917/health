@@ -3,14 +3,13 @@ package com.huotu.health.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 /**
+ * 资讯列表model
  * Created by Administrator on 2016/11/17.
  */
 @Getter
 @Setter
-public class TreatmentListModel {
+public class FormAppListModel {
     /**
      * ID
      */
@@ -21,8 +20,4 @@ public class TreatmentListModel {
      */
     private String name;
 
-    /**
-     * 时间
-     */
-    private Date date;
 }

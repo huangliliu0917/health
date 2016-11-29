@@ -2,6 +2,7 @@ package com.huotu.health.controller.back;
 
 import com.huotu.common.base.HttpHelper;
 import com.huotu.health.annotation.CustomerId;
+import com.huotu.health.entity.User;
 import com.huotu.health.entity.VipUser;
 import com.huotu.health.repository.UserRepository;
 import com.huotu.health.repository.VipUserRepository;
@@ -11,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,6 +87,40 @@ public class UserController {
         model.addAttribute("pageNo",pageNo);
         model.addAttribute("userName",userName);
         return "/back/user_list";
+    }
+
+    /**
+     * 操作用户权限
+     * @param userId
+     * @param type  0：降级，1：升级
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/modifyUserLevel")
+    @ResponseBody
+    public ModelMap modifyUserLevel(Long userId,Integer type) throws Exception{
+
+        ModelMap modelMap=new ModelMap();
+        VipUser vipUser=vipUserRepository.findByUser_Id(userId);
+        switch (type){
+            case 0:
+                if(vipUser!=null){
+                    vipUserRepository.delete(vipUser.getId());
+                    modelMap.addAttribute("status",200);
+                }
+                break;
+            case 1:
+                if(vipUser==null){
+                    vipUser=new VipUser();
+                    User user=userRepository.findOne(userId);
+                    vipUser.setUser(user);
+                    vipUser.setMerchantId(user.getMerchantId());
+                    vipUserRepository.save(vipUser);
+                    modelMap.addAttribute("status",200);
+                }
+                break;
+        }
+        return modelMap;
     }
 
 

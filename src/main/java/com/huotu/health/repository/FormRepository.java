@@ -19,10 +19,10 @@ public interface FormRepository extends JpaRepository<Form,Long>,JpaSpecificatio
 
     List<Form> findByTreatment_IdOrderByStep(Long id);
 
-    @Query("update Form as f set f.content=?1 where f.id=?2")
+    @Query("update Form as f set f.content=?1,f.name=?2 where f.id=?3")
     @Modifying
     @Transactional
-    int updateFormContent(String content,Long id);
+    int updateFormContent(String content,String title,Long id);
 
 
 }

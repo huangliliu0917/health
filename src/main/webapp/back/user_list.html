@@ -84,14 +84,14 @@
                                 <td th:text="${l[1]}">母婴营养</td>
                                 <td th:text="${l[2]}!=null?'Vip'">母婴营养</td>
                                 <td>
-                                    <a href="#" th:href="@{/back/modifyTreatment}" class="cursor-point">
+                                    <a href="#" th:onclick="'userList.modifyUserLevel(this,1,'+${l[0]}+')'" class="cursor-point">
                                         <i class="fa fa-plus" data-placement="top" data-toggle="tooltip"
                                            data-original-title="升级">
                                         </i>
                                     </a>
 
 
-                                    <a href="#" th:href="@{/back/showForms}" class="cursor-point">
+                                    <a href="#" th:onclick="'userList.modifyUserLevel(this,0,'+${l[0]}+')'" class="cursor-point">
                                         <i class="fa fa-minus" data-placement="top" data-toggle="tooltip"
                                            data-original-title="降级"></i>
                                     </a>
@@ -131,6 +131,29 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     var userList={};
+
+    userList.modifyUserLevel=function(obj,type,userId){
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: "modifyUserLevel",
+            data: {userId:userId,type:type},
+            success: function (result) {
+                userList.bulidModify(type,obj);
+                layer.msg("修改成功！");
+            }
+        });
+    };
+
+    userList.bulidModify=function(type,obj){
+        var vip=$(obj).parent().parent().children("td")[2];
+        if(type==1){
+            $(vip).text("Vip");
+        }else {
+            $(vip).text("");
+        }
+    };
+
     userList.goToUp=function(){
         var pageNo=parseInt($("input[name='pageNo']").val());
         if(pageNo<=0){

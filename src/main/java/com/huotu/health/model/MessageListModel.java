@@ -3,7 +3,6 @@ package com.huotu.health.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -27,6 +26,16 @@ public class MessageListModel {
      * 标题
      */
     private String title;
+
+    /**
+     * 简介
+     */
+    private String summary;
+
+    /**
+     * 封面图片
+     */
+    private String pictureUrl;
 
     /**
      * 创建时间

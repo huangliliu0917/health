@@ -79,8 +79,10 @@ public class TemplateController {
         if(template.getCustomerId()==null){
             template.setCustomerId(customerId);
         }
-        templateRepository.save(template);
-        return new ModelMap();
+        template=templateRepository.save(template);
+        ModelMap modelMap=new ModelMap();
+        modelMap.addAttribute("id",template.getId());
+        return modelMap;
     }
 
 
