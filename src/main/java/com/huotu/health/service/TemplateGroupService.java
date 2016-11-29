@@ -24,7 +24,7 @@ public interface TemplateGroupService {
      * @param group
      * @throws Exception
      */
-    void saveTemplateGroup(TemplateGroup group) throws Exception;
+    TemplateGroup saveTemplateGroup(TemplateGroup group) throws Exception;
 
     /**
      * 找出该模板组未选择的模板

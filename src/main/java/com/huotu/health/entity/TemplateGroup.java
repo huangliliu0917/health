@@ -36,7 +36,7 @@ public class TemplateGroup {
     /**
      * 模板列表
      */
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Template> templates;
 
 }

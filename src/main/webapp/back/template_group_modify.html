@@ -106,10 +106,11 @@
     <script type="text/javascript" th:inline="javascript">
 
         var templateGroupEdit={};
+        templateGroupEdit.id=$("input[name='groupId']").val();
         templateGroupEdit.save=function(){
 
             var groupName=$("input[name='groupName']").val();
-            var groupId=$("input[name='groupId']").val();
+            var groupId=templateGroupEdit.id;
             var customerId=/*[[${group.customerId}]]*/ '';
 
             var templates=[];
@@ -133,6 +134,7 @@
                 contentType:"application/json",
                 data: JSON.stringify({id:groupId,name:groupName,customerId:customerId,templates:templates}),
                 success: function (result) {
+                    templateGroupEdit.id=result.id;
                     layer.msg("保存成功", {icon: 1});
                 }
 

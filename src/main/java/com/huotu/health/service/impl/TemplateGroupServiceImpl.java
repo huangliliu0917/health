@@ -43,7 +43,7 @@ public class TemplateGroupServiceImpl implements TemplateGroupService {
     }
 
     @Override
-    public void saveTemplateGroup(TemplateGroup group) throws Exception {
+    public TemplateGroup saveTemplateGroup(TemplateGroup group) throws Exception {
         List<Template> templates=new ArrayList<>();
         group.getTemplates().forEach(template -> {
             templates.add(templateRepository.findOne(template.getId()));
@@ -53,7 +53,7 @@ public class TemplateGroupServiceImpl implements TemplateGroupService {
 //            template=templateRepository.findOne(template.getId());
 //        });
         group.setTemplates(templates);
-        templateGroupRepository.save(group);
+        return templateGroupRepository.save(group);
 
     }
 

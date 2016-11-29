@@ -79,8 +79,10 @@ public class TemplateGroupController {
         if(group.getCustomerId()==null){
             group.setCustomerId(customerId);
         }
-        templateGroupService.saveTemplateGroup(group);
-        return new ModelMap();
+        group=templateGroupService.saveTemplateGroup(group);
+        ModelMap modelMap=new ModelMap();
+        modelMap.addAttribute("id",group.getId());
+        return modelMap;
     }
 
 
