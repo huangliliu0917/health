@@ -39,4 +39,10 @@ public class TemplateGroup {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Template> templates;
 
+
+    /**
+     * 是否可用
+     */
+    private boolean enabled = true;
+
 }

@@ -107,10 +107,10 @@ public class AppController {
         ModelMap modelMap=new ModelMap();
         List<Message> messageList=new ArrayList<>();
         if(lastId==null||lastId<=0){
-            messageList=messageRepository.findTop20ByCustomerIdAndEnabledOrderByIdDesc(customerId,true);
+            messageList=messageRepository.findTop20ByCustomerIdAndEnabledAndPutAwayOrderByIdDesc(customerId,true,true);
 
         }else {
-            messageList=messageRepository.findTop20ByCustomerIdAndEnabledAndIdLessThanOrderByIdDesc(customerId,true, lastId);
+            messageList=messageRepository.findTop20ByCustomerIdAndEnabledAndPutAwayAndIdLessThanOrderByIdDesc(customerId,true,true, lastId);
         }
 
         List<MessageListModel> models=messageService.getMessagesModel(messageList);
@@ -136,7 +136,7 @@ public class AppController {
         ModelMap modelMap=new ModelMap();
         Long userId= PublicParameterHolder.get().getUserId();
 
-        List<Treatment> treatments=treatmentRepository.findByCustomerIdAndUserIdOrderByIdDesc(customerId,userId);
+        List<Treatment> treatments=treatmentRepository.findByCustomerIdAndEnabledAndUserIdOrderByIdDesc(customerId,true,userId);
 
         List<TreatmentListModel> models=new ArrayList<>();
 

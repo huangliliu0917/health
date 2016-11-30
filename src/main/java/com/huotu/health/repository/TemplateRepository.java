@@ -14,5 +14,5 @@ import java.util.List;
 @Repository
 public interface TemplateRepository extends JpaRepository<Template,Long>,JpaSpecificationExecutor<Template> {
 
-    List<Template> findByCustomerId(Long customerId);
+    List<Template> findByCustomerIdAndEnabled(Long customerId,boolean enabled);
 }

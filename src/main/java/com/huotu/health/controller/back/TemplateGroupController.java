@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,7 +40,7 @@ public class TemplateGroupController {
     @RequestMapping(value = "/showTemplateGroupList")
     public String showTemplateGroupList(@CustomerId Long customerId, Model model) throws Exception{
 
-        List<TemplateGroup> templateGroups=templateGroupRepository.findByCustomerId(customerId);
+        List<TemplateGroup> templateGroups=templateGroupRepository.findByCustomerIdAndEnabled(customerId,true);
         List<TemplateGroupListModel> models=templateGroupService.convertTemplateGroups(templateGroups);
         model.addAttribute("list",models);
         return "/back/template_group_list";
@@ -83,6 +80,22 @@ public class TemplateGroupController {
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("id",group.getId());
         return modelMap;
+    }
+
+    /**
+     * 删除
+     * @param id    模板组id
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/delTemplateGroup",method = RequestMethod.POST)
+    @ResponseBody
+    public ModelMap delTemplateGroup(@RequestParam Long id) throws Exception{
+
+        TemplateGroup templateGroup=templateGroupRepository.findOne(id);
+        templateGroup.setEnabled(false);
+        templateGroupRepository.save(templateGroup);
+        return new ModelMap();
     }
 
 

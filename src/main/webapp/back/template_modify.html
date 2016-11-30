@@ -52,7 +52,7 @@
 
 <body onload="templateEdit.load()" class="gray-bg">
 <div class="wrapper wrapper-content">
-    <div class="col-sm-4">
+    <div class="col-sm-4" style="position: fixed;left: 0;">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>元素</h5>
@@ -201,7 +201,10 @@
 
 
     </div>
-    <div class="col-sm-8" th:utext="${template.content}"></div>
+
+
+
+    <div class="col-sm-8" th:utext="${template.content}" style="float: right"></div>
 
 </div>
 

@@ -23,6 +23,11 @@ public class MessageListModel {
     private boolean enabled = true;
 
     /**
+     * 是否上架
+     */
+    private boolean putAway;
+
+    /**
      * 标题
      */
     private String title;
@@ -41,4 +46,9 @@ public class MessageListModel {
      * 创建时间
      */
     private Date date;
+
+    /**
+     * 上架时间
+     */
+    private Date putAwayDate;
 }

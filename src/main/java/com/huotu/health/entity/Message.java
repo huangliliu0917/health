@@ -32,6 +32,12 @@ public class Message {
      */
     private boolean enabled = true;
 
+
+    /**
+     * 是否上架
+     */
+    private boolean putAway;
+
     /**
      * 标题
      */
@@ -60,5 +66,11 @@ public class Message {
      */
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+
+    /**
+     * 上架时间
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date putAwayDate;
 
 }

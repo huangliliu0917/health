@@ -54,6 +54,11 @@ public class Treatment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
+    /**
+     * 是否可用
+     */
+    private boolean enabled = true;
+
 //    /**
 //     * 当前记录的步骤
 //     */

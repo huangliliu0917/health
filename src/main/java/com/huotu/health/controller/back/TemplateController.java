@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +32,7 @@ public class TemplateController {
     @RequestMapping(value = "/showTemplateList")
     public String showTemplateList(@CustomerId Long customerId, Model model) throws Exception{
 
-        List<Template> templates=templateRepository.findByCustomerId(customerId);
+        List<Template> templates=templateRepository.findByCustomerIdAndEnabled(customerId,true);
 
         List<TemplateListModel> templateListModels=new ArrayList<>();
 
@@ -83,6 +80,22 @@ public class TemplateController {
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("id",template.getId());
         return modelMap;
+    }
+
+    /**
+     * 删除
+     * @param id    模板id
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/delTemplate",method = RequestMethod.POST)
+    @ResponseBody
+    public ModelMap delTemplate(@RequestParam Long id) throws Exception{
+        Template template=templateRepository.findOne(id);
+        template.setEnabled(false);
+        templateRepository.save(template);
+
+        return new ModelMap();
     }
 
 

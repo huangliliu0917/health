@@ -1,7 +1,7 @@
 package com.huotu.health.service.impl;
 
-import com.huotu.common.base.CookieHelper;
 import com.huotu.common.base.RSAHelper;
+import com.huotu.health.common.CookieHelper;
 import com.huotu.health.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
             return 97278L;//146 4471商户 王明
         } else {
             String encrypt = CookieHelper.get(request, userKey);
+            log.info("encrypt:"+encrypt);
             try {
                 Long userId = Long.parseLong(RSAHelper.decrypt(encrypt, privateKey));
                 if (userId > 0) return userId;
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService {
     public void setUserId(Long userId, HttpServletRequest request, HttpServletResponse response) throws Exception {
         if (userId > 0) {
             String encrypt = RSAHelper.encrypt(userId.toString(), publicKey);
+
             CookieHelper.set(response, userKey, encrypt, request.getServerName(), 60 * 60 * 24 * 365);
 //            CookieHelper.set(response, userKey, userId.toString(), request.getServerName(), 60 * 60 * 24 * 365);
         }

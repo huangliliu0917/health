@@ -54,9 +54,9 @@ public class TreatmentController {
         List<Treatment> treatments;
 
         if(StringUtils.isEmpty(userName)){
-            treatments=treatmentRepository.findByCustomerId(customerId,new PageRequest(pageNo,20));
+            treatments=treatmentRepository.findByCustomerIdAndEnabled(customerId,true,new PageRequest(pageNo,20));
         }else {
-            treatments=treatmentRepository.findByCustomerIdAndWxNickNameLike(customerId,"%"+userName+"%",new PageRequest(pageNo,20));
+            treatments=treatmentRepository.findByCustomerIdAndEnabledAndWxNickNameLike(customerId,true,"%"+userName+"%",new PageRequest(pageNo,20));
         }
         model.addAttribute("list",treatments);
         model.addAttribute("pageNo",pageNo);
@@ -130,6 +130,16 @@ public class TreatmentController {
             forms.add(form);
         }
         formRepository.save(forms);
+        return new ModelMap();
+    }
+
+    @RequestMapping(value = "/delTreatment",method = RequestMethod.POST)
+    @ResponseBody
+    public ModelMap delTreatment(@RequestParam Long id) throws Exception{
+
+        Treatment treatment=treatmentRepository.findOne(id);
+        treatment.setEnabled(false);
+        treatmentRepository.save(treatment);
         return new ModelMap();
     }
 

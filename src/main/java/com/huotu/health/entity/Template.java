@@ -38,4 +38,9 @@ public class Template {
      */
     @Lob
     private String content;
+
+    /**
+     * 是否可用
+     */
+    private boolean enabled = true;
 }

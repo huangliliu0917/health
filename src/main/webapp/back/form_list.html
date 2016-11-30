@@ -111,7 +111,7 @@
             var form=list[i];
             html='<h1>'+form.name+'</h1>' +
                     '<div class="step-content">' +
-                    '<div class="text-center"><h2>'+form.name+'</h2> <span style="display: none" class="formId">'+form.id+'</span> </div>' +
+                    '<div class="text-center" style="text-align: center"><h2><input style="margin-left: 50%;" type="text" name="formName" value="'+form.name+'"/></h2> <span style="display: none" class="formId">'+form.id+'</span> </div>' +
                     '<div class="formContent">'+form.content+'</div></div>';
             $("#wizard").append(html);
         }
@@ -133,7 +133,7 @@
                 var id=$(".formId",form).text();
                 save();
                 var content=$(".formContent",form).html();
-                var title=$("h2",form).text();
+                var title=$("input[name='formName']",form).val();
 
 
                 formList.save(id,content,title);

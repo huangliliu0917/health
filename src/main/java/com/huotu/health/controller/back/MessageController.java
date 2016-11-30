@@ -20,10 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,9 +56,9 @@ public class MessageController {
         List<Message> messages;
 
         if(StringUtils.isEmpty(title)){
-            messages=messageRepository.findByCustomerId(customerId,new PageRequest(pageNo,20));
+            messages=messageRepository.findByCustomerIdAndEnabled(customerId,true,new PageRequest(pageNo,20));
         }else {
-            messages=messageRepository.findByCustomerIdAndTitleLike(customerId,"%"+title+"%",new PageRequest(pageNo,20));
+            messages=messageRepository.findByCustomerIdAndEnabledAndTitleLike(customerId,true,"%"+title+"%",new PageRequest(pageNo,20));
         }
         List<MessageListModel> models=messageService.getMessagesModel(messages);
         model.addAttribute("list",models);
@@ -88,6 +87,38 @@ public class MessageController {
         messageRepository.save(message);
         return new ModelMap();
 
+    }
+
+    @RequestMapping(value = "/delMessage",method = RequestMethod.POST)
+    @ResponseBody
+    public ModelMap  delMessage(@RequestParam Long id) throws Exception{
+
+        Message message=messageRepository.findOne(id);
+        message.setEnabled(false);
+        messageRepository.save(message);
+        return new ModelMap();
+    }
+
+    /**
+     * 上下架
+     * @param id
+     * @param putAway
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/putAwayMessage",method = RequestMethod.POST)
+    @ResponseBody
+    public ModelMap  putAwayMessage(@RequestParam Long id,@RequestParam Boolean putAway) throws Exception{
+        Message message=messageRepository.findOne(id);
+
+        message.setPutAway(putAway);
+        if(!putAway){
+            message.setPutAwayDate(null);
+        }else {
+            message.setPutAwayDate(new Date());
+        }
+        messageRepository.save(message);
+        return new ModelMap();
     }
 
 }

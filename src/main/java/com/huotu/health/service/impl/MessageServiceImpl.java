@@ -20,11 +20,13 @@ public class MessageServiceImpl implements MessageService {
         messages.forEach(message -> {
             MessageListModel model=new MessageListModel();
             model.setId(message.getId());
+            model.setPutAway(message.isPutAway());
             model.setSummary(message.getSummary());
             model.setPictureUrl(message.getPictureUrl());
             model.setTitle(message.getTitle());
             model.setEnabled(message.isEnabled());
             model.setDate(message.getDate());
+            model.setPutAwayDate(message.getPutAwayDate());
             models.add(model);
         });
         return models;

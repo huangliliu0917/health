@@ -101,6 +101,11 @@
                                         <i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip"
                                            data-original-title="查看"></i>
                                     </a>
+                                    <a href="#" th:onclick="'treatmentList.del(this,'+${l.id}+')'" class="cursor-point">
+                                        <i class="fa fa-trash tooltips" data-placement="top" data-toggle="tooltip"
+                                           data-original-title="删除">
+                                        </i>
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
@@ -143,116 +148,29 @@
 
     var treatmentList={};
 
+    treatmentList.del=function(obj,id){
+        layer.confirm('确定删除吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "delTreatment",
+                data: {id:id},
+                success: function (result) {
+                    layer.msg("删除成功");
+                    $(obj).parent().parent().hide();
+                },
+                error:function(e){
+                    layer.msg("删除失败");
+                }
+            });
+        });
 
 
+    };
 
-//    treatmentList.searchModel={};
-//
-//    treatmentList.load=function(){
-//        treatmentList.templateModel=$("#treatmentList tr").eq(1).clone();
-//        treatmentList.templateModel.show();
-//        treatmentList.searchModel.pageNo=0;
-//        treatmentList.searchModel.ascOrdesc=0;
-//        treatmentList.searchModel.pageSize=10;
-//        treatmentList.searchModel.sortField="";
-//        treatmentList.searchAll();
-//    };
-//    //搜索
-//    treatmentList.search=function(){
-//        treatmentList.searchModel.templateName=$("#templateName").val();
-//        treatmentList.searchModel.suggested=$("#suggested").val();
-//        treatmentList.searchAjax(treatmentList.searchModel);
-//    };
-//
-//    treatmentList.searchAjax=function(searchModel){
-//        var ld=layer.load(5, {shade: false});
-//        $.ajax({
-//            type:'POST',
-//            url: '/back/showTreatmentList',
-//            dataType: 'json',
-//            contentType:"application/json",
-//            data: JSON.stringify(searchModel),
-//            success:function(result){
-//                layer.close(ld);
-//                circleList.total=result.total;
-//                circleList.totalPage=result.totalPage;
-//
-//
-//                circleList.buildCircleList(result.data);
-//
-//                circleList.setPageNoAndSize(circleList.searchModel.pageNo,
-//                        circleList.searchModel.pageSize,circleList.total,circleList.totalPage);
-//
-//
-//            },
-//            error:function(e){
-//                layer.close(ld);
-//                layer.msg("获取圈子信息出错！");
-//            }
-//        });
-//    };
-//
-//
-//    treatmentList.buildTreatmentList=function(list){
-//        var tbody=$("#treatmentList tbody");
-//        $(tbody).children("tr").remove();
-//        for(var i=0;i<list.length;i++){
-//            var model=treatmentList.templateModel.clone();
-//            var val=list[i];
-//            $(model).children("td").eq(1).text(val.templateId);
-//            $(model).children("td").eq(2).text(val.templateName);
-//            $(model).children("td").eq(3).children("img").attr("src",val.pictureUrl);
-//            $(model).children("td").eq(4).text(val.categoryName);
-//            $(model).children("td").eq(5).text(val.leaderName);
-//            $(model).children("td").eq(6).text(val.createDate);
-//            $(model).children("td").eq(7).text(val.suggested?'热门':'普通');
-//            $(model).children("td").eq(8).text(val.userAmount);
-//            $(model).children("td").eq(9).text(val.articleAmount);
-//            $(model).children("td").eq(10).children("a").eq(0).attr("href","/top/template/editTreatment?id="+val.templateId);
-//            $(tbody).append(model);
-//        }
-//    };
-//
-//    treatmentList.setPageNoAndSize=function(pageNo,pageSize,total,totalPage){
-//        $("#DataTables_Table_0_info").text("显示 "+(pageNo*pageSize+1)+" 到 "+(pageNo+1)*pageSize+" 项，共 "+total+" 项");
-//
-//        var showPageNo=treatmentList.searchModel.pageNo-2;
-//        if(showPageNo<1){
-//            showPageNo=1;
-//        }
-//        var lis=$(".pagination li");
-//        lis.show();
-//        lis.attr("class","paginate_button");
-//        $(lis).each(function(index,val){
-//            if(index>1&&index<=9){
-//                $(val).children("a").text(showPageNo);
-//                if(treatmentList.searchModel.pageNo==showPageNo-1){
-//                    $(val).attr("class","paginate_button active");
-//                }
-//                if(showPageNo>totalPage){
-//                    $(val).hide();
-//                }
-//                showPageNo++;
-//            }
-//        });
-//
-//    };
-//    //默认搜索
-//    treatmentList.searchAll=function(){
-//        $("#templateName").val("");
-//        $("#suggested").val(-1);
-//        $("#category").val(-1);
-//        treatmentList.goTo(0);
-//    };
-//
-//    treatmentList.searchCondition=function(){
-//        treatmentList.goTo(0);
-//    };
-//
-//    treatmentList.goTo=function(pageNo){
-//        treatmentList.searchModel.pageNo=pageNo;
-//        treatmentList.search();
-//    };
+
 //
     treatmentList.goToUp=function(){
         var pageNo=parseInt($("input[name='pageNo']").val());

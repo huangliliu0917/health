@@ -80,6 +80,11 @@
                                            data-original-title="编辑">
                                         </i>
                                     </a>
+                                    <a href="#" th:onclick="'templateList.del(this,'+${l.id}+')'" class="cursor-point">
+                                        <i class="fa fa-trash tooltips" data-placement="top" data-toggle="tooltip"
+                                           data-original-title="删除">
+                                        </i>
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
@@ -101,7 +106,30 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
 
+    var templateList={};
 
+    templateList.del=function(obj,id){
+
+        layer.confirm('确定删除吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "delTemplate",
+                data: {id:id},
+                success: function (result) {
+                    layer.msg("删除成功");
+                    $(obj).parent().parent().hide();
+                },
+                error:function(e){
+                    layer.msg("删除失败");
+                }
+            });
+        });
+
+
+    };
 
     templateList.checkBoxClick=function(obj){
         var name=$(obj).attr("name");

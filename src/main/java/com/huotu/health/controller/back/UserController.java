@@ -8,6 +8,10 @@ import com.huotu.health.repository.UserRepository;
 import com.huotu.health.repository.VipUserRepository;
 import com.huotu.health.service.CommonConfigsService;
 import com.huotu.health.service.SecurityService;
+import com.huotu.health.service.UserService;
+import com.jayway.jsonpath.JsonPath;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -33,6 +37,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/back")
 public class UserController {
+    private static Log log = LogFactory.getLog(UserController.class);
     @Autowired
     private UserRepository userRepository;
 
@@ -44,6 +49,9 @@ public class UserController {
 
     @Autowired
     private CommonConfigsService commonConfigsService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 根据商户ID获取模板列表
@@ -135,11 +143,12 @@ public class UserController {
      * @throws UnsupportedEncodingException
      */
     @RequestMapping("/auth")
-    public String auth(String token, String sign, Integer code, String redirectUrl, HttpServletRequest request, HttpServletResponse response)
+    public String auth(String token, String sign, Integer code, String redirectUrl, HttpServletRequest request, HttpServletResponse response,Model model)
             throws Exception {
 
         //进行校验
         if (sign == null || !sign.equals(securityService.getSign(request))) {
+            model.addAttribute("errorMessage","授权验证失败");
             return "redirect:/html/error";
         }
 
@@ -161,14 +170,16 @@ public class UserController {
             String responseText = HttpHelper.getRequest(toUrl + "&sign=" + toSign);
 
 
-//            if (JsonPath.read(responseText, "$.resultCode").equals(1)) {
-//                Long userId = Long.parseLong(JsonPath.read(responseText, "$.resultData.data").toString());
-//                userService.setUserId(userId, request, response);
-//                log.debug("get userId and save in cookie");
-//                return "redirect:" + redirectUrl;
-//            }
+            if (JsonPath.read(responseText, "$.resultCode").equals(1)) {
+                Long userId = Long.parseLong(JsonPath.read(responseText, "$.resultData.data").toString());
+                log.info("get userId"+userId);
+                userService.setUserId(userId, request, response);
+                log.info("get userId and save in cookie");
+                log.info("redirecturl:"+redirectUrl);
+                return "redirect:" + redirectUrl;
+            }
         }
-
+        model.addAttribute("errorMessage","授权失败");
         return "redirect:/html/error";
     }
 

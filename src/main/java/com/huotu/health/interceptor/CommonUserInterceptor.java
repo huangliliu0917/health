@@ -96,6 +96,8 @@ public class CommonUserInterceptor implements HandlerInterceptor {
 
                     }
 
+                    log.info("userId:"+userId+",mainUserId:"+paramUserId);
+
                     //进行单点登录
                     if (toSSO) {
                         //                log.info(userId);
@@ -105,6 +107,7 @@ public class CommonUserInterceptor implements HandlerInterceptor {
                         //todo customerId为空
                         String redirectUrl = commonConfigService.getWebUrl() + "/back/auth?redirectUrl=" + URLEncoder.encode(request.getRequestURL()
                                 + (StringUtils.isEmpty(request.getQueryString()) ? "" : "?" + request.getQueryString()), "utf-8");
+                        log.info("redirectUrl:"+redirectUrl);
 
                         //生成sign
                         Map<String, String> map = new HashMap<>();
@@ -113,6 +116,9 @@ public class CommonUserInterceptor implements HandlerInterceptor {
                         map.put("forceRefresh", forceRefresh);
                         String sign = securityService.getMapSign(map);
 
+                        log.info("map:"+map.toString());
+                        log.info("sign:"+sign);
+
                         //生成toUrl
                         String toUrl = "";
                         for (String key : map.keySet()) {
@@ -120,7 +126,7 @@ public class CommonUserInterceptor implements HandlerInterceptor {
                         }
                         toUrl = commonConfigService.getAuthWebUrl() + "/api/login?" + (toUrl.length() > 0 ? toUrl.substring(1) : "");
 
-//                log.info("interceptor " + toUrl + " " + sign);
+                        log.info("interceptor " + toUrl + " " + sign);
 
                         response.sendRedirect(toUrl + "&sign=" + sign);
                         return false;
