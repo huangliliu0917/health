@@ -120,6 +120,23 @@ public class AppController {
     }
 
 
+    /**
+     * 置顶文章
+     * @param customerId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/showStickMessageList")
+    @ResponseBody
+    public ModelMap showStickMessageList(@RequestParam Long customerId) throws Exception{
+        ModelMap modelMap=new ModelMap();
+        List<Message> messageList=messageRepository.findByCustomerIdAndEnabledAndPutAwayAndStickOrderByIdDesc(customerId,true,true,true);
+        List<MessageListModel> models=messageService.getMessagesModel(messageList);
+        modelMap.addAttribute("list",models);
+        return modelMap;
+    }
+
+
     @RequestMapping("/showMessage")
     public String showMessage(@RequestParam Long id, Long customerId, Model model)throws Exception{
 

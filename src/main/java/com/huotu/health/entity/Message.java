@@ -39,6 +39,11 @@ public class Message {
     private boolean putAway;
 
     /**
+     * 是否置顶
+     */
+    private boolean stick;
+
+    /**
      * 标题
      */
     private String title;

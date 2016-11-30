@@ -28,6 +28,11 @@ public class MessageListModel {
     private boolean putAway;
 
     /**
+     * 是否置顶
+     */
+    private boolean stick;
+
+    /**
      * 标题
      */
     private String title;
@@ -51,4 +56,9 @@ public class MessageListModel {
      * 上架时间
      */
     private Date putAwayDate;
+
+    /**
+     * 上架时间格式化
+     */
+    private String  putAwayDateFormat;
 }

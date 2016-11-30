@@ -83,6 +83,7 @@
                                 <th>资讯标题</th>
                                 <th>创建时间</th>
                                 <th>上架时间</th>
+                                <th>是否置顶</th>
                                 <th>状态</th>
                                 <th>操作</th>
                             </tr>
@@ -93,30 +94,55 @@
                                 <td th:text="${l.title}">111</td>
                                 <td th:text="${l.date}!=null?${#calendars.format(l.date,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${l.putAwayDate}!=null?${#calendars.format(l.putAwayDate,'yyyy-MM-dd HH:mm:ss')}"></td>
-                                <td th:text="${l.putAway}?'上架':'下架'">上架</td>
+                                <td th:text="${l.stick}?'置顶'">置顶</td>
+                                <td th:text="${l.putAway}?'发布':'下架'">上架</td>
                                 <td>
                                     <a href="#" th:href="@{/back/modifyMessage(id=${l.id})}" class="cursor-point">
-                                        <i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip"
-                                           data-original-title="编辑">
-                                        </i>
+                                        编辑
+                                        <!--<i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip"-->
+                                           <!--data-original-title="编辑">-->
+                                        <!--</i>-->
                                     </a>
                                     <a th:if="!${l.putAway}" href="#"
                                        th:onclick="'messageList.modifyPutAway(this,'+${l.id}+',true)'" class="cursor-point">
-                                        <i class="fa fa-chevron-up" data-placement="top" data-toggle="tooltip"
-                                           data-original-title="上架">
-                                        </i>
+                                        发布
+                                        <!--<i class="fa fa-chevron-up" data-placement="top" data-toggle="tooltip"-->
+                                           <!--data-original-title="上架">-->
+                                        <!--</i>-->
                                     </a>
 
                                     <a th:if="${l.putAway}" href="#"
                                        th:onclick="'messageList.modifyPutAway(this,'+${l.id}+',false)'" class="cursor-point">
-                                        <i class="fa fa-chevron-down" data-placement="top" data-toggle="tooltip"
-                                           data-original-title="下架">
-                                        </i>
+                                        下架
+                                        <!--<i class="fa fa-chevron-down" data-placement="top" data-toggle="tooltip"-->
+                                           <!--data-original-title="下架">-->
+                                        <!--</i>-->
                                     </a>
+
+
+                                    <a th:if="!${l.stick}" href="#"
+                                       th:onclick="'messageList.stickMessage(this,'+${l.id}+',true)'" class="cursor-point">
+                                        置顶
+                                        <!--<i class="fa fa-chevron-up" data-placement="top" data-toggle="tooltip"-->
+                                           <!--data-original-title="置顶">-->
+                                        <!--</i>-->
+                                    </a>
+
+                                    <a th:if="${l.stick}" href="#"
+                                       th:onclick="'messageList.stickMessage(this,'+${l.id}+',false)'" class="cursor-point">
+                                        取消置顶
+                                        <!--<i class="fa fa-chevron-down" data-placement="top" data-toggle="tooltip"-->
+                                           <!--data-original-title="取消置顶">-->
+                                        <!--</i>-->
+                                    </a>
+
+
+
                                     <a href="#" th:onclick="'messageList.del(this,'+${l.id}+')'" class="cursor-point">
-                                        <i class="fa fa-trash tooltips" data-placement="top" data-toggle="tooltip"
-                                           data-original-title="删除">
-                                        </i>
+                                        删除
+                                        <!--<i class="fa fa-trash tooltips" data-placement="top" data-toggle="tooltip"-->
+                                           <!--data-original-title="删除">-->
+                                        <!--</i>-->
                                     </a>
                                 </td>
                             </tr>
@@ -197,8 +223,25 @@
                 layer.msg("操作失败");
             }
         });
-
     };
+
+    messageList.stickMessage=function(obj,id,stick){
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "stickMessage",
+            data: {id:id,stick:stick},
+            success: function (result) {
+                layer.msg("操作成功");
+                messageList.buildStick(obj,stick,id)
+            },
+            error:function(e){
+                layer.msg("操作失败");
+            }
+        });
+    };
+
+
 
     // 对Date的扩展，将 Date 转化为指定格式的String
     // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
@@ -225,26 +268,51 @@
 
     messageList.buildPutAway=function(obj,putAway,id){
         var putAwayTime=$(obj).parent().parent().children("td")[3];
-        var type=$(obj).parent().parent().children("td")[4];
+        var type=$(obj).parent().parent().children("td")[5];
 
         if(putAway){
             var upTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
             $(putAwayTime).text(upTime);
-            $(type).text("上架");
+            $(type).text("发布");
+            $(obj).text("下架");
 
-            $("i",obj).attr("class","fa fa-chevron-down");
+//            $("i",obj).attr("class","fa fa-chevron-down");
 
-            $("i",obj).attr("data-original-title","下架");
+//            $("i",obj).attr("data-original-title","下架");
 
             $(obj).attr("onclick","messageList.modifyPutAway(this,id,false)");
         }else {
             $(putAwayTime).text("");
             $(type).text("下架");
-            $("i",obj).attr("class","fa fa-chevron-up");
-            $("i",obj).attr("data-original-title","上架");
+
+            $(obj).text("发布");
+//            $("i",obj).attr("class","fa fa-chevron-up");
+//            $("i",obj).attr("data-original-title","上架");
 
         }
         $(obj).attr("onclick","messageList.modifyPutAway(this,"+id+","+!putAway+")");
+    };
+
+
+    messageList.buildStick=function(obj,stick,id){
+        var stickTd=$(obj).parent().parent().children("td")[4];
+
+        if(stick){
+            $(stickTd).text("置顶");
+            $(obj).text("取消置顶");
+//            $("i",obj).attr("class","fa fa-chevron-down");
+
+//            $("i",obj).attr("data-original-title","取消置顶");
+
+            $(obj).attr("onclick","messageList.stickMessage(this,id,false)");
+        }else {
+            $(stickTd).text("");
+            $(obj).text("置顶");
+//            $("i",obj).attr("class","fa fa-chevron-up");
+//            $("i",obj).attr("data-original-title","置顶");
+
+        }
+        $(obj).attr("onclick","messageList.stickMessage(this,"+id+","+!stick+")");
     };
 
 

@@ -12,11 +12,15 @@ import java.util.List;
  * Created by slt on 2016/11/22.
  */
 public interface MessageRepository extends JpaRepository<Message,Long>,JpaSpecificationExecutor<Message> {
+
+
     List<Message> findByCustomerIdAndEnabled(Long customerId,boolean enabled, Pageable pageable);
 
     List<Message> findByCustomerIdAndEnabledAndTitleLike(Long customerId,boolean enabled,String title,Pageable pageable);
 
     List<Message> findTop20ByCustomerIdAndEnabledAndPutAwayOrderByIdDesc(Long customerId,boolean enabled,boolean putaway);
+
+    List<Message> findByCustomerIdAndEnabledAndPutAwayAndStickOrderByIdDesc(Long customerId,boolean enabled,boolean putaway,boolean stick);
 
     List<Message> findTop20ByCustomerIdAndEnabledAndPutAwayAndIdLessThanOrderByIdDesc(Long customerId,boolean enabled,boolean putaway,Long id);
 

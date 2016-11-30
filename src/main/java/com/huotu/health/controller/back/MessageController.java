@@ -83,6 +83,9 @@ public class MessageController {
     @RequestMapping(value = "/saveMessage")
     @ResponseBody
     public ModelMap  saveMessage(@RequestBody Message message) throws Exception{
+        if(message.isPutAway()){
+            message.setPutAwayDate(new Date());
+        }
 
         messageRepository.save(message);
         return new ModelMap();
@@ -117,6 +120,26 @@ public class MessageController {
         }else {
             message.setPutAwayDate(new Date());
         }
+        messageRepository.save(message);
+        return new ModelMap();
+    }
+
+
+
+    /**
+     * 置顶
+     * @param id
+     * @param stick
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/stickMessage",method = RequestMethod.POST)
+    @ResponseBody
+    public ModelMap  stickMessage(@RequestParam Long id,@RequestParam Boolean stick) throws Exception{
+        Message message=messageRepository.findOne(id);
+
+        message.setStick(stick);
+
         messageRepository.save(message);
         return new ModelMap();
     }

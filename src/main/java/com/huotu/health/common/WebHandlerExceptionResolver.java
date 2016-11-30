@@ -37,6 +37,12 @@ public class WebHandlerExceptionResolver implements HandlerExceptionResolver {
                 e.printStackTrace();
             }
 
+        }else {
+            try {
+                throw ex;
+            } catch (Exception e) {
+                log.error("web request error", e);
+            }
         }
         return null;
     }

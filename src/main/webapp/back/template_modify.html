@@ -94,28 +94,29 @@
                             </div>
                         </div>
                     </div>
+                    <div class="hr-line-dashed"></div>
 
 
                     <div class="form-group draggable">
                         <label class="col-sm-2 control-label"><span>表格：</span></label>
                         <div class="col-sm-10">
                             <table class="table table-bordered">
-                            <thead class=" sortable">
+                            <thead>
                             <tr>
                             <th>#</th>
                             <th>姓名</th>
                             <th>性别</th>
                             <th>年龄</th>
-                            <th class="draggable">年龄</th>
+                            <th>年龄</th>
                             </tr>
                             </thead>
-                            <tbody class=" sortable">
+                            <tbody class="sortable">
                             <tr class="draggable">
                             <td>1</td>
                             <td>张三</td>
                             <td>男</td>
                             <td>23</td>
-                            <td class="draggable">23</td>
+                            <td>23</td>
                             </tr>
                             <tr class="draggable">
                             <td>2</td>
@@ -130,32 +131,6 @@
                         </div>
                     </div>
 
-                    <!--<div class="form-group">-->
-                        <!--<label class="col-sm-2 control-label"><span>列：</span></label>-->
-                        <!--<div class="col-sm-10">-->
-                            <!--<table>-->
-                                <!--<tr class="draggable">-->
-                                    <!--<th class="draggable">123456</th>-->
-                                <!--</tr>-->
-                            <!--</table>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<div class="form-group">-->
-                        <!--<label class="col-sm-2 control-label"><span>行：</span></label>-->
-                        <!--<div class="col-sm-10">-->
-                            <!--<table>-->
-                                <!--<tr class="draggable">-->
-                                    <!--<td>123456</td>-->
-                                    <!--<td>123456</td>-->
-                                    <!--<td>123456</td>-->
-                                    <!--<td>123456</td>-->
-                                    <!--<td>123456</td>-->
-                                <!--</tr>-->
-                            <!--</table>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
                     <div class="hr-line-dashed"></div>
                     <div class="form-group draggable">
                         <label class="col-sm-2 control-label"><span>纯文本：</span></label>
@@ -164,25 +139,14 @@
                         </div>
                     </div>
 
-                    <!--<div class="hr-line-dashed"></div>-->
-                    <!--<div class="form-group draggable">-->
-                        <!--<label class="col-sm-2 control-label"><span>单选框：</span></label>-->
-                        <!--<div class="col-sm-10 sortable">-->
-                            <!--<label class="radio-inline">-->
-                                <!--<input name="sex" type="radio" value="option1"/><span>选项1</span>-->
-                            <!--</label>-->
-                            <!--<label class="radio-inline draggable">-->
-                                <!--<input name="sex" type="radio" value="option2"/><span>选项2</span></label>-->
-                        <!--</div>-->
-                    <!--</div>-->
                     <div class="hr-line-dashed"></div>
 
                     <div class="form-group draggable">
                         <label class="col-sm-2 control-label"><span>复选框：</span></label>
                         <div class="col-sm-10 sortable">
-                            <label class="checkbox-inline">
+                            <label class="checkbox-inline draggable">
                                 <input type="checkbox" value="option1" id="inlineCheckbox1"/>&nbsp;<span>选项1</span></label>
-                            <label class="checkbox-inline">
+                            <label class="checkbox-inline draggable">
                                 <input type="checkbox" value="option2" id="inlineCheckbox2"/>&nbsp;<span>选项2</span></label>
                             <label class="checkbox-inline draggable">
                                 <input type="checkbox" value="option3" id="inlineCheckbox3"/>&nbsp;<span>选项3</span></label>
@@ -206,6 +170,18 @@
 
     <div class="col-sm-8" th:utext="${template.content}" style="float: right"></div>
 
+    <div id="tableSet" class="form-group" style="display: none">
+        <label class="col-sm-3 control-label">列数：</label>
+        <div class="col-sm-9">
+            <input  type="text" name="col" class="form-control" placeholder="请输入列数"/>
+        </div>
+
+        <label class="col-sm-3 control-label">行数：</label>
+        <div class="col-sm-9">
+            <input  type="text" name="row" class="form-control" placeholder="请输入行数"/>
+        </div>
+    </div>
+
 </div>
 
 <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
@@ -225,13 +201,15 @@
 
     templateEdit.load=function(){
         templateEdit.bindTitle();
-        templateEdit.bindTitleSave();
+//        templateEdit.bindTitleSave();
         templateEdit.bindTable();
-        templateEdit.bindTableSave();
+//        templateEdit.bindTableSave();
         templateEdit.delDiv();
         templateEdit.delRadioAndCheckBox();
-        templateEdit.delTable();
+//        templateEdit.delTable();
         templateEdit.setup_draggable();
+        templateEdit.saveContent();
+        templateEdit.stay();
 
     };
 
@@ -252,7 +230,7 @@
             var title=$(this).text();
             var size=title.length+10;
             if(title.length>30){
-                $(this).replaceWith('<textarea style="width: '+size*5+'px"  name="edit" type="text">'+title+'</textarea>');
+                $(this).replaceWith('<textarea style="width: '+size*5+'px"  name="edit">'+title+'</textarea>');
             }
             else {
                 $(this).replaceWith('<input size="'+size+'" name="edit" type="text" value="'+title+'"/>');
@@ -275,25 +253,44 @@
 
     templateEdit.delRadioAndCheckBox=function(){
         $(".col-sm-8").on("dblclick",".checkbox-inline", function(event) {
-            $(this).remove();
+            var $obj=$(this);
+            layer.confirm('确定删除吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(index){
+                $obj.remove();
+                layer.close(index);
+            });
+
             event.stopPropagation();
         });
 
-        $(".col-sm-8").on("dblclick",".radio-inline", function(event) {
-            $(this).remove();
-            event.stopPropagation();
-        });
+//        $(".col-sm-8").on("dblclick",".radio-inline", function(event) {
+//            $(this).remove();
+//            event.stopPropagation();
+//        });
 
     };
 
     templateEdit.delTable=function(){
         $(".col-sm-8").on("dblclick","th", function(event) {
-            $(this).remove();
+            var $obj=$(this);
+            layer.confirm('确定删除吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(index){
+                $obj.remove();
+                layer.close(index);
+            });
             event.stopPropagation();
         });
 
         $(".col-sm-8").on("dblclick","td", function(event) {
-            $(this).remove();
+            var $obj=$(this);
+            layer.confirm('确定删除吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(index){
+                $obj.remove();
+                layer.close(index);
+            });
             event.stopPropagation();
         });
 
@@ -301,7 +298,13 @@
 
     templateEdit.delDiv=function(){
         $(".col-sm-8").on("dblclick",".form-group", function() {
-            $(this).remove();
+            var $obj=$(this);
+            layer.confirm('确定删除吗？', {
+                btn: ['确定','取消'] //按钮
+            }, function(index){
+                $obj.remove();
+                layer.close(index);
+            });
 
             //do something here
         });
@@ -328,6 +331,20 @@
         });
     };
 
+    templateEdit.stay=function(){
+        $(document).on("click","[name='editTable']",function(event){
+            event.stopPropagation();
+        });
+
+        $(document).on("click","[name='edit']",function(event){
+            event.stopPropagation();
+        });
+
+        $(document).on("click","input[type='checkbox']",function(event){
+            event.stopPropagation();
+        });
+
+    };
 
 
     templateEdit.bindTableSave=function(){
@@ -344,15 +361,20 @@
     };
 
 
-    templateEdit.setTableColRow=function(){
+    templateEdit.showTableColRow=function(table){
         var type=layer.open({
             type: 1,
             title: '设置表格',
             area: ['20%', '20%'],
             btn:['确定选择'],
-            content:"",
+            content:$("#tableSet"),
             yes: function(index, layero){
                 //获取行列数量
+                var col=$("input[name='col']").val();
+                var row=$("input[name='row']").val();
+                templateEdit.setColRow(table,col,row);
+
+
                 layer.close(index);
             },
             end:function(){
@@ -360,8 +382,24 @@
         });
     };
 
-    templateEdit.setRadioAndCheckBox=function(){};
+    templateEdit.setColRow=function(table,col,row){
+        var thead='<tr>';
+        for(var i=0;i<col;i++){
+            thead=thead+'<th>选项'+(i+1)+'</th>';
+        }
+        thead=thead+'</tr>';
+        $("thead",table).append(thead);
 
+        var tbody='<tr>';
+        for(var i=0;i<col;i++){
+            tbody=tbody+'<td>选项'+(i+1)+'</td>';
+        }
+        tbody=tbody+'</tr>';
+
+        for(var i=0;i<row-1;i++){
+            $("tbody",table).append(tbody);
+        }
+    };
 
     templateEdit.setup_draggable = function() {
         $(".sortable",".col-sm-8").sortable({
@@ -376,17 +414,21 @@
         });
         $(".droppable").droppable({
             drop:function(event,ui){
-//                var isMove=console.log($(ui.draggable).hasClass("ui-sortable-helper"));//true在移动，false添加
-//
-//                if(!isMove){
-//                    var orig=$(ui.draggable);
-//                    if($("table",orig).length>0){
-//                        var tr='';
-//                        $("table tbody",orig).append(tr);
-//                        layer.msg("请输入行列数");
-//                    }
-//                }
 
+                var orig=$(ui.draggable);
+                if($("table",orig).length>0){
+                    var isMove=$(ui.draggable).hasClass("hasTable");//true在移动，false添加
+
+                    if(!isMove){//添加
+                        $(ui.draggable).addClass("hasTable");
+                        var table=$("table",orig);
+                        $("thead",table).empty();
+                        $("tbody",table).empty();
+
+                        templateEdit.showTableColRow(table);
+                    }
+
+                }
 
                 $(".sortable",this).sortable();
             }
@@ -425,6 +467,25 @@
 
 
 
+
+    };
+
+
+    templateEdit.saveContent=function(){
+        $(document).on("click",".col-sm-8",function(){
+//            var flag=$("input:focus").length;
+            $("[name='edit']",this).each(function(index,val){
+                var title=$(val).val();
+                $(this).replaceWith('<span>'+title+'</span>');
+            });
+
+            $("[name='editTable']",this).each(function(index,val){
+                var title=$(val).val();
+                $(this).replaceWith('<td>'+title+'</td>');
+
+            });
+
+        });
 
     };
 
