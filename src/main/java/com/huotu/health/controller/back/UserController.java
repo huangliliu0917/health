@@ -64,6 +64,8 @@ public class UserController {
         List<VipUser> users=new ArrayList<>();
         if(name!=null){
             users=vipUserRepository.findByMerchantIdAndWxNickNameLike(customerId,"%"+name+"%",new PageRequest(0,20));//todo 读取vip用户
+        }else {
+            users=vipUserRepository.findByMerchantId(customerId,new PageRequest(0,20));
         }
         model.addAttribute("list",users);
         return "/back/vip_user_list";
@@ -172,10 +174,7 @@ public class UserController {
 
             if (JsonPath.read(responseText, "$.resultCode").equals(1)) {
                 Long userId = Long.parseLong(JsonPath.read(responseText, "$.resultData.data").toString());
-                log.info("get userId"+userId);
                 userService.setUserId(userId, request, response);
-                log.info("get userId and save in cookie");
-                log.info("redirecturl:"+redirectUrl);
                 return "redirect:" + redirectUrl;
             }
         }

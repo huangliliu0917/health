@@ -51,7 +51,7 @@
                             <div class="hr-line-dashed draggable"></div>
 
                             <div class=" text-center">
-                                <button class="btn btn-primary" type="button" onclick="templateGroupEdit.save()">保存模板组</button>
+                                <button class="btn btn-primary" type="button" onclick="templateGroupEdit.save(this)">保存模板组</button>
                             </div>
                         </form>
                         <div class="clearfix"></div>
@@ -83,7 +83,7 @@
                         <h3>已选择</h3>
                         <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
                         <ul id="choose" class="sortable-list connectList agile-list">
-                            <li class="success-element" th:each="g:${group.templates}">
+                            <li class="success-element" th:each="g:${alreadyChoices}">
                                 <span th:text="${g.name}"> 加强过程管理，及时统计教育经费使用情况，做到底码清楚，</span>
                                 <div class="agile-detail" style="display: none">
                                     <i class="fa" th:text="${g.id}"></i>
@@ -107,8 +107,12 @@
 
         var templateGroupEdit={};
         templateGroupEdit.id=$("input[name='groupId']").val();
-        templateGroupEdit.save=function(){
-
+        templateGroupEdit.save=function(obj){
+            if($(obj).attr("class")=="btn btn-primary disabled"){
+                return;
+            }
+            $(obj).attr("class","btn btn-primary disabled");
+            var ld=layer.load(5, {shade: false});
             var groupName=$("input[name='groupName']").val();
             var groupId=templateGroupEdit.id;
             var customerId=/*[[${group.customerId}]]*/ '';
@@ -119,23 +123,25 @@
             $("#choose li").each(function(index,val){
 //                var name=$(this).children("span").text();
                 var id=$("i",val).text();
-                templates[index]={id:id};
+                templates[index]={idx:id};
             });
-
-
-
-//            var contentHtml=$(".col-sm-8").html();
-//            var name=$("input[name='templateName']").val();
 
             $.ajax({
                 type: "POST",
                 dataType: 'json',
                 url: "saveTemplateGroup",
                 contentType:"application/json",
-                data: JSON.stringify({id:groupId,name:groupName,customerId:customerId,templates:templates}),
+                data: JSON.stringify({id:groupId,name:groupName,customerId:customerId,templateIds:templates}),
                 success: function (result) {
+                    layer.close(ld);
                     templateGroupEdit.id=result.id;
                     layer.msg("保存成功", {icon: 1});
+                    $(obj).attr("class","btn btn-primary");
+                },
+                error:function(e){
+                    layer.close(ld);
+                    layer.msg("保存失败！");
+                    $(obj).attr("class","btn btn-primary");
                 }
 
             });

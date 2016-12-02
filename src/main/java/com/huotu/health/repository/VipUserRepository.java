@@ -27,6 +27,9 @@ public interface VipUserRepository extends JpaRepository<VipUser, Long>, JpaSpec
     @Query("select vip from VipUser as vip where vip.merchantId=?1 and vip.user.wxNickName like ?2")
     List<VipUser> findByMerchantIdAndWxNickNameLike(Long customerId, String name, Pageable pageable);
 
+    @Query("select vip from VipUser as vip where vip.merchantId=?1")
+    List<VipUser> findByMerchantId(Long customerId, Pageable pageable);
+
     VipUser findByUser_Id(Long userId);
 
 }

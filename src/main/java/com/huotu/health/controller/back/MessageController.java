@@ -85,6 +85,8 @@ public class MessageController {
     public ModelMap  saveMessage(@RequestBody Message message) throws Exception{
         if(message.isPutAway()){
             message.setPutAwayDate(new Date());
+        }else {
+            message.setPutAwayDate(null);
         }
 
         messageRepository.save(message);

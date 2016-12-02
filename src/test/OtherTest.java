@@ -1,7 +1,8 @@
+import com.huotu.health.entity.support.TemplageIdConverter;
+import com.huotu.health.entity.support.TemplateId;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -10,22 +11,13 @@ import java.util.List;
 public class OtherTest {
     @Test
     public void test(){
-        StringBuilder templatesName=new StringBuilder("");
+        TemplageIdConverter converter=new TemplageIdConverter();
+        List<TemplateId> templateIds=new ArrayList<>();
 
-        List<String> s=new ArrayList<>();
-        s.add("abc");
-        s.add("def");
-        s.add("awef");
+        templateIds.add(new TemplateId(1));
+        templateIds.add(new TemplateId(2));
+        templateIds.add(new TemplateId(3));
 
-        Iterator<String> ite=s.iterator();
-        while (ite.hasNext()){
-            String template=ite.next();
-            templatesName.append(template);
-            if(ite.hasNext()){
-                templatesName.append(",");
-            }
-        }
-
-        System.out.println(templatesName.toString());
+        System.out.println(converter.convertToDatabaseColumn(templateIds));
     }
 }

@@ -82,7 +82,7 @@
                     <div class="hr-line-dashed draggable"></div>
 
                     <div class=" text-center">
-                        <button class="btn btn-primary" type="button" onclick="treatmentEdit.save()">保存疗程</button>
+                        <button class="btn btn-primary" type="button" onclick="treatmentEdit.save(this)">保存疗程</button>
                     </div>
                 </form>
                 <div class="clearfix"></div>
@@ -108,7 +108,12 @@
     $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
     var treatmentEdit={};
 
-    treatmentEdit.save=function(){
+    treatmentEdit.save=function(obj){
+        if($(obj).attr("class")=="btn btn-primary disabled"){
+            return;
+        }
+        $(obj).attr("class","btn btn-primary disabled");
+        var ld=layer.load(5, {shade: false});
         var id=/*[[${treatment.id}]]*/ '';
         var customerId=/*[[${treatment.customerId}]]*/ '';
         var name=$("input[name='name']").val();
@@ -125,7 +130,16 @@
             contentType:"application/json",
             data: JSON.stringify({id:id,name:name,customerId:customerId,userId:userId,wxNickName:userName,templateGroupId:templateGroupId}),
             success: function (result) {
+                layer.close(ld);
                 layer.msg("保存成功", {icon: 1});
+//                $(obj).attr("class","btn btn-primary");
+                window.setTimeout("window.location='/back/showTreatmentList'",1000);
+
+            },
+            error:function(e){
+                layer.close(ld);
+                layer.msg("保存失败！");
+                $(obj).attr("class","btn btn-primary");
             }
 
         });
@@ -141,7 +155,7 @@
             title: '选择模板组',
             area: ['60%', '70%'],
             btn:['确定选择'],
-            content:"/back/showTemplateGroupList",
+            content:"/back/showTemplateGroupList?type=1",
             yes: function(index, layero){
                 var iframeWin = window[layero.find('iframe')[0]['name']];
                 var group =iframeWin.group.externalCall();

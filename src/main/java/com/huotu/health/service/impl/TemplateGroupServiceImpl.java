@@ -2,6 +2,7 @@ package com.huotu.health.service.impl;
 
 import com.huotu.health.entity.Template;
 import com.huotu.health.entity.TemplateGroup;
+import com.huotu.health.entity.support.TemplateId;
 import com.huotu.health.model.TemplateGroupListModel;
 import com.huotu.health.repository.TemplateGroupRepository;
 import com.huotu.health.repository.TemplateRepository;
@@ -35,7 +36,7 @@ public class TemplateGroupServiceImpl implements TemplateGroupService {
             TemplateGroupListModel model=new TemplateGroupListModel();
             model.setId(templateGroup.getId());
             model.setName(templateGroup.getName());
-            model.setTemplates(extractTemplatesName(templateGroup.getTemplates()));
+            model.setTemplates(extractTemplatesName(templateGroup.getTemplateIds()));
             models.add(model);
         });
 
@@ -44,15 +45,8 @@ public class TemplateGroupServiceImpl implements TemplateGroupService {
 
     @Override
     public TemplateGroup saveTemplateGroup(TemplateGroup group) throws Exception {
-        List<Template> templates=new ArrayList<>();
-        group.getTemplates().forEach(template -> {
-            templates.add(templateRepository.findOne(template.getId()));
-        });
 
-//        templates.forEach(template -> {
-//            template=templateRepository.findOne(template.getId());
-//        });
-        group.setTemplates(templates);
+
         return templateGroupRepository.save(group);
 
     }
@@ -77,15 +71,29 @@ public class TemplateGroupServiceImpl implements TemplateGroupService {
         return notChoiseTemplates;
     }
 
-    private String extractTemplatesName(List<Template> templates){
+    @Override
+    public List<Template> getTemplate(List<TemplateId> templateIds) {
+        List<Template> templates=new ArrayList<>();
+        if(templateIds==null){
+            return templates;
+        }
+        templateIds.forEach(templateId -> {
+            Template template=templateRepository.findOne(templateId.getIdx());
+            templates.add(template);
+        });
+        return templates;
+    }
+
+    private String extractTemplatesName(List<TemplateId> templates){
         StringBuilder templatesName=new StringBuilder("");
         if(templates==null){
             return templatesName.toString();
         }
 
-        Iterator<Template> ite=templates.iterator();
+        Iterator<TemplateId> ite=templates.iterator();
         while (ite.hasNext()){
-            Template template=ite.next();
+            TemplateId templateId=ite.next();
+            Template template=templateRepository.findOne(templateId.getIdx());
             templatesName.append(template.getName());
             if(ite.hasNext()){
                 templatesName.append(",");

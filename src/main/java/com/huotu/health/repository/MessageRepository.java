@@ -18,10 +18,10 @@ public interface MessageRepository extends JpaRepository<Message,Long>,JpaSpecif
 
     List<Message> findByCustomerIdAndEnabledAndTitleLike(Long customerId,boolean enabled,String title,Pageable pageable);
 
-    List<Message> findTop20ByCustomerIdAndEnabledAndPutAwayOrderByIdDesc(Long customerId,boolean enabled,boolean putaway);
+    List<Message> findTop20ByCustomerIdAndEnabledAndPutAwayAndStickOrderByIdDesc(Long customerId,boolean enabled,boolean putaway,boolean stick);
 
     List<Message> findByCustomerIdAndEnabledAndPutAwayAndStickOrderByIdDesc(Long customerId,boolean enabled,boolean putaway,boolean stick);
 
-    List<Message> findTop20ByCustomerIdAndEnabledAndPutAwayAndIdLessThanOrderByIdDesc(Long customerId,boolean enabled,boolean putaway,Long id);
+    List<Message> findTop20ByCustomerIdAndEnabledAndPutAwayAndStickAndIdLessThanOrderByIdDesc(Long customerId,boolean enabled,boolean putaway,boolean stick,Long id);
 
 }

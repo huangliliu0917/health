@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,10 +108,12 @@ public class AppController {
         ModelMap modelMap=new ModelMap();
         List<Message> messageList=new ArrayList<>();
         if(lastId==null||lastId<=0){
-            messageList=messageRepository.findTop20ByCustomerIdAndEnabledAndPutAwayOrderByIdDesc(customerId,true,true);
+            messageList=messageRepository.findTop20ByCustomerIdAndEnabledAndPutAwayAndStickOrderByIdDesc(
+                    customerId,true,true,false);
 
         }else {
-            messageList=messageRepository.findTop20ByCustomerIdAndEnabledAndPutAwayAndIdLessThanOrderByIdDesc(customerId,true,true, lastId);
+            messageList=messageRepository.findTop20ByCustomerIdAndEnabledAndPutAwayAndStickAndIdLessThanOrderByIdDesc(
+                    customerId,true,true, false,lastId);
         }
 
         List<MessageListModel> models=messageService.getMessagesModel(messageList);
@@ -157,10 +160,13 @@ public class AppController {
 
         List<TreatmentListModel> models=new ArrayList<>();
 
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
         treatments.forEach(treatment->{
             TreatmentListModel model=new TreatmentListModel();
             model.setId(treatment.getId());
-            model.setDate(treatment.getDate());
+            model.setDate(format.format(treatment.getDate()));
             model.setName(treatment.getName());
             models.add(model);
         });

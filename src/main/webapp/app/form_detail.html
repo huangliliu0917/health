@@ -24,13 +24,31 @@
     <link href="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="http://resali.huobanplus.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/iCheck/custom.css" rel="stylesheet"/>
-    <link href="http://resali.huobanplus.com/cdn/hotui/css/animate.min.css" rel="stylesheet"/>
+    <!--<link href="http://resali.huobanplus.com/cdn/hotui/css/animate.min.css" rel="stylesheet"/>-->
     <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"/><base target="_blank"/>
+    <link rel="stylesheet" type="text/css" href="../css/weui.min-bm-diy.css"/>
 
 </head>
 
 <body class="gray-bg">
-<div class="wrapper wrapper-content animated fadeInRight" th:utext="${form.content}">
+
+
+<div class="wrapper wrapper-content">
+    <div class="col-sm-12">
+        <header class='demos-header'>
+            <h2 style="margin:15px;text-align: center" class="demos-title" th:text="${form.name}">我是标题</h2>
+        </header>
+        <span style="color:#686868; font-size:14px;">
+                <img class="bmingyd" style="height: 15px" src="../img/sj@3x.png"
+
+         th:text="'&nbsp;'+${form.date}!=null?${#calendars.format(form.date,'yyyy-MM-dd HH:mm:ss')}"/></span>
+    </div>
+    <div class="col-sm-12">
+        <br/>
+        <!--<div class="hr-line-dashed"></div>-->
+    </div>
+
+    <div class="col-sm-12"  th:utext="${form.content}"></div>
 
 </div>
 
@@ -39,22 +57,23 @@
 <script src="../js/content.js"></script>
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/iCheck/icheck.min.js"></script>
 <script>
-    $(document).ready(function(){
-        $(".checkbox-inline").each(function(){
-            $(this).addClass("i-checks");
-        })
-
-
-    });
     $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
 
     $(document).ready(function(){
         $("input").each(function(){
-            $(this).attr("readonly","readonly");
+            $(this).attr("disabled","disabled");
         })
+
+        $("span").each(function(index,val){
+            var content=$(val).text();
+            if(content=="null"){
+                $(val).text("");
+            }
+        });
 
 
     });
+
 </script>
 
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>

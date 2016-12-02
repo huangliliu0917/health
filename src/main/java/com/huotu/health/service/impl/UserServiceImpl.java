@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
             return 97278L;//146 4471商户 王明
         } else {
             String encrypt = CookieHelper.get(request, userKey);
-            log.info("encrypt:"+encrypt);
             try {
                 Long userId = Long.parseLong(RSAHelper.decrypt(encrypt, privateKey));
                 if (userId > 0) return userId;

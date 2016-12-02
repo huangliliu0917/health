@@ -3,6 +3,9 @@
  */
 var treatmentApp={};
 treatmentApp.buildList=function(list){
+    if(list.length<=0){
+        $(".weui_panel_bd").append('<h4 class="weui_media_title" style="text-align: center">暂无健康管理报告</h4>');
+    }
     for(var i=0;i<list.length;i++){
         var treatment=list[i];
         var html='<a href="/app/showFormList?customerId='+customerId+'&id='+treatment.id+'" class="weui_media_box weui_media_appmsg weui_panel_ft"> ' +

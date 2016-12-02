@@ -150,7 +150,31 @@
     <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/ajaxfileupload/ajaxfileupload.js"></script>
     <script>
         $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
-        $(document).ready(function(){$(".summernote").summernote({lang:"zh-CN"})});var edit=function(){$("#eg").addClass("no-padding");$(".click2edit").summernote({lang:"zh-CN",focus:true})};var save=function(){$("#eg").removeClass("no-padding");var aHTML=$(".click2edit").code();$(".click2edit").destroy()};
+        $(document).ready(function() {
+            $(".summernote").summernote({
+                lang: "zh-CN",
+                onImageUpload: function(files, editor, welEditable) {
+                    sendFile(files[0],editor,welEditable);
+                }
+            })
+        });
+
+        function sendFile(file,editor,welEditable) {
+            data = new FormData();
+            data.append("fileImage", file);
+            $.ajax({
+                data: data,
+                type: "POST",
+                url: "/resource/uploadMessageImage",
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    editor.insertImage(welEditable, data.url);
+                }
+            });
+        }
+
     </script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
@@ -164,7 +188,7 @@
         messageConfig.uploadImage=function(){
             var loadPic=layer.load(0, {shade: false});
             $.ajaxFileUpload({
-                url: 'resource/uploadMessageImage',
+                url: '/resource/uploadMessageImage',
                 secureuri: false,
                 fileElementId: 'fileImage',
                 dataType: 'json',
@@ -192,7 +216,7 @@
             messageModel.id=$("input[name='messageId']").val();
             messageModel.title=$("input[name='title']").val();
             messageModel.customerId=/*[[${message.customerId}]]*/ '';
-            messageModel.enabled=$("input[name='enabled']:checked").val();
+            messageModel.putAway=$("input[name='putAway']:checked").val();
             messageModel.pictureUrl=$("#pictureUrl").attr("src");
             messageModel.summary=$("input[name='summary']").val();
             messageModel.content=$(".summernote").code();
@@ -215,7 +239,6 @@
                 },
                 error:function(e){
                     layer.close(ld);
-                    $(obj).attr("class","btn btn-primary");
                     layer.msg("保存失败！");
                     $(obj).attr("class","btn btn-primary");
                 }

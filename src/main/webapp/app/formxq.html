@@ -21,7 +21,7 @@
 <link rel="stylesheet" type="text/css" href="../css/weui.min-bm-diy.css"/>
 <title>详情页</title>
 </head>
-<body>
+<body onload="formContent.load()">
 <div class="bm">
   <header class='demos-header'>
       <h3 style="margin:15px;" class="demos-title" th:text="${form.title}">我是标题</h3>
@@ -48,4 +48,11 @@
 
 </div>
 </body>
+
+<script type="text/javascript" th:inline="javascript">
+
+
+</script>
+
+
 </html>

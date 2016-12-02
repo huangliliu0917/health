@@ -3,8 +3,6 @@ package com.huotu.health.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 /**
  * Created by Administrator on 2016/11/17.
  */
@@ -24,5 +22,5 @@ public class TreatmentListModel {
     /**
      * 时间
      */
-    private Date date;
+    private String date;
 }

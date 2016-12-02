@@ -8,6 +8,7 @@ import com.huotu.health.entity.Treatment;
 import com.huotu.health.repository.FormRepository;
 import com.huotu.health.repository.TemplateGroupRepository;
 import com.huotu.health.repository.TreatmentRepository;
+import com.huotu.health.service.TemplateGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class TreatmentController {
 
     @Autowired
     private FormRepository formRepository;
+
+    @Autowired
+    private TemplateGroupService templateGroupService;
 
     /**
      * 获取疗程列表
@@ -114,7 +118,7 @@ public class TreatmentController {
 
         //创建用户治疗过程
         TemplateGroup templateGroup=templateGroupRepository.findOne(treatment.getTemplateGroupId());
-        List<Template> templates=templateGroup.getTemplates();
+        List<Template> templates=templateGroupService.getTemplate(templateGroup.getTemplateIds());
 
         List<Form> forms=new ArrayList<>();
         for(int i=0;i<templates.size();i++){
@@ -125,7 +129,6 @@ public class TreatmentController {
             form.setStatus(0);
             form.setStep(i);
             form.setTreatment(treatment);
-//            form.setUserId(treatment.getUserId());
             form.setDate(new Date());
             forms.add(form);
         }

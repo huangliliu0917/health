@@ -2,6 +2,7 @@ package com.huotu.health.service;
 
 import com.huotu.health.entity.Template;
 import com.huotu.health.entity.TemplateGroup;
+import com.huotu.health.entity.support.TemplateId;
 import com.huotu.health.model.TemplateGroupListModel;
 
 import java.util.List;
@@ -32,4 +33,11 @@ public interface TemplateGroupService {
      * @return
      */
     List<Template> filterNotChoice(List<Template> templates,Long customerId);
+
+    /**
+     * 转换
+     * @param templateIds
+     * @return
+     */
+    List<Template> getTemplate(List<TemplateId> templateIds);
 }

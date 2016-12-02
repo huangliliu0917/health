@@ -14,4 +14,5 @@ import java.util.List;
 @Repository
 public interface TemplateGroupRepository extends JpaRepository<TemplateGroup,Long>,JpaSpecificationExecutor<TemplateGroup> {
     List<TemplateGroup> findByCustomerIdAndEnabled(Long customerId,boolean enabled);
+
 }

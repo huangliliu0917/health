@@ -59,7 +59,7 @@
                                         <label for="chkAll"></label>
                                     </div>
                                 </th>
-                                <th>模板组ID</th>
+                                <th>模板组序号</th>
                                 <th>名称</th>
                                 <th>包含模板</th>
                                 <th>操作</th>
@@ -77,7 +77,7 @@
                                 <td th:text="${l.name}">1</td>
                                 <td th:text="${l.templates}">母婴营养</td>
                                 <td>
-                                    <a href="#" th:href="@{/back/modifyTemplateGroup(id=${l.id})}" class="cursor-point">
+                                    <a th:if="${type}!=1" href="#" th:href="@{/back/modifyTemplateGroup(id=${l.id})}" class="cursor-point">
                                         <i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip"
                                            data-original-title="编辑">
                                         </i>

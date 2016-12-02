@@ -15,7 +15,7 @@ messageApp.buildList=function(list){
             '</div> <div class="weui_media_bd"> ' +
             '<h4 class="weui_media_title">'+message.title+'</h4> ' +
             '<p class="weui_media_desc">'+message.summary+'</p>' +
-            '<p class="weui_media_desc" style="float:right">'+message.putAwayDateFormat+'</p>' +
+            '<p style="float:right;color: #999;font-size: 13px;">'+message.putAwayDateFormat+'</p>' +
             '</div></a>';
         $(".weui_panel_bd").append(html);
     }

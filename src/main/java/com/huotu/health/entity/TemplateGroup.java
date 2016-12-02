@@ -1,5 +1,6 @@
 package com.huotu.health.entity;
 
+import com.huotu.health.entity.support.TemplateId;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,11 +34,18 @@ public class TemplateGroup {
     private String name;
 
 
+//    /**
+//     * 模板列表
+//     */
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private List<Template> templates;
+
     /**
-     * 模板列表
+     * 模板的id
      */
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Template> templates;
+    @Column(name = "TemplateIds")
+    @Lob
+    private List<TemplateId> templateIds;
 
 
     /**

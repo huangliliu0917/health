@@ -2,9 +2,12 @@ package com.huotu.health.controller;
 
 import com.huotu.health.model.UploadImageModel;
 import com.huotu.health.service.resource.StaticResourceService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +25,8 @@ import java.util.UUID;
 @RequestMapping("/resource")
 public class ImgUpLoadController {
 
+    private static Log log = LogFactory.getLog(ImgUpLoadController.class);
+
 
     private static final String[] PIC_EXT = {"BMP", "JPG", "JPEG", "PNG", "GIF"};
 
@@ -29,7 +34,7 @@ public class ImgUpLoadController {
     private StaticResourceService staticResourceService;
 
 
-    @RequestMapping(value = "/uploadMessageImage")
+    @RequestMapping(value = "/uploadMessageImage",method = RequestMethod.POST)
     @ResponseBody
     public UploadImageModel uploadAticleImage(@RequestParam(value = "fileImage") MultipartFile shareImage
             , HttpServletResponse response) throws Exception {
@@ -69,7 +74,7 @@ public class ImgUpLoadController {
         //保存图片
         fileName = StaticResourceService.message + "/" + UUID.randomUUID().toString().replace("-", "") + "." + ext.toLowerCase();
         URI uri = staticResourceService.uploadResource(fileName, shareImage.getInputStream());
-        response.setHeader("X-frame-Options", "SAMEORIGIN");
+//        response.setHeader("X-frame-Options", "SAMEORIGIN");
         resultModel.setCode(1);
         resultModel.setMessage(uri.toString());
         resultModel.setUrl(uri.toString());

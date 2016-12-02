@@ -27,32 +27,14 @@
     <link href="http://resali.huobanplus.com/cdn/hotui/css/animate.min.css" rel="stylesheet"/>
     <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"/><base target="_blank"/>
 
-    <style>
-        .droppable-active {
-            background-color: #ffe!important
-        }
-
-        .tools a {
-            cursor: pointer;
-            font-size: 80%
-        }
-
-        .form-body .col-md-6,.form-body .col-md-12 {
-            min-height: 400px
-        }
-
-        .draggable {
-            cursor: move
-        }
-    </style>
-
-    <style> .yuansutop { position:relative;left:400px;top:0px; } </style>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
 </head>
 
 <body onload="templateEdit.load()" class="gray-bg">
 <div class="wrapper wrapper-content">
-    <div class="col-sm-4" style="position: fixed;left: 0;">
+    <div style="position: fixed;width: 100%;height: 100%;overflow-y: scroll;">
+    <div class="col-sm-4">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>元素</h5>
@@ -110,15 +92,15 @@
                             <th>年龄</th>
                             </tr>
                             </thead>
-                            <tbody class="sortable">
-                            <tr class="draggable">
-                            <td>1</td>
+                            <tbody>
+                            <tr>
+                            <td><span>1</span></td>
                             <td>张三</td>
                             <td>男</td>
                             <td>23</td>
                             <td>23</td>
                             </tr>
-                            <tr class="draggable">
+                            <tr>
                             <td>2</td>
                             <td>李四</td>
                             <td>男</td>
@@ -142,13 +124,27 @@
                     <div class="hr-line-dashed"></div>
 
                     <div class="form-group draggable">
+                        <label class="col-sm-2 control-label"><span>单选框：</span></label>
+                        <div class="col-sm-10 ">
+                            <label class="radio-inline i-checks ">
+                                <input type="radio" value="option1"/>&nbsp;
+                                <span>选项1</span></label>
+                            <label class="radio-inline i-checks ">
+                                <input type="radio" value="option2"/>&nbsp;
+                                <span>选项2</span></label>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group draggable">
                         <label class="col-sm-2 control-label"><span>复选框：</span></label>
-                        <div class="col-sm-10 sortable">
-                            <label class="checkbox-inline draggable">
+                        <div class="col-sm-10 ">
+                            <label class="checkbox-inline i-checks ">
                                 <input type="checkbox" value="option1" id="inlineCheckbox1"/>&nbsp;<span>选项1</span></label>
-                            <label class="checkbox-inline draggable">
+                            <label class="checkbox-inline i-checks ">
                                 <input type="checkbox" value="option2" id="inlineCheckbox2"/>&nbsp;<span>选项2</span></label>
-                            <label class="checkbox-inline draggable">
+                            <label class="checkbox-inline i-checks ">
                                 <input type="checkbox" value="option3" id="inlineCheckbox3"/>&nbsp;<span>选项3</span></label>
                         </div>
                     </div>
@@ -156,7 +152,7 @@
                     <div class="hr-line-dashed"></div>
                     <div class=" text-center">
                         <button class="btn btn-primary" type="button" onclick="templateEdit.newArea()">新建区域</button>
-                        <button class="btn btn-primary" type="button" onclick="templateEdit.save()">保存模板</button>
+                        <button class="btn btn-primary" type="button" onclick="templateEdit.save(this)">保存模板</button>
                     </div>
                 </form>
                 <div class="clearfix"></div>
@@ -165,7 +161,7 @@
 
 
     </div>
-
+    </div>
 
 
     <div class="col-sm-8" th:utext="${template.content}" style="float: right"></div>
@@ -182,6 +178,13 @@
         </div>
     </div>
 
+    <div id="radioAndChk" class="form-group" style="display: none">
+        <label class="col-sm-3 control-label">选项数量：</label>
+        <div class="col-sm-9">
+            <input  type="text" name="number" class="form-control" placeholder="请输入数量"/>
+        </div>
+    </div>
+
 </div>
 
 <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
@@ -191,26 +194,43 @@
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/beautifyhtml/beautifyhtml.js"></script>
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/iCheck/icheck.min.js"></script>
 <script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-//    $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+
     var templateEdit={};
 
     templateEdit.id=/*[[${template.id}]]*/ '';
 
-    templateEdit.load=function(){
-        templateEdit.bindTitle();
-//        templateEdit.bindTitleSave();
-        templateEdit.bindTable();
-//        templateEdit.bindTableSave();
-        templateEdit.delDiv();
-        templateEdit.delRadioAndCheckBox();
-//        templateEdit.delTable();
-        templateEdit.setup_draggable();
-        templateEdit.saveContent();
-        templateEdit.stay();
+    templateEdit.radioId=0;
 
+    templateEdit.load=function(){
+        templateEdit.delDiv();
+        templateEdit.setup_draggable();
+        templateEdit.xeditable();
+        templateEdit.setICheck();
+
+    };
+
+    templateEdit.setICheck=function(){
+        $(".i-checks").iCheck({
+            checkboxClass: "icheckbox_square-green",
+            radioClass: "iradio_square-green"
+        })
+    };
+
+    templateEdit.setNotICheck=function(){
+        $(".i-checks").iCheck("destroy")
+    };
+
+    templateEdit.xeditable=function(){
+        $('span','.col-sm-8').editable({
+            unsavedclass:"",
+            emptyclass:"",
+            defaultValue:"null",
+            emptytext:"null"
+        });
     };
 
     templateEdit.areaTemplate='<div class="row"> <div class="col-sm-12"> <div class="ibox float-e-margins"> <div class="ibox-title"> <h5><span>一般信息</span></h5> <div class="ibox-tools">' +
@@ -223,77 +243,7 @@
     templateEdit.newArea=function(){
         $(".col-sm-8").append(templateEdit.areaTemplate);
         templateEdit.setup_draggable();
-    };
-
-    templateEdit.bindTitle=function(){
-        $(".col-sm-8").on("click","span", function(event) {
-            var title=$(this).text();
-            var size=title.length+10;
-            if(title.length>30){
-                $(this).replaceWith('<textarea style="width: '+size*5+'px"  name="edit">'+title+'</textarea>');
-            }
-            else {
-                $(this).replaceWith('<input size="'+size+'" name="edit" type="text" value="'+title+'"/>');
-            }
-
-            //do something here
-            event.stopPropagation();
-        });
-
-    };
-
-    templateEdit.bindTitleSave=function(){
-        $(".col-sm-8").on("blur","[name='edit']", function() {
-            var title=$(this).val();
-            $(this).replaceWith('<span>'+title+'</span>');
-        });
-    };
-
-
-
-    templateEdit.delRadioAndCheckBox=function(){
-        $(".col-sm-8").on("dblclick",".checkbox-inline", function(event) {
-            var $obj=$(this);
-            layer.confirm('确定删除吗？', {
-                btn: ['确定','取消'] //按钮
-            }, function(index){
-                $obj.remove();
-                layer.close(index);
-            });
-
-            event.stopPropagation();
-        });
-
-//        $(".col-sm-8").on("dblclick",".radio-inline", function(event) {
-//            $(this).remove();
-//            event.stopPropagation();
-//        });
-
-    };
-
-    templateEdit.delTable=function(){
-        $(".col-sm-8").on("dblclick","th", function(event) {
-            var $obj=$(this);
-            layer.confirm('确定删除吗？', {
-                btn: ['确定','取消'] //按钮
-            }, function(index){
-                $obj.remove();
-                layer.close(index);
-            });
-            event.stopPropagation();
-        });
-
-        $(".col-sm-8").on("dblclick","td", function(event) {
-            var $obj=$(this);
-            layer.confirm('确定删除吗？', {
-                btn: ['确定','取消'] //按钮
-            }, function(index){
-                $obj.remove();
-                layer.close(index);
-            });
-            event.stopPropagation();
-        });
-
+        templateEdit.xeditable();
     };
 
     templateEdit.delDiv=function(){
@@ -310,57 +260,6 @@
         });
     };
 
-
-    templateEdit.bindTable=function(){
-        $(".col-sm-8").on("click","td", function(event) {
-            var title=$(this).text();
-            var size=title.length+10;
-            $(this).replaceWith('<input size="'+size+'" name="editTable" type="text" value="'+title+'"/>');
-
-            //do something here
-            event.stopPropagation();
-        });
-
-        $(".col-sm-8").on("click","th", function(event) {
-            var title=$(this).text();
-            var size=title.length+10;
-            $(this).replaceWith('<input size="'+size+'" name="editTable" type="text" value="'+title+'"/>');
-
-            //do something here
-            event.stopPropagation();
-        });
-    };
-
-    templateEdit.stay=function(){
-        $(document).on("click","[name='editTable']",function(event){
-            event.stopPropagation();
-        });
-
-        $(document).on("click","[name='edit']",function(event){
-            event.stopPropagation();
-        });
-
-        $(document).on("click","input[type='checkbox']",function(event){
-            event.stopPropagation();
-        });
-
-    };
-
-
-    templateEdit.bindTableSave=function(){
-        $(".col-sm-8").on("blur","[name='editTable']", function() {
-            var title=$(this).val();
-            $(this).replaceWith('<td>'+title+'</td>');
-        });
-
-//        $(document).on("click",".col-sm-8", function() {
-//            $("[name='editTable']")
-//            var title=$(this).val();
-//            $(this).replaceWith('<td>'+title+'</td>');
-//        });
-    };
-
-
     templateEdit.showTableColRow=function(table){
         var type=layer.open({
             type: 1,
@@ -373,8 +272,45 @@
                 var col=$("input[name='col']").val();
                 var row=$("input[name='row']").val();
                 templateEdit.setColRow(table,col,row);
+                templateEdit.xeditable();
+                layer.close(index);
+            },
+            end:function(){
+            }
+        });
+    };
 
+    templateEdit.showRadio=function(obj){
+        var type=layer.open({
+            type: 1,
+            title: '设置单选按钮',
+            area: ['20%', '20%'],
+            btn:['确定选择'],
+            content:$("#radioAndChk"),
+            yes: function(index, layero){
+                //获取数量
+                var number=$("input[name='number']","#radioAndChk").val();
+                templateEdit.bulidRadio(obj,number);
+                templateEdit.xeditable();
+                layer.close(index);
+            },
+            end:function(){
+            }
+        });
+    };
 
+    templateEdit.showCheckBox=function(obj){
+        var type=layer.open({
+            type: 1,
+            title: '设置复选框',
+            area: ['20%', '20%'],
+            btn:['确定选择'],
+            content:$("#radioAndChk"),
+            yes: function(index, layero){
+                //获取数量
+                var number=$("input[name='number']","#radioAndChk").val();
+                templateEdit.bulidChk(obj,number);
+                templateEdit.xeditable();
                 layer.close(index);
             },
             end:function(){
@@ -385,14 +321,14 @@
     templateEdit.setColRow=function(table,col,row){
         var thead='<tr>';
         for(var i=0;i<col;i++){
-            thead=thead+'<th>选项'+(i+1)+'</th>';
+            thead=thead+'<th><span></span></th>';
         }
         thead=thead+'</tr>';
         $("thead",table).append(thead);
 
         var tbody='<tr>';
         for(var i=0;i<col;i++){
-            tbody=tbody+'<td>选项'+(i+1)+'</td>';
+            tbody=tbody+'<td><span></span></td>';
         }
         tbody=tbody+'</tr>';
 
@@ -401,52 +337,96 @@
         }
     };
 
+    templateEdit.bulidRadio=function(obj,number){
+        for(var i=0;i<number;i++){
+            var html='<label class="radio-inline i-checks"> ' +
+                    '<input disabled="disabled" name="ra'+templateEdit.radioId+'" type="radio"/>&nbsp;<span></span></label>';
+            $(obj).append(html);
+        }
+        templateEdit.setICheck();
+
+    };
+
+    templateEdit.bulidChk=function(obj,number){
+        for(var i=0;i<number;i++){
+            var html='<label class="checkbox-inline i-checks"> ' +
+                    '<input disabled="disabled" type="checkbox"/>&nbsp;<span></span></label>';
+            $(obj).append(html);
+        }
+        templateEdit.setICheck();
+    };
+
     templateEdit.setup_draggable = function() {
         $(".sortable",".col-sm-8").sortable({
 //            revert:true
-        });
-
-        $(".draggable",".col-sm-4").draggable({
-//            appendTo: "body",
-            connectToSortable: ".sortable",
-            helper: "clone"
-//            revert: "invalid"
-        });
-        $(".droppable").droppable({
-            drop:function(event,ui){
-
-                var orig=$(ui.draggable);
+            stop: function(event,ui) {
+                var orig=$(ui.item);
                 if($("table",orig).length>0){
-                    var isMove=$(ui.draggable).hasClass("hasTable");//true在移动，false添加
+                    var isMove=$(ui.item).hasClass("hasTable");//true在移动，false添加
 
                     if(!isMove){//添加
-                        $(ui.draggable).addClass("hasTable");
+                        $(ui.item).addClass("hasTable");
                         var table=$("table",orig);
                         $("thead",table).empty();
                         $("tbody",table).empty();
 
                         templateEdit.showTableColRow(table);
                     }
+                }
 
+                if($("input[type='radio']",orig).length>0){
+                    var isMove=$(ui.item).hasClass("hasRadio");//true在移动，false添加
+                    if(!isMove){//添加
+                        $(ui.item).addClass("hasRadio");
+                        var radios=$(".col-sm-10 ",orig);
+                        $(radios).empty();
+
+                        templateEdit.showRadio(radios);
+                        templateEdit.radioId++;
+                    }
+                }
+
+                if($("input[type='checkbox']",orig).length>0){
+                    var isMove=$(ui.item).hasClass("hasChk");//true在移动，false添加
+                    if(!isMove){//添加
+                        $(ui.item).addClass("hasChk");
+                        var chk=$(".col-sm-10 ",orig);
+                        $(chk).empty();
+                        templateEdit.showCheckBox(chk);
+                    }
                 }
 
                 $(".sortable",this).sortable();
-            }
+                templateEdit.xeditable();
 
+
+            }
+        });
+
+        $(".draggable",".col-sm-4").draggable({
+            appendTo: "body",
+            connectToSortable: ".sortable",
+            helper: "clone"
+        });
+        $(".droppable").droppable({
+            accept: ".draggable"
         });
 
     };
 
-
-
-    templateEdit.save=function(){
-        if($("[name='edit']").length>0){
-            layer.msg("请保存修改内容！");
+    templateEdit.save=function(obj){
+        if($(obj).attr("class")=="btn btn-primary disabled"){
             return;
         }
+        $(obj).attr("class","btn btn-primary disabled");
+        var ld=layer.load(5, {shade: false});
+        $("span",".col-sm-8").removeClass();
 
-
+        templateEdit.setNotICheck();
+        $("input",".col-sm-8").attr("disabled",false);
         var contentHtml=$(".col-sm-8").html();
+        templateEdit.setICheck();
+        $("input",".col-sm-8").attr("disabled",true);
         var templateId=templateEdit.id;
         var customerId=/*[[${template.customerId}]]*/ '';
         var name=$("input[name='templateName']").val();
@@ -458,36 +438,20 @@
             contentType:"application/json",
             data: JSON.stringify({id:templateId,name:name,customerId:customerId,content:contentHtml}),
             success: function (result) {
+                layer.close(ld);
                 layer.msg("保存成功", {icon: 1});
                 templateEdit.id=result.id;
+                $(obj).attr("class","btn btn-primary");
+            },
+            error:function(e){
+                layer.close(ld);
+                layer.msg("保存失败！");
+                $(obj).attr("class","btn btn-primary");
             }
 
         });
-
-
-
-
-
     };
 
-
-    templateEdit.saveContent=function(){
-        $(document).on("click",".col-sm-8",function(){
-//            var flag=$("input:focus").length;
-            $("[name='edit']",this).each(function(index,val){
-                var title=$(val).val();
-                $(this).replaceWith('<span>'+title+'</span>');
-            });
-
-            $("[name='editTable']",this).each(function(index,val){
-                var title=$(val).val();
-                $(this).replaceWith('<td>'+title+'</td>');
-
-            });
-
-        });
-
-    };
 
 
     /*]]>*/

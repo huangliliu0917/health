@@ -26,6 +26,7 @@
     <link href="../css/summernote/summernote.css" rel="stylesheet"/>
     <link href="../css/summernote/summernote-bs3.css" rel="stylesheet"/>
     <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
 
 </head>
 
@@ -66,6 +67,7 @@
 <script src="../js/summernote/summernote.min.js"></script>
 <script src="../js/summernote/summernote-zh-CN.js"></script>
 <script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
@@ -83,14 +85,45 @@
         formList.bulidIcheck();
         formList.changeTest();
         formList.changeRadioAndCheckBox();
+        formList.xeditable();
 
+
+    };
+
+    formList.xeditable=function(){
+        $('span','.ibox-content').editable({
+            unsavedclass:"",
+            emptyclass:"",
+            defaultValue:"null",
+            emptytext:"null",
+            placement:"right"
+        });
     };
 
     $(document).ready(function() {
         $(".summernote").summernote({
-            lang: "zh-CN"
+            lang: "zh-CN",
+            onImageUpload: function(files, editor, welEditable) {
+                sendFile(files[0],editor,welEditable);
+            }
         })
     });
+
+    function sendFile(file,editor,welEditable) {
+        data = new FormData();
+        data.append("fileImage", file);
+        $.ajax({
+            data: data,
+            type: "POST",
+            url: "/resource/uploadMessageImage",
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                editor.insertImage(welEditable, data.url);
+            }
+        });
+    }
     var edit = function() {
         $("#eg").addClass("no-padding");
         $(".summernote").summernote({
@@ -111,7 +144,7 @@
             var form=list[i];
             html='<h1>'+form.name+'</h1>' +
                     '<div class="step-content">' +
-                    '<div class="text-center" style="text-align: center"><h2><input style="margin-left: 50%;" type="text" name="formName" value="'+form.name+'"/></h2> <span style="display: none" class="formId">'+form.id+'</span> </div>' +
+                    '<div class="text-center" style="text-align: center"><h2><span id="formName">'+form.name+'</span></h2> <span style="display: none" class="formId">'+form.id+'</span> </div>' +
                     '<div class="formContent">'+form.content+'</div></div>';
             $("#wizard").append(html);
         }
@@ -132,8 +165,12 @@
                 var form=$(".step-content:eq("+currentIndex+")");
                 var id=$(".formId",form).text();
                 save();
+                formList.setNotICheck();
                 var content=$(".formContent",form).html();
-                var title=$("input[name='formName']",form).val();
+//                edit();
+                formList.bulidIcheck();
+
+                var title=$("#formName",form).text();
 
 
                 formList.save(id,content,title);
@@ -152,6 +189,14 @@
 
     };
 
+
+    formList.setNotICheck=function(){
+        $(".i-checks").iCheck("destroy")
+    };
+
+
+
+
     formList.changeTest=function(){
         $("input").change(function(){
             var text=$(this).val();
@@ -160,15 +205,27 @@
     };
 
     formList.changeRadioAndCheckBox=function(){
+        $('input[type="radio"]').on('ifChecked', function(){
+            $(this).attr("checked","checked");
+        });
 
-        $("input[type='radio']").click(function(){
-            var isCheck=$(this).prop("checked");
-            $(this).prop("checked",isCheck);
+        $('input[type="radio"]').on('ifUnchecked', function(){
+            $(this).attr("checked",false);
         });
-        $("input[type='checkbox']").click(function(){
+
+        $('input[type="checkbox"]').on('ifClicked', function(){
             var isCheck=$(this).prop("checked");
-            $(this).attr("checked",isCheck);
+            $(this).attr("checked",!isCheck);
         });
+
+//        $("input[type='radio']").click(function(){
+//            var isCheck=$(this).prop("checked");
+//            $(this).prop("checked",isCheck);
+//        });
+//        $("input[type='checkbox']").click(function(){
+//            var isCheck=$(this).prop("checked");
+//            $(this).attr("checked",isCheck);
+//        });
 
     };
 

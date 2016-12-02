@@ -79,7 +79,7 @@
                         <table id="treatmentList" class="table table-striped table-bordered table-hover  dataTable" aria-describedby="editable_info">
                             <thead>
                             <tr>
-                                <th>疗程ID</th>
+                                <th>疗程序号</th>
                                 <th>用户名称</th>
                                 <th>疗程名称</th>
                                 <th>操作</th>
@@ -91,11 +91,11 @@
                                 <td th:text="${l.wxNickName}">母婴营养</td>
                                 <td th:text="${l.name}">母婴营养</td>
                                 <td>
-                                    <a href="#" th:href="@{/back/modifyTreatment(id=${l.id})}" class="cursor-point">
-                                        <i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip"
-                                           data-original-title="编辑">
-                                        </i>
-                                    </a>
+                                    <!--<a href="#" th:href="@{/back/modifyTreatment(id=${l.id})}" class="cursor-point">-->
+                                        <!--<i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip"-->
+                                           <!--data-original-title="编辑">-->
+                                        <!--</i>-->
+                                    <!--</a>-->
 
                                     <a href="#" th:href="@{/back/showForms(id=${l.id})}" class="cursor-point">
                                         <i class="fa fa-list-alt" data-placement="top" data-toggle="tooltip"

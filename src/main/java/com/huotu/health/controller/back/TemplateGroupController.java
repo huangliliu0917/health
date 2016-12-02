@@ -34,15 +34,17 @@ public class TemplateGroupController {
     /**
      * 根据商户ID获取模板列表
      * @param customerId    商户ID
+     * @param type          0:列表显示，1：选择模板组
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/showTemplateGroupList")
-    public String showTemplateGroupList(@CustomerId Long customerId, Model model) throws Exception{
+    public String showTemplateGroupList(@CustomerId Long customerId, Integer type,Model model) throws Exception{
 
         List<TemplateGroup> templateGroups=templateGroupRepository.findByCustomerIdAndEnabled(customerId,true);
         List<TemplateGroupListModel> models=templateGroupService.convertTemplateGroups(templateGroups);
         model.addAttribute("list",models);
+        model.addAttribute("type",type);
         return "/back/template_group_list";
     }
 
@@ -58,8 +60,10 @@ public class TemplateGroupController {
         if(id!=null){
             group=templateGroupRepository.findOne(id);
         }
-        List<Template> notChoices=templateGroupService.filterNotChoice(group.getTemplates(),customerId);
+        List<Template> alreadyChoices=templateGroupService.getTemplate(group.getTemplateIds());
+        List<Template> notChoices=templateGroupService.filterNotChoice(alreadyChoices,customerId);
         model.addAttribute("group",group);
+        model.addAttribute("alreadyChoices",alreadyChoices);
         model.addAttribute("templates",notChoices);
         return "/back/template_group_modify";
     }
@@ -76,6 +80,7 @@ public class TemplateGroupController {
         if(group.getCustomerId()==null){
             group.setCustomerId(customerId);
         }
+
         group=templateGroupService.saveTemplateGroup(group);
         ModelMap modelMap=new ModelMap();
         modelMap.addAttribute("id",group.getId());
