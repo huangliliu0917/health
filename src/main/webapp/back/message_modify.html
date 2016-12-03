@@ -235,7 +235,8 @@
                 success:function(result){
                     layer.close(ld);
                     layer.msg("保存成功！");
-                    $(obj).attr("class","btn btn-primary");
+//                    $(obj).attr("class","btn btn-primary");
+                    window.setTimeout("window.location='/back/showMessageList'",1000);
                 },
                 error:function(e){
                     layer.close(ld);

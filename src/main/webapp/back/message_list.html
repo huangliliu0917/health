@@ -82,7 +82,7 @@
                                 <th>资讯序号</th>
                                 <th>资讯标题</th>
                                 <th>创建时间</th>
-                                <th>上架时间</th>
+                                <th>发布时间</th>
                                 <th>是否置顶</th>
                                 <th>状态</th>
                                 <th>操作</th>
@@ -95,7 +95,7 @@
                                 <td th:text="${l.date}!=null?${#calendars.format(l.date,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${l.putAwayDate}!=null?${#calendars.format(l.putAwayDate,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${l.stick}?'置顶'">置顶</td>
-                                <td th:text="${l.putAway}?'发布':'下架'">上架</td>
+                                <td th:text="${l.putAway}?'发布':'撤回'">发布</td>
                                 <td>
                                     <a href="#" th:href="@{/back/modifyMessage(id=${l.id})}" class="cursor-point">
                                         编辑
@@ -107,15 +107,15 @@
                                        th:onclick="'messageList.modifyPutAway(this,'+${l.id}+',true)'" class="cursor-point">
                                         发布
                                         <!--<i class="fa fa-chevron-up" data-placement="top" data-toggle="tooltip"-->
-                                           <!--data-original-title="上架">-->
+                                           <!--data-original-title="发布">-->
                                         <!--</i>-->
                                     </a>
 
                                     <a th:if="${l.putAway}" href="#"
                                        th:onclick="'messageList.modifyPutAway(this,'+${l.id}+',false)'" class="cursor-point">
-                                        下架
+                                        撤回
                                         <!--<i class="fa fa-chevron-down" data-placement="top" data-toggle="tooltip"-->
-                                           <!--data-original-title="下架">-->
+                                           <!--data-original-title="撤回">-->
                                         <!--</i>-->
                                     </a>
 
@@ -274,20 +274,20 @@
             var upTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
             $(putAwayTime).text(upTime);
             $(type).text("发布");
-            $(obj).text("下架");
+            $(obj).text("撤回");
 
 //            $("i",obj).attr("class","fa fa-chevron-down");
 
-//            $("i",obj).attr("data-original-title","下架");
+//            $("i",obj).attr("data-original-title","撤回");
 
             $(obj).attr("onclick","messageList.modifyPutAway(this,id,false)");
         }else {
             $(putAwayTime).text("");
-            $(type).text("下架");
+            $(type).text("撤回");
 
             $(obj).text("发布");
 //            $("i",obj).attr("class","fa fa-chevron-up");
-//            $("i",obj).attr("data-original-title","上架");
+//            $("i",obj).attr("data-original-title","发布");
 
         }
         $(obj).attr("onclick","messageList.modifyPutAway(this,"+id+","+!putAway+")");
