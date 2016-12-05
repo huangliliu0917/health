@@ -10,6 +10,8 @@
 package com.huotu.health.service;
 
 import com.huotu.health.annotation.CustomerId;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -25,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Component
 public class CustomerIdArgumentResolver implements HandlerMethodArgumentResolver {
+    Log log = LogFactory.getLog(CustomerIdArgumentResolver.class);
+
 
     @Autowired
     private CommonService commonService;
@@ -36,6 +40,11 @@ public class CustomerIdArgumentResolver implements HandlerMethodArgumentResolver
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return commonService.currentCustomerId(webRequest.getNativeRequest(HttpServletRequest.class));
+        Long customerId=commonService.currentCustomerId(webRequest.getNativeRequest(HttpServletRequest.class));
+        log.info("customerId:"+customerId);
+        if(customerId==null){
+            throw new Exception("have no customerId");
+        }
+        return customerId;
     }
 }
