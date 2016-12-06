@@ -59,9 +59,9 @@ public class TreatmentController {
         Page<Treatment> treatments;
 
         if(StringUtils.isEmpty(userName)){
-            treatments=treatmentRepository.findByCustomerIdAndEnabled(customerId,true,new PageRequest(pageNo,20));
+            treatments=treatmentRepository.findByCustomerIdAndEnabledOrderByIdDesc(customerId,true,new PageRequest(pageNo,20));
         }else {
-            treatments=treatmentRepository.findByCustomerIdAndEnabledAndWxNickNameLike(customerId,true,"%"+userName+"%",new PageRequest(pageNo,20));
+            treatments=treatmentRepository.findByCustomerIdAndEnabledAndWxNickNameLikeOrderByIdDesc(customerId,true,"%"+userName+"%",new PageRequest(pageNo,20));
         }
         model.addAttribute("list",treatments.getContent());
         model.addAttribute("pageNo",pageNo);

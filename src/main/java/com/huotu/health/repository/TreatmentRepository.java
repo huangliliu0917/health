@@ -16,9 +16,9 @@ import java.util.List;
 @Repository
 public interface TreatmentRepository extends JpaRepository<Treatment,Long>,JpaSpecificationExecutor<Treatment> {
 
-    Page<Treatment> findByCustomerIdAndEnabledAndWxNickNameLike(Long customerId,boolean enabled, String name,Pageable pageable);
+    Page<Treatment> findByCustomerIdAndEnabledAndWxNickNameLikeOrderByIdDesc(Long customerId,boolean enabled, String name,Pageable pageable);
 
-    Page<Treatment> findByCustomerIdAndEnabled(Long customerId, boolean enabled, Pageable pageable);
+    Page<Treatment> findByCustomerIdAndEnabledOrderByIdDesc(Long customerId, boolean enabled, Pageable pageable);
 
     List<Treatment> findByCustomerIdAndEnabledAndUserIdOrderByIdDesc(Long customerId,boolean enabled,Long userId);
 }

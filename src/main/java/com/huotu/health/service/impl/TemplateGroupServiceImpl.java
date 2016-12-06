@@ -55,7 +55,7 @@ public class TemplateGroupServiceImpl implements TemplateGroupService {
     @Override
     public List<Template> filterNotChoice(List<Template> templates,Long customerId) {
 
-        List<Template> allTemplates=templateRepository.findByCustomerIdAndEnabled(customerId,true);
+        List<Template> allTemplates=templateRepository.findByCustomerIdAndEnabledOrderByIdDesc(customerId,true);
 
         if(templates==null||templates.isEmpty()){
             return allTemplates;

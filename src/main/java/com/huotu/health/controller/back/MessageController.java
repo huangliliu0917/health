@@ -57,9 +57,9 @@ public class MessageController {
         Page<Message> messages;
 
         if(StringUtils.isEmpty(title)){
-            messages=messageRepository.findByCustomerIdAndEnabled(customerId,true,new PageRequest(pageNo,20));
+            messages=messageRepository.findByCustomerIdAndEnabledOrderByIdDesc(customerId,true,new PageRequest(pageNo,20));
         }else {
-            messages=messageRepository.findByCustomerIdAndEnabledAndTitleLike(customerId,true,"%"+title+"%",new PageRequest(pageNo,20));
+            messages=messageRepository.findByCustomerIdAndEnabledAndTitleLikeOrderByIdDesc(customerId,true,"%"+title+"%",new PageRequest(pageNo,20));
         }
         List<MessageListModel> models=messageService.getMessagesModel(messages.getContent());
         model.addAttribute("list",models);

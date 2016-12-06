@@ -48,7 +48,7 @@
             <div class="ibox-content">
 
                 <div class="alert alert-info">
-                    拖拽左侧的表单元素到右侧区域，即可生成相应的HTML代码，表单代码，轻松搞定！
+                    拖拽左侧的表单元素到右侧区域，即可生成相应的模板，双击删除模板，轻松搞定！
                 </div>
                 <form role="form" class="form-horizontal m-t">
 
@@ -166,7 +166,7 @@
 
     <div class="col-sm-8" th:utext="${template.content}" style="float: right"></div>
 
-    <div id="tableSet" class="form-group" style="display: none">
+    <div id="tableSet" class="form-group" style="display: none;margin-top: 20px">
         <label class="col-sm-3 control-label">列数：</label>
         <div class="col-sm-9">
             <input  type="text" name="col" class="form-control" placeholder="请输入列数"/>
@@ -178,7 +178,7 @@
         </div>
     </div>
 
-    <div id="radioAndChk" class="form-group" style="display: none">
+    <div id="radioAndChk" class="form-group"  style="display: none;margin-top: 20px">
         <label class="col-sm-3 control-label">选项数量：</label>
         <div class="col-sm-9">
             <input  type="text" name="number" class="form-control" placeholder="请输入数量"/>
@@ -264,7 +264,7 @@
         var type=layer.open({
             type: 1,
             title: '设置表格',
-            area: ['20%', '20%'],
+            area: ['400px', '200px'],
             btn:['确定选择'],
             content:$("#tableSet"),
             yes: function(index, layero){
@@ -284,7 +284,7 @@
         var type=layer.open({
             type: 1,
             title: '设置单选按钮',
-            area: ['20%', '20%'],
+            area: ['400px', '200px'],
             btn:['确定选择'],
             content:$("#radioAndChk"),
             yes: function(index, layero){
@@ -303,7 +303,7 @@
         var type=layer.open({
             type: 1,
             title: '设置复选框',
-            area: ['20%', '20%'],
+            area: ['400px', '200px'],
             btn:['确定选择'],
             content:$("#radioAndChk"),
             yes: function(index, layero){

@@ -15,9 +15,9 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message,Long>,JpaSpecificationExecutor<Message> {
 
 
-    Page<Message> findByCustomerIdAndEnabled(Long customerId, boolean enabled, Pageable pageable);
+    Page<Message> findByCustomerIdAndEnabledOrderByIdDesc(Long customerId, boolean enabled, Pageable pageable);
 
-    Page<Message> findByCustomerIdAndEnabledAndTitleLike(Long customerId,boolean enabled,String title,Pageable pageable);
+    Page<Message> findByCustomerIdAndEnabledAndTitleLikeOrderByIdDesc(Long customerId,boolean enabled,String title,Pageable pageable);
 
     List<Message> findTop20ByCustomerIdAndEnabledAndPutAwayAndStickOrderByIdDesc(Long customerId,boolean enabled,boolean putaway,boolean stick);
 

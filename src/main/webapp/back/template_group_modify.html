@@ -48,7 +48,7 @@
                                 </div>
                             </div>
 
-                            <div class="hr-line-dashed draggable"></div>
+                            <div class="hr-line-dashed"></div>
 
                             <div class=" text-center">
                                 <button class="btn btn-primary" type="button" onclick="templateGroupEdit.save(this)">保存模板组</button>
@@ -67,8 +67,8 @@
                         <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
 
                         <ul class="sortable-list connectList agile-list">
-                            <li class="warning-element" th:each="t:${templates}">
-                                <span  th:text="${t.name}"> 加强过程管理，及时统计教育经费使用情况，做到底码清楚，</span>
+                            <li class="warning-element draggable" th:each="t:${templates}">
+                                <span  th:text="${t.name}"> 1，及时统计教育经费使用情况，做到底码清楚，</span>
                                 <div class="agile-detail" style="display: none">
                                     <i class="fa" th:text="${t.id}"></i>
                                 </div>
@@ -81,10 +81,10 @@
                 <div class="ibox">
                     <div class="ibox-content">
                         <h3>已选择</h3>
-                        <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
-                        <ul id="choose" class="sortable-list connectList agile-list">
+                        <p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板,双击删除任务面板</p>
+                        <ul id="choose" class="sortable-list connectList agile-list droppable sortable">
                             <li class="success-element" th:each="g:${alreadyChoices}">
-                                <span th:text="${g.name}"> 加强过程管理，及时统计教育经费使用情况，做到底码清楚，</span>
+                                <span th:text="${g.name}"> 1，及时统计教育经费使用情况，做到底码清楚，</span>
                                 <div class="agile-detail" style="display: none">
                                     <i class="fa" th:text="${g.id}"></i>
                                 </div>
@@ -101,7 +101,31 @@
     <script src="http://resali.huobanplus.com/cdn/hotui/js/jquery-ui-1.10.4.min.js"></script>
     <script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
     <script>
-        $(document).ready(function(){$(".sortable-list").sortable({connectWith:".connectList"}).disableSelection()});
+        $(document).ready(function() {
+
+            $(".draggable").draggable({
+                connectToSortable: ".sortable",
+                helper: "clone"
+            });
+
+            $(".sortable").sortable({
+//                connectWith: ".connectList"
+            }).disableSelection();
+//
+            $(".droppable").droppable({
+                accept: ".draggable"
+            });
+
+            $("#choose").on("dblclick","li",function(){
+                var $obj=$(this);
+                layer.confirm('确定删除吗？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(index){
+                    $obj.remove();
+                    layer.close(index);
+                });
+            });
+        });
     </script>
     <script type="text/javascript" th:inline="javascript">
 

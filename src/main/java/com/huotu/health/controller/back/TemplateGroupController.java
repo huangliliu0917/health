@@ -41,7 +41,7 @@ public class TemplateGroupController {
     @RequestMapping(value = "/showTemplateGroupList")
     public String showTemplateGroupList(@CustomerId Long customerId, Integer type,Model model) throws Exception{
 
-        List<TemplateGroup> templateGroups=templateGroupRepository.findByCustomerIdAndEnabled(customerId,true);
+        List<TemplateGroup> templateGroups=templateGroupRepository.findByCustomerIdAndEnabledOrderByIdDesc(customerId,true);
         List<TemplateGroupListModel> models=templateGroupService.convertTemplateGroups(templateGroups);
         model.addAttribute("list",models);
         model.addAttribute("type",type);
@@ -61,7 +61,7 @@ public class TemplateGroupController {
             group=templateGroupRepository.findOne(id);
         }
         List<Template> alreadyChoices=templateGroupService.getTemplate(group.getTemplateIds());
-        List<Template> notChoices=templateGroupService.filterNotChoice(alreadyChoices,customerId);
+        List<Template> notChoices=templateRepository.findByCustomerIdAndEnabledOrderByIdDesc(customerId,true);
         model.addAttribute("group",group);
         model.addAttribute("alreadyChoices",alreadyChoices);
         model.addAttribute("templates",notChoices);

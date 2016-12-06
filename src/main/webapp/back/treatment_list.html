@@ -82,6 +82,7 @@
                                 <th>疗程序号</th>
                                 <th>用户名称</th>
                                 <th>疗程名称</th>
+                                <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -90,6 +91,7 @@
                                 <td th:text="${lStat.count}"></td>
                                 <td th:text="${l.wxNickName}">母婴营养</td>
                                 <td th:text="${l.name}">母婴营养</td>
+                                <td th:text="${l.date}!=null?${#calendars.format(l.date,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td>
                                     <!--<a href="#" th:href="@{/back/modifyTreatment(id=${l.id})}" class="cursor-point">-->
                                         <!--<i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip"-->

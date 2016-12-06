@@ -32,7 +32,7 @@ public class TemplateController {
     @RequestMapping(value = "/showTemplateList")
     public String showTemplateList(@CustomerId Long customerId, Model model) throws Exception{
 
-        List<Template> templates=templateRepository.findByCustomerIdAndEnabled(customerId,true);
+        List<Template> templates=templateRepository.findByCustomerIdAndEnabledOrderByIdDesc(customerId,true);
 
         List<TemplateListModel> templateListModels=new ArrayList<>();
 
