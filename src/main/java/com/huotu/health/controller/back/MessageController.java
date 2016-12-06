@@ -15,6 +15,7 @@ import com.huotu.health.model.MessageListModel;
 import com.huotu.health.repository.MessageRepository;
 import com.huotu.health.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,16 +54,19 @@ public class MessageController {
         if(pageNo==null){
             pageNo=0;
         }
-        List<Message> messages;
+        Page<Message> messages;
 
         if(StringUtils.isEmpty(title)){
             messages=messageRepository.findByCustomerIdAndEnabled(customerId,true,new PageRequest(pageNo,20));
         }else {
             messages=messageRepository.findByCustomerIdAndEnabledAndTitleLike(customerId,true,"%"+title+"%",new PageRequest(pageNo,20));
         }
-        List<MessageListModel> models=messageService.getMessagesModel(messages);
+        List<MessageListModel> models=messageService.getMessagesModel(messages.getContent());
         model.addAttribute("list",models);
         model.addAttribute("pageNo",pageNo);
+        model.addAttribute("pageSize",messages.getNumberOfElements());
+        model.addAttribute("totalNumber",messages.getTotalElements());
+        model.addAttribute("totalPage",messages.getTotalPages());
         model.addAttribute("title",title);
         return "/back/message_list";
 

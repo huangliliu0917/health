@@ -90,7 +90,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="l:${list}">
-                                <td th:text="${l.id}"></td>
+                                <td th:text="${lStat.count}"></td>
                                 <td th:text="${l.title}">111</td>
                                 <td th:text="${l.date}!=null?${#calendars.format(l.date,'yyyy-MM-dd HH:mm:ss')}"></td>
                                 <td th:text="${l.putAwayDate}!=null?${#calendars.format(l.putAwayDate,'yyyy-MM-dd HH:mm:ss')}"></td>
@@ -150,22 +150,23 @@
                         </table>
                         <div class="row">
                             <div class="col-sm-6">
-                                <!--<div class="dataTables_info" id="DataTables_Table_0_info"-->
-                                     <!--role="alert" aria-live="polite" aria-relevant="all">显示 1 到 10 项，共 57 项</div>-->
+                                <div class="dataTables_info" id="DataTables_Table_0_info"
+                                     role="alert" aria-live="polite" aria-relevant="all"
+                                    th:text="'共'+${totalNumber}+'条记录，当前第'+(${pageNo}+1)+'/'+${totalPage}+'，每页'+${pageSize}+'条记录'">共147条记录，当前第1/8，每页20条记录</div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="dataTables_info" id="DataTables_Table_0_paginate">
                                     <ul style="float: right;" class="pagination">
-                                        <!--<li class="paginate_button">-->
-                                            <!--<a href="#" onclick="messageList.goToFirst()">首页</a></li>-->
+                                        <li class="paginate_button">
+                                            <a href="#" onclick="messageList.goToFirst()">首页</a></li>
                                         <li class="paginate_button">
                                             <a href="#" onclick="messageList.goToUp()" >上一页</a></li>
                                         <li class="paginate_button">
                                             <a href="#" onclick="messageList.goToDown()">下一页</a>
                                         </li>
-                                        <!--<li class="paginate_button">-->
-                                            <!--<a href="#" onclick="messageList.goToLast()">尾页</a>-->
-                                        <!--</li>-->
+                                        <li class="paginate_button">
+                                            <a href="#" onclick="messageList.goToLast()">尾页</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -319,7 +320,7 @@
     messageList.goToUp=function(){
         var pageNo=parseInt($("input[name='pageNo']").val());
         if(pageNo<=0){
-            pageNo==0;
+            return;
         }else {
             pageNo--;
         }
@@ -333,10 +334,27 @@
     }
 //
     messageList.goToDown=function(){
+        var totalPage=/*[[${totalPage}]]*/ '';
         var pageNo=parseInt($("input[name='pageNo']").val());
+        if(pageNo+1>=totalPage){
+            return;
+        }
         $("input[name='pageNo']").val(pageNo+1);
         $("#searchMessage").submit();
     };
+
+    messageList.goToFirst=function(){
+        $("input[name='pageNo']").val(0);
+        $("#searchMessage").submit();
+    };
+
+    messageList.goToLast=function(){
+        var totalPage=/*[[${totalPage}]]*/ '';
+        totalPage=totalPage==0?0:totalPage-1;
+        $("input[name='pageNo']").val(totalPage);
+        $("#searchMessage").submit();
+    };
+
 
 
 

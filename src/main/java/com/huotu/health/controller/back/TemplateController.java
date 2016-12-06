@@ -39,6 +39,7 @@ public class TemplateController {
         templates.forEach(template -> {
             TemplateListModel m=new TemplateListModel();
             m.setId(template.getId());
+            m.setDate(template.getDate());
             m.setName(template.getName());
             templateListModels.add(m);
         });

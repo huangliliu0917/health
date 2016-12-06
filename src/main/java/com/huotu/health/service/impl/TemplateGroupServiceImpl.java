@@ -35,6 +35,7 @@ public class TemplateGroupServiceImpl implements TemplateGroupService {
         templateGroups.forEach(templateGroup -> {
             TemplateGroupListModel model=new TemplateGroupListModel();
             model.setId(templateGroup.getId());
+            model.setDate(templateGroup.getDate());
             model.setName(templateGroup.getName());
             model.setTemplates(extractTemplatesName(templateGroup.getTemplateIds()));
             models.add(model);

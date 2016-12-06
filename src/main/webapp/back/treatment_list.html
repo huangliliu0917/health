@@ -87,7 +87,7 @@
                             </thead>
                             <tbody>
                             <tr th:each="l:${list}">
-                                <td th:text="${l.id}"></td>
+                                <td th:text="${lStat.count}"></td>
                                 <td th:text="${l.wxNickName}">母婴营养</td>
                                 <td th:text="${l.name}">母婴营养</td>
                                 <td>
@@ -112,19 +112,22 @@
                         </table>
                         <div class="row">
                             <div class="col-sm-6">
-                                <!--<div class="dataTables_info" id="DataTables_Table_0_info"-->
-                                     <!--role="alert" aria-live="polite" aria-relevant="all">显示 1 到 10 项，共 57 项</div>-->
+                                <div class="dataTables_info" id="DataTables_Table_0_info"
+                                     role="alert" aria-live="polite" aria-relevant="all"
+                                     th:text="'共'+${totalNumber}+'条记录，当前第'+(${pageNo}+1)+'/'+${totalPage}+'，每页'+${pageSize}+'条记录'">共147条记录，当前第1/8，每页20条记录</div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="dataTables_info" id="DataTables_Table_0_paginate">
                                     <ul style="float: right;" class="pagination">
-                                        <!--<li class="paginate_button">-->
-                                            <!--<a href="#" onclick="treatmentList.goToFirst()">首页</a></li>-->
+                                        <li class="paginate_button">
+                                            <a href="#" onclick="treatmentList.goToFirst()">首页</a></li>
                                         <li class="paginate_button">
                                             <a href="#" onclick="treatmentList.goToUp()" >上一页</a></li>
                                         <li class="paginate_button">
                                             <a href="#" onclick="treatmentList.goToDown()">下一页</a>
                                         </li>
+                                        <li class="paginate_button">
+                                            <a href="#" onclick="treatmentList.goToLast()">尾页</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -171,23 +174,16 @@
     };
 
 
-//
     treatmentList.goToUp=function(){
         var pageNo=parseInt($("input[name='pageNo']").val());
         if(pageNo<=0){
-            pageNo==0;
+            return;
         }else {
             pageNo--;
         }
         $("input[name='pageNo']").val(pageNo);
         $("#searchUser").submit();
 
-//        treatmentList.searchModel.pageNo--;
-//        if(treatmentList.searchModel.pageNo<0){
-//            treatmentList.searchModel.pageNo=0;
-//            return;
-//        }
-//        treatmentList.search();
     };
 
     treatmentList.search=function(){
@@ -196,46 +192,27 @@
     }
 //
     treatmentList.goToDown=function(){
+        var totalPage=/*[[${totalPage}]]*/ '';
         var pageNo=parseInt($("input[name='pageNo']").val());
+        if(pageNo+1>=totalPage){
+            return;
+        }
         $("input[name='pageNo']").val(pageNo+1);
         $("#searchUser").submit();
-//        if(treatmentList.searchModel.pageNo+1<treatmentList.totalPage){
-//            treatmentList.searchModel.pageNo++;
-//        }else {
-//            return;
-//        }
-//        treatmentList.search();
     };
-//
-//    treatmentList.goToFirst=function(){
-//
-//        $("input[name='pageNo']").val(0);
-//        $("#searchUser").submit();
-//
-//
-////        treatmentList.searchModel.pageNo=0;
-////        treatmentList.search();
-//    };
-////
-//    treatmentList.goToLast=function(){
-////        treatmentList.searchModel.pageNo=treatmentList.totalPage==0?0:treatmentList.totalPage-1;
-////        treatmentList.search();
-//    };
-//
-//    treatmentList.sortConfig=function(obj,sortField){
-//
-//        if($(obj).attr("class")=="sorting_desc"){
-//            treatmentList.searchModel.ascOrdesc=1;
-//            $(obj).attr("class","sorting_asc");
-//        }else {
-//            treatmentList.searchModel.ascOrdesc=0;
-//            $(obj).attr("class","sorting_desc");
-//        }
-//
-//        treatmentList.searchModel.pageNo=0;
-//        treatmentList.searchModel.sortField=sortField;
-//        treatmentList.search();
-//    };
+
+    treatmentList.goToFirst=function(){
+        $("input[name='pageNo']").val(0);
+        $("#searchUser").submit();
+    };
+
+    treatmentList.goToLast=function(){
+        var totalPage=/*[[${totalPage}]]*/ '';
+        totalPage=totalPage==0?0:totalPage-1;
+        $("input[name='pageNo']").val(totalPage);
+        $("#searchUser").submit();
+    };
+
 
 
     /*]]>*/

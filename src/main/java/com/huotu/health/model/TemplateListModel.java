@@ -3,6 +3,8 @@ package com.huotu.health.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2016/11/17.
  */
@@ -18,4 +20,9 @@ public class TemplateListModel {
      * 模板名称
      */
     private String name;
+
+    /**
+     * 创建时间
+     */
+    private Date date;
 }

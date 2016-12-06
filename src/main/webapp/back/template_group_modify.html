@@ -131,7 +131,7 @@
                 dataType: 'json',
                 url: "saveTemplateGroup",
                 contentType:"application/json",
-                data: JSON.stringify({id:groupId,name:groupName,customerId:customerId,templateIds:templates}),
+                data: JSON.stringify({id:groupId,name:groupName,customerId:customerId,templateIds:templates,date:new Date()}),
                 success: function (result) {
                     layer.close(ld);
                     templateGroupEdit.id=result.id;

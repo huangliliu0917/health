@@ -10,13 +10,12 @@
 package com.huotu.health.repository;
 
 import com.huotu.health.entity.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 
 /**
@@ -26,11 +25,10 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
     @Query("select u.id,u.wxNickName,v.id from User as u left join VipUser as v on u=v.user where u.merchantId=?1 and u.wxNickName like ?2")
-    List<Object> findUserByName(Long customerId,String name, Pageable pageable);
+    Page<Object> findUserByName(Long customerId,String name, Pageable pageable);
 
 
     @Query("select u.id,u.wxNickName,v.id from User as u left join VipUser as v on u=v.user where u.merchantId=?1")
-    List<Object> findUser(Long customerId, Pageable pageable);
-
+    Page<Object> findUser(Long customerId, Pageable pageable);
 
 }

@@ -436,7 +436,7 @@
             dataType: 'json',
             url: "saveTemplate",
             contentType:"application/json",
-            data: JSON.stringify({id:templateId,name:name,customerId:customerId,content:contentHtml}),
+            data: JSON.stringify({id:templateId,name:name,customerId:customerId,content:contentHtml,date:new Date()}),
             success: function (result) {
                 layer.close(ld);
                 layer.msg("保存成功", {icon: 1});

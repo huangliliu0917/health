@@ -1,6 +1,7 @@
 package com.huotu.health.repository;
 
 import com.huotu.health.entity.Treatment;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -15,9 +16,9 @@ import java.util.List;
 @Repository
 public interface TreatmentRepository extends JpaRepository<Treatment,Long>,JpaSpecificationExecutor<Treatment> {
 
-    List<Treatment> findByCustomerIdAndEnabledAndWxNickNameLike(Long customerId,boolean enabled, String name,Pageable pageable);
+    Page<Treatment> findByCustomerIdAndEnabledAndWxNickNameLike(Long customerId,boolean enabled, String name,Pageable pageable);
 
-    List<Treatment> findByCustomerIdAndEnabled(Long customerId,boolean enabled,Pageable pageable);
+    Page<Treatment> findByCustomerIdAndEnabled(Long customerId, boolean enabled, Pageable pageable);
 
     List<Treatment> findByCustomerIdAndEnabledAndUserIdOrderByIdDesc(Long customerId,boolean enabled,Long userId);
 }

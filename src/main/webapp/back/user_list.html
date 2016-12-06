@@ -72,6 +72,7 @@
                         <table id="userList" class="table table-striped table-bordered table-hover  dataTable" aria-describedby="editable_info">
                             <thead>
                             <tr>
+                                <th style="display: none">ID</th>
                                 <th>用户序号</th>
                                 <th>用户名称</th>
                                 <th>是否Vip</th>
@@ -80,7 +81,8 @@
                             </thead>
                             <tbody>
                             <tr th:each="l:${list}">
-                                <td th:text="${l[0]}"></td>
+                                <td style="display:none;" th:text="${l[0]}"></td>
+                                <td th:text="${lStat.count}"></td>
                                 <td th:text="${l[1]}">母婴营养</td>
                                 <td th:text="${l[2]}!=null?'Vip'">母婴营养</td>
                                 <td>
@@ -101,14 +103,24 @@
                         </table>
                         <div class="row">
                             <div class="col-sm-6">
+                                <div class="dataTables_info" id="DataTables_Table_0_info"
+                                     role="alert" aria-live="polite" aria-relevant="all"
+                                     th:text="'共'+${totalNumber}+'条记录，当前第'+(${pageNo}+1)+'/'+${totalPage}+'，每页'+${pageSize}+'条记录'">共147条记录，当前第1/8，每页20条记录</div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="dataTables_info" id="DataTables_Table_0_paginate">
                                     <ul style="float: right;" class="pagination">
                                         <li class="paginate_button">
-                                            <a href="#" onclick="userList.goToUp()" >上一页</a></li>
+                                            <a href="#" onclick="userList.goToFirst()">首页</a>
+                                        </li>
+                                        <li class="paginate_button">
+                                            <a href="#" onclick="userList.goToUp()" >上一页</a>
+                                        </li>
                                         <li class="paginate_button">
                                             <a href="#" onclick="userList.goToDown()">下一页</a>
+                                        </li>
+                                        <li class="paginate_button">
+                                            <a href="#" onclick="userList.goToLast()">尾页</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -146,7 +158,7 @@
     };
 
     userList.bulidModify=function(type,obj){
-        var vip=$(obj).parent().parent().children("td")[2];
+        var vip=$(obj).parent().parent().children("td")[3];
         if(type==1){
             $(vip).text("Vip");
         }else {
@@ -157,7 +169,7 @@
     userList.goToUp=function(){
         var pageNo=parseInt($("input[name='pageNo']").val());
         if(pageNo<=0){
-            pageNo==0;
+            return;
         }else {
             pageNo--;
         }
@@ -170,8 +182,24 @@
         $("#searchUser").submit();
     }
     userList.goToDown=function(){
+        var totalPage=/*[[${totalPage}]]*/ '';
         var pageNo=parseInt($("input[name='pageNo']").val());
+        if(pageNo+1>=totalPage){
+            return;
+        }
         $("input[name='pageNo']").val(pageNo+1);
+        $("#searchUser").submit();
+    };
+
+    userList.goToFirst=function(){
+        $("input[name='pageNo']").val(0);
+        $("#searchUser").submit();
+    };
+
+    userList.goToLast=function(){
+        var totalPage=/*[[${totalPage}]]*/ '';
+        totalPage=totalPage==0?0:totalPage-1;
+        $("input[name='pageNo']").val(totalPage);
         $("#searchUser").submit();
     };
 

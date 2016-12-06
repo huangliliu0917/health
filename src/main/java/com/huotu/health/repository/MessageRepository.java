@@ -1,6 +1,7 @@
 package com.huotu.health.repository;
 
 import com.huotu.health.entity.Message;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -14,9 +15,9 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message,Long>,JpaSpecificationExecutor<Message> {
 
 
-    List<Message> findByCustomerIdAndEnabled(Long customerId,boolean enabled, Pageable pageable);
+    Page<Message> findByCustomerIdAndEnabled(Long customerId, boolean enabled, Pageable pageable);
 
-    List<Message> findByCustomerIdAndEnabledAndTitleLike(Long customerId,boolean enabled,String title,Pageable pageable);
+    Page<Message> findByCustomerIdAndEnabledAndTitleLike(Long customerId,boolean enabled,String title,Pageable pageable);
 
     List<Message> findTop20ByCustomerIdAndEnabledAndPutAwayAndStickOrderByIdDesc(Long customerId,boolean enabled,boolean putaway,boolean stick);
 

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,13 +34,6 @@ public class TemplateGroup {
      */
     private String name;
 
-
-//    /**
-//     * 模板列表
-//     */
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<Template> templates;
-
     /**
      * 模板的id
      */
@@ -52,5 +46,11 @@ public class TemplateGroup {
      * 是否可用
      */
     private boolean enabled = true;
+
+    /**
+     * 创建时间
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
 }

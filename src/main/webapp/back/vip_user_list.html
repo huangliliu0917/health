@@ -79,6 +79,7 @@
                                         <label for="chkAll"></label>
                                     </div>
                                 </th>
+                                <th style="display: none">ID</th>
                                 <th>VIP用户序号</th>
                                 <th>用户名称</th>
                             </tr>
@@ -91,7 +92,8 @@
                                         <label th:for="'chk'+${lStat.count}"></label>
                                     </div>
                                 </td>
-                                <td th:text="${l.user.id}">1</td>
+                                <td style="display: none" th:text="${l.user.id}">1</td>
+                                <td th:text="${lStat.count}">1</td>
                                 <td th:text="${l.user.wxNickName}">1</td>
                             </tr>
                             </tbody>
@@ -128,7 +130,7 @@
         $("#userList tbody tr").each(function(index,val){
             if($("input[type='checkbox']",val).is(':checked')){
                 var id=parseInt($(this).children("td").eq(1).text());
-                var name=$(this).children("td").eq(2).text();
+                var name=$(this).children("td").eq(3).text();
                 data.push({id:id,name:name});
             }
         });

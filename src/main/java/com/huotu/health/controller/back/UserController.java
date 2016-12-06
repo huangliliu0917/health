@@ -13,6 +13,7 @@ import com.jayway.jsonpath.JsonPath;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,15 +87,18 @@ public class UserController {
         if(pageNo==null){
             pageNo=0;
         }
-        List<Object> users;
+        Page<Object> users;
 
         if(StringUtils.isEmpty(userName)){
             users=userRepository.findUser(customerId,new PageRequest(pageNo,20));
         }else {
             users=userRepository.findUserByName(customerId,"%"+userName+"%",new PageRequest(pageNo,20));
         }
-        model.addAttribute("list",users);
+        model.addAttribute("list",users.getContent());
         model.addAttribute("pageNo",pageNo);
+        model.addAttribute("pageSize",users.getNumberOfElements());
+        model.addAttribute("totalNumber",users.getTotalElements());
+        model.addAttribute("totalPage",users.getTotalPages());
         model.addAttribute("userName",userName);
         return "/back/user_list";
     }

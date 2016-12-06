@@ -59,6 +59,7 @@
                                         <label for="chkAll"></label>
                                     </div>
                                 </th>
+                                <th style="display: none">ID</th>
                                 <th>模板序号</th>
                                 <th>模板名称</th>
                                 <th>操作</th>
@@ -72,7 +73,8 @@
                                         <label th:for="${lStat.count}"></label>
                                     </div>
                                 </td>
-                                <td th:text="${l.id}">1</td>
+                                <td style="display: none" th:text="${l.id}">1</td>
+                                <td th:text="${lStat.count}">1</td>
                                 <td th:text="${l.name}">母婴营养</td>
                                 <td>
                                     <a href="#" th:href="@{/back/modifyTemplate(id=${l.id})}" class="cursor-point">
@@ -126,7 +128,7 @@
         $("#templateList tbody tr").each(function(index,val){
             if($("input[type='checkbox']",val).is(':checked')){
                 var id=parseInt($(this).children("td").eq(1).text());
-                var name=$(this).children("td").eq(2).text();
+                var name=$(this).children("td").eq(3).text();
                 data.push({id:id,name:name});
             }
         });

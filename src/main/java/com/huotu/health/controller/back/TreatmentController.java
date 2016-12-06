@@ -10,6 +10,7 @@ import com.huotu.health.repository.TemplateGroupRepository;
 import com.huotu.health.repository.TreatmentRepository;
 import com.huotu.health.service.TemplateGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,15 +56,18 @@ public class TreatmentController {
         if(pageNo==null){
             pageNo=0;
         }
-        List<Treatment> treatments;
+        Page<Treatment> treatments;
 
         if(StringUtils.isEmpty(userName)){
             treatments=treatmentRepository.findByCustomerIdAndEnabled(customerId,true,new PageRequest(pageNo,20));
         }else {
             treatments=treatmentRepository.findByCustomerIdAndEnabledAndWxNickNameLike(customerId,true,"%"+userName+"%",new PageRequest(pageNo,20));
         }
-        model.addAttribute("list",treatments);
+        model.addAttribute("list",treatments.getContent());
         model.addAttribute("pageNo",pageNo);
+        model.addAttribute("pageSize",treatments.getNumberOfElements());
+        model.addAttribute("totalNumber",treatments.getTotalElements());
+        model.addAttribute("totalPage",treatments.getTotalPages());
         model.addAttribute("userName",userName);
         return "/back/treatment_list";
     }
