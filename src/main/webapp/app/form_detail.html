@@ -13,12 +13,14 @@
 <head>
 
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+    <meta name="viewport" content="width=device-width,minimum-scale=1,user-scalable=no,maximum-scale=1,initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="description" content="" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <title>表单详情</title>
-    <meta name="keywords" content=""/>
-    <meta name="description" content=""/>
 
     <link rel="shortcut icon" href="favicon.ico"/>
     <link href="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
@@ -30,27 +32,61 @@
 
 </head>
 
+<style type="text/css">
+    .ibox-content {
+        background-color: #fff;
+        color: inherit;
+        padding: 10px 5px;
+        border-color: #e7eaec;
+        -webkit-border-image: none;
+        -o-border-image: none;
+        border-image: none;
+        border-style: solid solid none;
+        border-width: 1px 0;
+    }
+
+    .col-sm-12 {
+        width: 100%;
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    .form-horizontal .form-group {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+    .row {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+    .form-group {
+        margin-bottom: 0px;
+    }
+</style>
+
 <body class="gray-bg">
 
 
-<div class="wrapper wrapper-content">
-    <div class="col-sm-12">
-        <header class='demos-header'>
-            <h2 style="margin:15px;text-align: center" class="demos-title" th:text="${form.name}">我是标题</h2>
-        </header>
+<!--<div class="wrapper wrapper-content">-->
+
+
+<!--</div>-->
+<div class="col-sm-12">
+    <header class='demos-header'>
+        <h2 style="margin:15px;text-align: center" class="demos-title" th:text="${form.name}">我是标题</h2>
+    </header>
         <span style="color:#686868; font-size:14px;">
                 <img class="bmingyd" style="height: 15px" src="../img/sj@3x.png"
 
-         th:text="'&nbsp;'+${form.date}!=null?${#calendars.format(form.date,'yyyy-MM-dd HH:mm:ss')}"/></span>
-    </div>
-    <div class="col-sm-12">
-        <br/>
-        <!--<div class="hr-line-dashed"></div>-->
-    </div>
-
-    <div class="col-sm-12"  th:utext="${form.content}"></div>
-
+                     th:text="'&nbsp;'+${form.date}!=null?${#calendars.format(form.date,'yyyy-MM-dd HH:mm:ss')}"/></span>
 </div>
+<div class="col-sm-12">
+    <br/>
+    <!--<div class="hr-line-dashed"></div>-->
+</div>
+<div class="col-sm-12" th:utext="${form.content}"></div>
 
 <script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/bootstrap.min.js"></script>
@@ -69,6 +105,10 @@
             if(content=="null"){
                 $(val).text("");
             }
+        });
+
+        $("[contenteditable='true']").each(function(){
+            $(this).attr("contenteditable","false");
         });
 
 

@@ -64,6 +64,7 @@
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/steps/jquery.steps.min.js"></script>
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/validate/jquery.validate.min.js"></script>
 <script src="http://resali.huobanplus.com/cdn/hotui/js/plugins/validate/messages_zh.min.js"></script>
+<script src="../js/colResizable-1.6.min.js" type="text/javascript"></script>
 <script src="../js/summernote/summernote.min.js"></script>
 <script src="../js/summernote/summernote-zh-CN.js"></script>
 <script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
@@ -86,8 +87,20 @@
         formList.changeTest();
         formList.changeRadioAndCheckBox();
 //        formList.xeditable();
+//        formList.editTable();
+
+        $("[contenteditable='false']").each(function(){
+            $(this).attr("contenteditable","true");
+        });
 
 
+    };
+
+    formList.editTable=function(){
+        $("table").colResizable({
+            liveDrag:true,
+            resizeMode:'dragging'
+        });
     };
 
     formList.xeditable=function(){
@@ -166,13 +179,13 @@
                 var id=$(".formId",form).text();
                 save();
                 formList.setNotICheck();
-                $("[contenteditable='true']").each(function(){
-                    $(this).attr("contenteditable","false");
-                });
+//                $("[contenteditable='true']").each(function(){
+//                    $(this).attr("contenteditable","false");
+//                });
                 var content=$(".formContent",form).html();
-                $("[contenteditable='false']").each(function(){
-                    $(this).attr("contenteditable","true");
-                });
+//                $("[contenteditable='false']").each(function(){
+//                    $(this).attr("contenteditable","true");
+//                });
                 edit();
                 formList.bulidIcheck();
 
