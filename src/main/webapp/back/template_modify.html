@@ -25,8 +25,8 @@
     <link href="http://resali.huobanplus.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/iCheck/custom.css" rel="stylesheet"/>
     <link href="http://resali.huobanplus.com/cdn/hotui/css/animate.min.css" rel="stylesheet"/>
-    <!--<link href="../css/summernote/summernote.css" rel="stylesheet"/>-->
-    <!--<link href="../css/summernote/summernote-bs3.css" rel="stylesheet"/>-->
+    <link href="../css/summernote/summernote.css" rel="stylesheet"/>
+    <link href="../css/summernote/summernote-bs3.css" rel="stylesheet"/>
     <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"/><base target="_blank"/>
 
     <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
@@ -55,7 +55,7 @@
                 <form role="form" class="form-horizontal m-t">
 
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">模板名称：</label>
+                        <label  class="col-sm-3 control-label">模板名称：</label>
                         <div class="col-sm-9">
                             <input th:value="${template.name}" type="text" name="templateName" class="form-control" placeholder="请输入文本"/>
                         </div>
@@ -108,9 +108,19 @@
 
                     <div class="hr-line-dashed"></div>
                     <div class="form-group draggable">
-                        <label class="col-sm-2 control-label"><span class="editable">纯文本：</span></label>
+                        <label class="col-sm-2 control-label"><span class="editable">纯文本带标题：</span></label>
                         <div class="col-sm-10">
-                            <p class="form-control-static"><span class="editable">这里是纯文字信息</span></p>
+                            <p class="form-control-static"  contenteditable="true">这里是纯文字信息</p>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+
+
+                    <div class="form-group draggable">
+                        <label class="col-sm-2 control-label"><span class="editable">纯文本不带标题：</span></label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static"  contenteditable="true">这里是纯文字信息</p>
                         </div>
                     </div>
 
@@ -146,6 +156,7 @@
                     <div class=" text-center">
                         <button class="btn btn-primary" type="button" onclick="templateEdit.newArea()">新建区域</button>
                         <button class="btn btn-primary" type="button" onclick="templateEdit.save(this)">保存模板</button>
+                        <button class="btn btn-primary" type="button" onclick="templateEdit.closeSortable(this)">关闭排序</button>
                     </div>
                 </form>
                 <div class="clearfix"></div>
@@ -189,8 +200,8 @@
 <script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <script src="../js/colResizable-1.6.min.js" type="text/javascript"></script>
-<!--<script src="../js/summernote/summernote.min.js"></script>-->
-<!--<script src="../js/summernote/summernote-zh-CN.js"></script>-->
+<script src="../js/summernote/summernote.min.js"></script>
+<script src="../js/summernote/summernote-zh-CN.js"></script>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
@@ -204,29 +215,35 @@
     templateEdit.load=function(){
         templateEdit.delDiv();
         templateEdit.setup_draggable();
-        templateEdit.xeditable();
-        templateEdit.setICheck();
 
+        templateEdit.richText();
     };
 
-//    templateEdit.richText=function(){
-//        $(".summernote",".col-sm-8").summernote({
-//            lang: "zh-CN"
-//        })
-//    };
-//
-//    templateEdit.editRichText = function() {
-//        $("#eg").addClass("no-padding");
-//        $(".summernote",".col-sm-8").summernote({
-//            lang: "zh-CN",
-//            focus: true
-//        })
-//    };
-//    templateEdit.saveRichText = function() {
-//        $("#eg").removeClass("no-padding");
-//        var aHTML = $(".summernote").code();
-//        $(".summernote",".col-sm-8").destroy();
-//    };
+
+
+    templateEdit.richText=function(){
+        $(".summernote",".col-sm-8").summernote({
+            lang: "zh-CN"
+        })
+    };
+
+    templateEdit.removeRichText=function(){
+        $(".summernote",".col-sm-8").summernote({
+        })
+    };
+
+    templateEdit.editRichText = function() {
+        $("#eg").addClass("no-padding");
+        $(".summernote",".col-sm-8").summernote({
+            lang: "zh-CN",
+            focus: true
+        })
+    };
+    templateEdit.saveRichText = function() {
+        $("#eg").removeClass("no-padding");
+        var aHTML = $(".summernote").code();
+        $(".summernote",".col-sm-8").destroy();
+    };
 
     templateEdit.editTable=function(){
         $("table",".col-sm-8").colResizable({
@@ -266,15 +283,19 @@
             ' <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>' +
             '<a class="close-link"> <i class="fa fa-times"></i> </a> </div> </div> <div class="ibox-content"> ' +
             '<form class="form-horizontal m-t droppable sortable">' +
-            '<div class="form-group"> <span class="editable"> 填表说明：如:所有题目均共用答案，请在A、B、C、D下划“√”，每题限选一个答案。选项：A没有或很少B小部分时间  C相当多时间D绝大部分或全部时间。</span> </div>' +
+            '<div class="form-group"><div class="col-sm-10 "> <span contenteditable="true"> 填表说明：如:所有题目均共用答案，请在A、B、C、D下划“√”，每题限选一个答案。选项：A没有或很少B小部分时间  C相当多时间D绝大部分或全部时间。</span></div> </div>' +
             ' </form> </div> </div> </div> </div>';
 
     templateEdit.newArea=function(){
         $(".col-sm-8").append(templateEdit.areaTemplate);
-        templateEdit.setup_draggable();
+//        templateEdit.setup_draggable();
+        templateEdit.setSortable();
+        templateEdit.setDraggable();
+        templateEdit.setDroppable();
         templateEdit.xeditable();
     };
 
+    //删除div
     templateEdit.delDiv=function(){
         $(".col-sm-8").on("dblclick",".form-group", function() {
             var $obj=$(this);
@@ -358,7 +379,7 @@
 
         var tbody='<tr>';
         for(var i=0;i<col;i++){
-            tbody=tbody+'<td><span class="editable"></span></td>';
+            tbody=tbody+'<td><span contenteditable="true">选项</span></td>';
         }
         tbody=tbody+'</tr>';
 
@@ -387,8 +408,18 @@
     };
 
     templateEdit.setup_draggable = function() {
+        templateEdit.setSortable();
+        templateEdit.setDraggable();
+        templateEdit.setDroppable();
+    };
+
+    templateEdit.setSortable=function(){
         $(".sortable",".col-sm-8").sortable({
 //            revert:true
+
+            start:function(event,ui){
+                templateEdit.saveRichText();
+            },
             stop: function(event,ui) {
                 var orig=$(ui.item);
                 if($("table",orig).length>0){
@@ -426,26 +457,44 @@
                         templateEdit.showCheckBox(chk);
                     }
                 }
+                if($(".summernote",orig).length>0){//添加的是否是富文本，包括表格
+                    $("label",orig).remove();
+                    templateEdit.richText();
+                }
 
-//                if($(".summernote",orig).length>0){//添加的是否是富文本，包括表格
-//                    templateEdit.richText();
-//                }
 
-                $(".sortable",this).sortable();
+                if($("span",orig).text()=="纯文本不带标题："){
+                    $("label",orig).remove();
+                }
+
                 templateEdit.xeditable();
-
-
             }
         });
+    };
 
+    templateEdit.setDraggable=function(){
         $(".draggable",".col-sm-4").draggable({
             appendTo: "body",
             connectToSortable: ".sortable",
             helper: "clone"
         });
+    };
+
+    templateEdit.setDroppable=function(){
         $(".droppable").droppable({
             accept: ".draggable"
         });
+    };
+
+    templateEdit.closeSortable=function(obj){
+        if($(obj).text()=="开启排序"){
+            templateEdit.setSortable();
+            $(obj).text("关闭排序");
+        }else{
+            $( ".sortable",".col-sm-8").sortable( "destroy");
+            $(obj).text("开启排序");
+        }
+
 
     };
 
@@ -457,6 +506,11 @@
         var ld=layer.load(5, {shade: false});
         $("span[class='editable']",".col-sm-8").removeClass();
         templateEdit.disableEditTable();
+        $('span','.col-sm-8').each(function(){
+           if($(this).hasClass("editable")){
+               $(this).attr("class","editable");
+           }
+        });
         templateEdit.setNotICheck();
         $("input",".col-sm-8").attr("disabled",false);
         templateEdit.saveRichText();
@@ -490,6 +544,13 @@
 
         });
     };
+
+    $(function(){
+        templateEdit.xeditable();
+        templateEdit.setICheck();
+        $("input",".col-sm-8").attr("disabled",true);
+        templateEdit.editTable();
+    });
 
 
 

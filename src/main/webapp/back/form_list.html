@@ -85,13 +85,13 @@
         formList.bulidIcheck();
         formList.changeTest();
         formList.changeRadioAndCheckBox();
-        formList.xeditable();
+//        formList.xeditable();
 
 
     };
 
     formList.xeditable=function(){
-        $('span','.ibox-content').editable({
+        $('span[class="editable"]','.ibox-content').editable({
             unsavedclass:"",
             emptyclass:"",
             defaultValue:"null",
@@ -166,7 +166,13 @@
                 var id=$(".formId",form).text();
                 save();
                 formList.setNotICheck();
+                $("[contenteditable='true']").each(function(){
+                    $(this).attr("contenteditable","false");
+                });
                 var content=$(".formContent",form).html();
+                $("[contenteditable='false']").each(function(){
+                    $(this).attr("contenteditable","true");
+                });
                 edit();
                 formList.bulidIcheck();
 
