@@ -215,7 +215,7 @@
     templateEdit.load=function(){
         templateEdit.delDiv();
         templateEdit.setup_draggable();
-
+        templateEdit.xeditable();
         templateEdit.richText();
     };
 
@@ -233,10 +233,8 @@
     };
 
     templateEdit.editRichText = function() {
-        $("#eg").addClass("no-padding");
         $(".summernote",".col-sm-8").summernote({
-            lang: "zh-CN",
-            focus: true
+            lang: "zh-CN"
         })
     };
     templateEdit.saveRichText = function() {
@@ -270,13 +268,25 @@
     };
 
     templateEdit.xeditable=function(){
-        $('span[class="editable"]','.col-sm-8').editable({
-            unsavedclass:"",
-            emptyclass:"",
-            defaultValue:"null",
-            emptytext:"null",
-            placement:"bottom"
+
+        $('span',".col-sm-8").each(function(){
+            if($(this).hasClass("editable")){
+                $(this).editable({
+                    unsavedclass:"",
+                    emptyclass:"",
+                    defaultValue:"null",
+                    emptytext:"null",
+                    placement:"bottom"});
+            }
         });
+//
+//        $('span[class="editable"]','.col-sm-8').editable({
+//            unsavedclass:"",
+//            emptyclass:"",
+//            defaultValue:"null",
+//            emptytext:"null",
+//            placement:"bottom"
+//        });
     };
 
     templateEdit.areaTemplate='<div class="row"> <div class="col-sm-12"> <div class="ibox float-e-margins"> <div class="ibox-title"> <h5><span class="editable">一般信息</span></h5> <div class="ibox-tools">' +
@@ -383,7 +393,7 @@
         }
         tbody=tbody+'</tr>';
 
-        for(var i=0;i<row-1;i++){
+        for(var i=0;i<row;i++){
             $("tbody",table).append(tbody);
         }
     };
@@ -506,11 +516,11 @@
         var ld=layer.load(5, {shade: false});
         $("span[class='editable']",".col-sm-8").removeClass();
         templateEdit.disableEditTable();
-        $('span','.col-sm-8').each(function(){
-           if($(this).hasClass("editable")){
-               $(this).attr("class","editable");
-           }
-        });
+//        $('span','.col-sm-8').each(function(){
+//           if($(this).hasClass("editable")){
+//               $(this).attr("class","editable");
+//           }
+//        });
         templateEdit.setNotICheck();
         $("input",".col-sm-8").attr("disabled",false);
         templateEdit.saveRichText();
@@ -546,7 +556,7 @@
     };
 
     $(function(){
-        templateEdit.xeditable();
+
         templateEdit.setICheck();
         $("input",".col-sm-8").attr("disabled",true);
         templateEdit.editTable();
