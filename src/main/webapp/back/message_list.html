@@ -144,6 +144,11 @@
                                            <!--data-original-title="删除">-->
                                         <!--</i>-->
                                     </a>
+
+                                    <a href="#" onclick="messageList.showMessageUrl(4)"
+                                       th:onclick="'messageList.showMessageUrl('+${l.id}+')'" class="cursor-point">
+                                        文章链接
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>
@@ -189,6 +194,16 @@
     /*<![CDATA[*/
 
     var messageList={};
+
+    messageList.showMessageUrl=function(id){
+        layer.open({
+            type:1,
+            area: ['600px', '100px'],
+            title:"文章链接",
+            content:'http://health.huobanplus.com/app/showMessage?customerId=4917&id='+id
+        });
+    };
+
     messageList.del=function(obj,id){
         layer.confirm('确定删除吗？', {
             btn: ['确定','取消'] //按钮
