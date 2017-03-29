@@ -64,9 +64,9 @@ public class UserController {
     public String showVipUserList(@CustomerId Long customerId, String name, Model model) throws Exception{
         List<VipUser> users=new ArrayList<>();
         if(name!=null){
-            users=vipUserRepository.findByMerchantIdAndWxNickNameLike(customerId,"%"+name+"%",new PageRequest(0,20));//todo 读取vip用户
+            users=vipUserRepository.findByMerchantIdAndWxNickNameLike(customerId,"%"+name+"%",new PageRequest(0,20000));//todo 读取vip用户
         }else {
-            users=vipUserRepository.findByMerchantId(customerId,new PageRequest(0,20));
+            users=vipUserRepository.findByMerchantId(customerId,new PageRequest(0,20000));
         }
         model.addAttribute("list",users);
         return "/back/vip_user_list";
