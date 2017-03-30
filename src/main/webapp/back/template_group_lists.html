@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+  ~ 版权所有:杭州火图科技有限公司
+  ~ 地址:浙江省杭州市滨江区西兴街道阡陌路智慧E谷B幢4楼
+  ~
+  ~ (c) Copyright Hangzhou Hot Technology Co., Ltd.
+  ~ Floor 4,Block B,Wisdom E Valley,Qianmo Road,Binjiang District
+  ~ 2013-2016. All rights reserved.
+  -->
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    <title>模板列表</title>
+
+    <link href="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="http://resali.huobanplus.com/cdn/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
+    <!-- Morris -->
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet"/>
+
+
+    <!--<link href="../../css/layer.css" rel="stylesheet"/>-->
+
+    <!--checkbox-->
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet"/>
+
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
+    <link href="http://resali.huobanplus.com/cdn/hotui/css/animate.min.css" rel="stylesheet"/>
+    <link href="../css/style.min.css?v=4.0.0" rel="stylesheet"/>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight tooltip-demo">
+    <!--list-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins m-b-none">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a style="float: right" href="/back/modifyTemplateGroup">
+                                    <button type="button" class="btn btn-success">新建</button>
+                                </a>
+                            </div>
+                        </div>
+                        <table id="templateList" class="table table-striped table-bordered table-hover  dataTable" aria-describedby="editable_info">
+                            <thead>
+                            <tr>
+                                <th th:style="${type}!=1?'display: none'">
+                                    <div class="checkbox checkbox-primary m-b-none m-t-none">
+                                        <input onclick="group.checkBoxClick(this)" type="checkbox" id="chkAll" name="chkAll"/>
+                                        <label for="chkAll"></label>
+                                    </div>
+                                </th>
+                                <th style="display: none">ID</th>
+                                <th>模板组序号</th>
+                                <th>名称</th>
+                                <th>包含模板</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="l:${list}">
+                                <td th:style="${type}!=1?'display: none'">
+                                    <div class="checkbox checkbox-primary m-b-none m-t-none">
+                                        <input th:id="'chk'+${lStat.count}" onclick="group.checkBoxClick(this)"  type="checkbox" name="chkGood"/>
+                                        <label th:for="'chk'+${lStat.count}"></label>
+                                    </div>
+                                </td>
+                                <td  style="display: none" th:text="${l.id}"></td>
+                                <td th:text="${lStat.count}">1</td>
+                                <td th:text="${l.name}">1</td>
+                                <td th:text="${l.templates}">母婴营养</td>
+                                <td th:text="${l.date}!=null?${#calendars.format(l.date,'yyyy-MM-dd HH:mm:ss')}">2016</td>
+                                <td>
+                                    <a th:if="${type}!=1" href="#" th:href="@{/back/modifyTemplateGroup(id=${l.id})}" class="cursor-point">
+                                        <i class="fa fa-pencil tooltips" data-placement="top" data-toggle="tooltip"
+                                           data-original-title="编辑">
+                                        </i>
+                                    </a>
+                                    <a href="#" th:onclick="'group.del(this,'+${l.id}+')'" class="cursor-point">
+                                        <i class="fa fa-trash tooltips" data-placement="top" data-toggle="tooltip"
+                                           data-original-title="删除">
+                                        </i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--基础框架js-->
+<script src="http://resali.huobanplus.com/cdn/jquery/2.2.4/jquery.min.js"></script>
+<script src="http://resali.huobanplus.com/cdn/bootstrap/3.3.5/bootstrap.min.js"></script>
+<script src="http://resali.huobanplus.com/cdn/hotui/js/content.min.js"></script>
+<script src="http://resali.huobanplus.com/cdn/layer/2.4/layer.js"></script>
+
+
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var group={};
+
+
+    group.del=function(obj,id){
+
+        layer.confirm('确定删除吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "delTemplateGroup",
+                data: {id:id},
+                success: function (result) {
+                    layer.msg("删除成功");
+                    $(obj).parent().parent().hide();
+                },
+                error:function(e){
+                    layer.msg("删除失败");
+                }
+            });
+        });
+    };
+
+
+    group.checkBoxClick=function(obj){
+        if($(obj).prop("checked")){
+            $("input[type='checkbox'][name='chkGood']","#templateList").removeAttr('checked');
+            $(obj).prop('checked',true);
+        }
+    };
+
+
+    //外部调用的js,用来获取圈子的id和名称
+    group.externalCall=function(){
+        var data=[];
+        $("#templateList tbody tr").each(function(index,val){
+            if($("input[type='checkbox']",val).is(':checked')){
+                var id=parseInt($(this).children("td").eq(1).text());
+                var name=$(this).children("td").eq(3).text();
+                data.push({id:id,name:name});
+            }
+        });
+        return data;
+    };
+
+
+    /*]]>*/
+</script>
+</body>
+
+</html>

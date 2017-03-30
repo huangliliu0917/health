@@ -45,7 +45,7 @@ public class TemplateGroupController {
         List<TemplateGroupListModel> models=templateGroupService.convertTemplateGroups(templateGroups);
         model.addAttribute("list",models);
         model.addAttribute("type",type);
-        return "/back/template_group_list";
+        return "/back/template_group_lists";
     }
 
     /**
