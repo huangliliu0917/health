@@ -175,8 +175,20 @@
             yes: function(index, layero){
                 var iframeWin = window[layero.find('iframe')[0]['name']];
                 var user =iframeWin. userList.externalCall();
-                $(obj).val(user[0].name);
-                $("input[name='userId']").val(user[0].id);
+
+                var names = "";
+                var values ="";
+                for(var i=0;i<user.length;i++)
+                {
+                    names+=user[i].name+',';
+                    values += user[i].id+',';
+                }
+
+                $(obj).val(names);
+                $("input[name='userId']").val(values);
+
+
+
                 layer.close(index);
             },
             end:function(index){

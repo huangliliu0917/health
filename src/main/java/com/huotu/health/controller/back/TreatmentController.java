@@ -5,6 +5,7 @@ import com.huotu.health.entity.Form;
 import com.huotu.health.entity.Template;
 import com.huotu.health.entity.TemplateGroup;
 import com.huotu.health.entity.Treatment;
+import com.huotu.health.model.TreatmentViewModel;
 import com.huotu.health.repository.FormRepository;
 import com.huotu.health.repository.TemplateGroupRepository;
 import com.huotu.health.repository.TreatmentRepository;
@@ -112,31 +113,52 @@ public class TreatmentController {
      */
     @RequestMapping(value = "/saveTreatment",method = RequestMethod.POST)
     @ResponseBody
-    public ModelMap saveTreatment(@CustomerId Long customerId, @RequestBody Treatment treatment) throws Exception{
-        if(treatment.getCustomerId()==null){
-            treatment.setCustomerId(customerId);
+    public ModelMap saveTreatment(@CustomerId Long customerId, @RequestBody TreatmentViewModel treatment) throws Exception{
+
+        List<Treatment> list = new ArrayList<>();
+
+        for (String userId: treatment.getUserId().split(",")) {
+            if(!StringUtils.isEmpty(userId))
+            {
+                Treatment model = new Treatment();
+                model.setName(treatment.getName());
+                model.setUserId(Long.parseLong(userId));
+                model.setWxNickName(treatment.getWxNickName());
+                model.setTemplateGroupId(treatment.getTemplateGroupId());
+                model.setCustomerId(treatment.getCustomerId());
+                if(model.getCustomerId()==null){
+                    model.setCustomerId(customerId);
+                }
+
+                model.setDate(new Date());
+                list.add(model);
+            }
         }
-        treatment.setDate(new Date());
-        treatment=treatmentRepository.save(treatment);
+
+        list = treatmentRepository.save(list);
+
+
 
 
         //创建用户治疗过程
         TemplateGroup templateGroup=templateGroupRepository.findOne(treatment.getTemplateGroupId());
         List<Template> templates=templateGroupService.getTemplate(templateGroup.getTemplateIds());
 
-        List<Form> forms=new ArrayList<>();
-        for(int i=0;i<templates.size();i++){
-            Template t=templates.get(i);
-            Form form=new Form();
-            form.setName(t.getName());
-            form.setContent(t.getContent());
-            form.setStatus(0);
-            form.setStep(i);
-            form.setTreatment(treatment);
-            form.setDate(new Date());
-            forms.add(form);
+        for(Treatment item:list) {
+            List<Form> forms = new ArrayList<>();
+            for (int i = 0; i < templates.size(); i++) {
+                Template t = templates.get(i);
+                Form form = new Form();
+                form.setName(t.getName());
+                form.setContent(t.getContent());
+                form.setStatus(0);
+                form.setStep(i);
+                form.setTreatment(item);
+                form.setDate(new Date());
+                forms.add(form);
+            }
+            formRepository.save(forms);
         }
-        formRepository.save(forms);
         return new ModelMap();
     }
 
