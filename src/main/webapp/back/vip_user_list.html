@@ -117,10 +117,7 @@
     var userList={};
 
     userList.checkBoxClick=function(obj){
-        if($(obj).prop("checked")){
-            $("input[type='checkbox'][name='chkGood']","#userList").removeAttr('checked');
-            $(obj).prop('checked',true);
-        }
+        $("input[type='checkbox'][name='chkGood']","#userList").prop('checked',$(obj).prop("checked"));
     };
 
 
@@ -138,7 +135,18 @@
     };
 
 
+
+
     /*]]>*/
+
+
+//    $(function(){
+//        $("#chkAll").click(function () {
+//            alert($("#chkAll").is("checked"));
+//            $("input[name='chkGood']").prop("checked",$("#chkAll").is("checked"));
+//        });
+//
+//    })
 </script>
 </body>
 
